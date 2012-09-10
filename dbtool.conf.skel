@@ -1,0 +1,6 @@
+[database]
+host = example.com
+username = user1
+password = password1
+dbname = s11r64
+
