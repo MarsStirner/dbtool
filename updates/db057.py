@@ -9,8 +9,6 @@ __doc__ = '''\
 
 
 def upgrade(conn):
-    c = conn.cursor()
-
     sql = u'''
 ALTER TABLE `rbMedicalAidUnit` ADD COLUMN `regionalCode` VARCHAR(1) NOT NULL AFTER `descr`;
 
@@ -20,61 +18,61 @@ ADD COLUMN `checkingSerial` ENUM('нет', 'мягко', 'жестко') NOT NUL
 ADD COLUMN `checkingNumber` ENUM('нет', 'мягко', 'жестко') NOT NULL COMMENT 'контроль номера' AFTER `checkingSerial`,
 ADD COLUMN `checkingAmount` ENUM('нет', 'списание') NOT NULL COMMENT 'контроль количества' AFTER `checkingNumber`;
 '''
+    c = conn.cursor()
     c.execute(sql)
 	
-    sql = '''
+    sql = u'''
 CREATE TABLE `rbBlankActions` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `doctype_id` INT(11) NOT NULL COMMENT 'пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {ActionType}',
-    `code` VARCHAR(16) NOT NULL COMMENT 'пїЅпїЅпїЅ',
-    `name` VARCHAR(64) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `checkingSerial` TINYINT(3) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 0-пїЅпїЅпїЅ, 1-пїЅпїЅпїЅпїЅпїЅ, 2-пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `checkingNumber` TINYINT(3) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 0-пїЅпїЅпїЅ, 1-пїЅпїЅпїЅпїЅпїЅ, 2-пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `checkingAmount` TINYINT(2) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 0-пїЅпїЅпїЅ, 1-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
+    `doctype_id` INT(11) NOT NULL,
+    `code` VARCHAR(16) NOT NULL,
+    `name` VARCHAR(64) NOT NULL,
+    `checkingSerial` TINYINT(3) NOT NULL,
+    `checkingNumber` TINYINT(3) NOT NULL,
+    `checkingAmount` TINYINT(2) NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`doctype_id`) REFERENCES `actiontype` (`id`)
 )
-COMMENT='пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Action'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 '''
+    c = conn.cursor()
     c.execute(sql)
 
-    sql = '''
+    sql = u'''
 CREATE TABLE `rbBlankTempInvalids` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `doctype_id` INT(11) NOT NULL COMMENT 'пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {rbTempInvalidDocument}',
-    `code` VARCHAR(16) NOT NULL COMMENT 'пїЅпїЅпїЅ',
-    `name` VARCHAR(64) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `checkingSerial` TINYINT(3) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 0-пїЅпїЅпїЅ, 1-пїЅпїЅпїЅпїЅпїЅ, 2-пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `checkingNumber` TINYINT(3) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 0-пїЅпїЅпїЅ, 1-пїЅпїЅпїЅпїЅпїЅ, 2-пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `checkingAmount` TINYINT(2) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 0-пїЅпїЅпїЅ, 1-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
+    `doctype_id` INT(11) NOT NULL,
+    `code` VARCHAR(16) NOT NULL,
+    `name` VARCHAR(64) NOT NULL,
+    `checkingSerial` TINYINT(3) NOT NULL,
+    `checkingNumber` TINYINT(3) NOT NULL,
+    `checkingAmount` TINYINT(2) NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`doctype_id`) REFERENCES `rbtempinvaliddocument` (`id`)
 )
-COMMENT='пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 
 
 CREATE TABLE `BlankTempInvalid_Party` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `createDatetime` DATETIME NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `createPerson_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `modifyDatetime` DATETIME NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `modifyPerson_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `deleted` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `date` DATE NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `doctype_id` INT(11) NOT NULL COMMENT 'пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {rbBlankTempInvalids}',
-    `person_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `serial` VARCHAR(8) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `numberFrom` VARCHAR(16) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ',
-    `numberTo` VARCHAR(16) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ',
-    `amount` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `extradited` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `balance` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `used` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `writing` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
+    `createDatetime` DATETIME NOT NULL,
+    `createPerson_id` INT(11) NULL DEFAULT NULL,
+    `modifyDatetime` DATETIME NOT NULL,
+    `modifyPerson_id` INT(11) NULL DEFAULT NULL,
+    `deleted` TINYINT(1) NOT NULL DEFAULT '0',
+    `date` DATE NOT NULL,
+    `doctype_id` INT(11) NOT NULL,
+    `person_id` INT(11) NULL DEFAULT NULL,
+    `serial` VARCHAR(8) NOT NULL,
+    `numberFrom` VARCHAR(16) NOT NULL,
+    `numberTo` VARCHAR(16) NOT NULL,
+    `amount` INT(4) NOT NULL DEFAULT '0',
+    `extradited` INT(4) NOT NULL DEFAULT '0',
+    `balance` INT(4) NOT NULL DEFAULT '0',
+    `used` INT(4) NOT NULL DEFAULT '0',
+    `writing` INT(4) NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     INDEX `createPerson_id` (`createPerson_id`),
     INDEX `modifyPerson_id` (`modifyPerson_id`),
@@ -85,29 +83,29 @@ CREATE TABLE `BlankTempInvalid_Party` (
     FOREIGN KEY (`modifyPerson_id`) REFERENCES `person` (`id`),
     FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
 )
-COMMENT='пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 '''
+    c = conn.cursor()
     c.execute(sql)
 	
-    sql = '''
+    sql = u'''
 CREATE TABLE `BlankTempInvalid_Moving` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `createDatetime` DATETIME NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `createPerson_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `modifyDatetime` DATETIME NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `modifyPerson_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `deleted` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `date` DATE NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `blankParty_id` INT(11) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {BlankTempInvalid_Party}',
-    `serial` VARCHAR(8) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `orgStructure_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {OrgStructure}',
-    `person_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `received` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `used` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `returnDate` DATE NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ',
-    `returnAmount` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
+    `createDatetime` DATETIME NOT NULL,
+    `createPerson_id` INT(11) NULL DEFAULT NULL,
+    `modifyDatetime` DATETIME NOT NULL,
+    `modifyPerson_id` INT(11) NULL DEFAULT NULL,
+    `deleted` TINYINT(1) NOT NULL DEFAULT '0',
+    `date` DATE NOT NULL,
+    `blankParty_id` INT(11) NOT NULL,
+    `serial` VARCHAR(8) NOT NULL,
+    `orgStructure_id` INT(11) NULL DEFAULT NULL,
+    `person_id` INT(11) NULL DEFAULT NULL,
+    `received` INT(4) NOT NULL DEFAULT '0',
+    `used` INT(4) NOT NULL DEFAULT '0',
+    `returnDate` DATE NULL DEFAULT NULL,
+    `returnAmount` INT(4) NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     INDEX `createPerson_id` (`createPerson_id`),
     INDEX `modifyPerson_id` (`modifyPerson_id`),
@@ -120,28 +118,27 @@ CREATE TABLE `BlankTempInvalid_Moving` (
     CONSTRAINT `blankTempInvalid_Moving_orgStructure_id` FOREIGN KEY (`orgStructure_id`) REFERENCES `orgstructure` (`id`),
     CONSTRAINT `blankTempInvalid_Moving_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
 )
-COMMENT='пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 
 CREATE TABLE `BlankActions_Party` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `createDatetime` DATETIME NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `createPerson_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `modifyDatetime` DATETIME NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `modifyPerson_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `deleted` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `date` DATE NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `doctype_id` INT(11) NOT NULL COMMENT 'пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ {rbBlankActions}',
-    `person_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `serial` VARCHAR(8) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `numberFrom` VARCHAR(16) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ',
-    `numberTo` VARCHAR(16) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ',
-    `amount` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `extradited` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `balance` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `used` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `writing` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
+    `createDatetime` DATETIME NOT NULL,
+    `createPerson_id` INT(11) NULL DEFAULT NULL,
+    `modifyDatetime` DATETIME NOT NULL,
+    `modifyPerson_id` INT(11) NULL DEFAULT NULL,
+    `deleted` TINYINT(1) NOT NULL DEFAULT '0',
+    `date` DATE NOT NULL,
+    `doctype_id` INT(11) NOT NULL,
+    `person_id` INT(11) NULL DEFAULT NULL,
+    `serial` VARCHAR(8) NOT NULL,
+    `numberFrom` VARCHAR(16) NOT NULL,
+    `numberTo` VARCHAR(16) NOT NULL,
+    `amount` INT(4) NOT NULL DEFAULT '0',
+    `extradited` INT(4) NOT NULL DEFAULT '0',
+    `balance` INT(4) NOT NULL DEFAULT '0',
+    `used` INT(4) NOT NULL DEFAULT '0',
+    `writing` INT(4) NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     INDEX `createPerson_id` (`createPerson_id`),
     INDEX `modifyPerson_id` (`modifyPerson_id`),
@@ -152,29 +149,30 @@ CREATE TABLE `BlankActions_Party` (
     CONSTRAINT `blankActions_Party_modifyPerson_id` FOREIGN KEY (`modifyPerson_id`) REFERENCES `person` (`id`),
     CONSTRAINT `blankActions_Party_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
 )
-COMMENT='пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 '''
+
+    c = conn.cursor()
     c.execute(sql)
 	
-    sql = '''
+    sql = u'''
 CREATE TABLE `BlankActions_Moving` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `createDatetime` DATETIME NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `createPerson_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `modifyDatetime` DATETIME NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `modifyPerson_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `deleted` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `date` DATE NOT NULL COMMENT 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `blankParty_id` INT(11) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {BlankActions_Party}',
-    `serial` VARCHAR(8) NOT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ',
-    `orgStructure_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {OrgStructure}',
-    `person_id` INT(11) NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ {Person}',
-    `received` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `used` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
-    `returnDate` DATE NULL DEFAULT NULL COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ',
-    `returnAmount` INT(4) NOT NULL DEFAULT '0' COMMENT 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ',
+    `createDatetime` DATETIME NOT NULL,
+    `createPerson_id` INT(11) NULL DEFAULT NULL,
+    `modifyDatetime` DATETIME NOT NULL,
+    `modifyPerson_id` INT(11) NULL DEFAULT NULL,
+    `deleted` TINYINT(1) NOT NULL DEFAULT '0',
+    `date` DATE NOT NULL,
+    `blankParty_id` INT(11) NOT NULL,
+    `serial` VARCHAR(8) NOT NULL,
+    `orgStructure_id` INT(11) NULL DEFAULT NULL,
+    `person_id` INT(11) NULL DEFAULT NULL,
+    `received` INT(4) NOT NULL DEFAULT '0',
+    `used` INT(4) NOT NULL DEFAULT '0',
+    `returnDate` DATE NULL DEFAULT NULL,
+    `returnAmount` INT(4) NOT NULL DEFAULT '0',
     PRIMARY KEY (`id`),
     INDEX `createPerson_id` (`createPerson_id`),
     INDEX `modifyPerson_id` (`modifyPerson_id`),
@@ -187,7 +185,6 @@ CREATE TABLE `BlankActions_Moving` (
     CONSTRAINT `blankActions_Moving_orgStructure_id` FOREIGN KEY (`orgStructure_id`) REFERENCES `orgstructure` (`id`),
     CONSTRAINT `blankActions_Moving_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
 )
-COMMENT='пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 
@@ -206,6 +203,7 @@ ENGINE=InnoDB;
 
 ALTER TABLE `Action` ADD `hospitalUidFrom` VARCHAR(128)  NOT NULL  DEFAULT '0'  AFTER `coordText`;
 '''
+    c = conn.cursor()
     c.execute(sql)
 
 
