@@ -11,6 +11,21 @@ __doc__ = '''\
 def upgrade(conn):
     global config
     c = conn.cursor()
+    
+    sql = u'''
+CREATE TABLE `rbQuotaStatus` (
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`code` VARCHAR(8) NOT NULL,
+`name` VARCHAR(50) NOT NULL,
+PRIMARY KEY (`id`),
+INDEX `code` (`code`),
+INDEX `name` (`name`)
+)
+COMMENT='Статусы для квот'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+'''
+    c.execute(sql)
 
     sql = u'''
 CREATE ALGORITHM = UNDEFINED DEFINER=`%s`@`%s` SQL SECURITY DEFINER VIEW `vClient_Quoting_sub` AS select distinct c1.* 
@@ -45,21 +60,6 @@ left join rbTreatment t on cq.treatment_id=t.id
 order by client_id, cq.createDatetime DESC;
 ''' % (config['username'], config['host'])
     c.execute(sql)
-    
-    sql = u'''
-CREATE TABLE `rbQuotaStatus` (
-`id` INT(11) NOT NULL AUTO_INCREMENT,
-`code` VARCHAR(8) NOT NULL,
-`name` VARCHAR(50) NOT NULL,
-PRIMARY KEY (`id`),
-INDEX `code` (`code`),
-INDEX `name` (`name`)
-)
-COMMENT='Статусы для квот'
-COLLATE='utf8_general_ci'
-ENGINE=InnoDB;
-'''
-    c.execute(sql) 
         
 
 def downgrade(conn):
