@@ -99,7 +99,7 @@ def get_updates():
         except ValueError:
             raise DBToolException(b'file "{0}": bad version '
                                   b'number: "{1}"'.format(filename, name))
-        context = {}
+        context = {'config': get_config()}
         try:
             exec open(filename, 'rb') in context
         except Exception, e:
