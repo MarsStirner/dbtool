@@ -4,7 +4,7 @@ from __future__ import unicode_literals, print_function
 import re
 
 __doc__ = '''\
-Добавлен выбор шаблонизатора в таблице, хранящей шаблоны печати.
+	Некоторые изменения, необходимые для интеграции с ВебМИС
 '''
 
 def upgrade(conn):
