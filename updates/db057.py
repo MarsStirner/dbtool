@@ -31,7 +31,7 @@ CREATE TABLE `rbBlankActions` (
     `checkingNumber` TINYINT(3) NOT NULL,
     `checkingAmount` TINYINT(2) NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`doctype_id`) REFERENCES `actiontype` (`id`)
+    FOREIGN KEY (`doctype_id`) REFERENCES `ActionType` (`id`)
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
@@ -49,7 +49,7 @@ CREATE TABLE `rbBlankTempInvalids` (
     `checkingNumber` TINYINT(3) NOT NULL,
     `checkingAmount` TINYINT(2) NOT NULL,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`doctype_id`) REFERENCES `rbtempinvaliddocument` (`id`)
+    FOREIGN KEY (`doctype_id`) REFERENCES `rbTempInvalidDocument` (`id`)
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
@@ -78,10 +78,10 @@ CREATE TABLE `BlankTempInvalid_Party` (
     INDEX `modifyPerson_id` (`modifyPerson_id`),
     INDEX `doctype_id` (`doctype_id`),
     INDEX `person_id` (`person_id`),
-    FOREIGN KEY (`createPerson_id`) REFERENCES `person` (`id`),
-    FOREIGN KEY (`doctype_id`) REFERENCES `rbblanktempinvalids` (`id`),
-    FOREIGN KEY (`modifyPerson_id`) REFERENCES `person` (`id`),
-    FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
+    FOREIGN KEY (`createPerson_id`) REFERENCES `Person` (`id`),
+    FOREIGN KEY (`doctype_id`) REFERENCES `rbBlankTempInvalids` (`id`),
+    FOREIGN KEY (`modifyPerson_id`) REFERENCES `Person` (`id`),
+    FOREIGN KEY (`person_id`) REFERENCES `Person` (`id`)
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
@@ -112,11 +112,11 @@ CREATE TABLE `BlankTempInvalid_Moving` (
     INDEX `blankParty_id` (`blankParty_id`),
     INDEX `orgStructure_id` (`orgStructure_id`),
     INDEX `person_id` (`person_id`),
-    CONSTRAINT `blankTempInvalid_Moving_blankParty_id` FOREIGN KEY (`blankParty_id`) REFERENCES `blanktempinvalid_party` (`id`),
-    CONSTRAINT `blankTempInvalid_Moving_createPerson_id` FOREIGN KEY (`createPerson_id`) REFERENCES `person` (`id`),
-    CONSTRAINT `blankTempInvalid_Moving_modifyPerson_id` FOREIGN KEY (`modifyPerson_id`) REFERENCES `person` (`id`),
-    CONSTRAINT `blankTempInvalid_Moving_orgStructure_id` FOREIGN KEY (`orgStructure_id`) REFERENCES `orgstructure` (`id`),
-    CONSTRAINT `blankTempInvalid_Moving_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
+    CONSTRAINT `blankTempInvalid_Moving_blankParty_id` FOREIGN KEY (`blankParty_id`) REFERENCES `BlankTempInvalid_Party` (`id`),
+    CONSTRAINT `blankTempInvalid_Moving_createPerson_id` FOREIGN KEY (`createPerson_id`) REFERENCES `Person` (`id`),
+    CONSTRAINT `blankTempInvalid_Moving_modifyPerson_id` FOREIGN KEY (`modifyPerson_id`) REFERENCES `Person` (`id`),
+    CONSTRAINT `blankTempInvalid_Moving_orgStructure_id` FOREIGN KEY (`orgStructure_id`) REFERENCES `OrgStructure` (`id`),
+    CONSTRAINT `blankTempInvalid_Moving_person_id` FOREIGN KEY (`person_id`) REFERENCES `Person` (`id`)
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
@@ -144,10 +144,10 @@ CREATE TABLE `BlankActions_Party` (
     INDEX `modifyPerson_id` (`modifyPerson_id`),
     INDEX `doctype_id` (`doctype_id`),
     INDEX `person_id` (`person_id`),
-    CONSTRAINT `blankActions_Party_createPerson_id` FOREIGN KEY (`createPerson_id`) REFERENCES `person` (`id`),
-    CONSTRAINT `blankActions_Party_doctype_id` FOREIGN KEY (`doctype_id`) REFERENCES `rbblankactions` (`id`),
-    CONSTRAINT `blankActions_Party_modifyPerson_id` FOREIGN KEY (`modifyPerson_id`) REFERENCES `person` (`id`),
-    CONSTRAINT `blankActions_Party_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
+    CONSTRAINT `blankActions_Party_createPerson_id` FOREIGN KEY (`createPerson_id`) REFERENCES `Person` (`id`),
+    CONSTRAINT `blankActions_Party_doctype_id` FOREIGN KEY (`doctype_id`) REFERENCES `rbBlankActions` (`id`),
+    CONSTRAINT `blankActions_Party_modifyPerson_id` FOREIGN KEY (`modifyPerson_id`) REFERENCES `Person` (`id`),
+    CONSTRAINT `blankActions_Party_person_id` FOREIGN KEY (`person_id`) REFERENCES `Person` (`id`)
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
@@ -179,11 +179,11 @@ CREATE TABLE `BlankActions_Moving` (
     INDEX `blankParty_id` (`blankParty_id`),
     INDEX `orgStructure_id` (`orgStructure_id`),
     INDEX `person_id` (`person_id`),
-    CONSTRAINT `blankActions_Moving_blankParty_id` FOREIGN KEY (`blankParty_id`) REFERENCES `blankactions_party` (`id`),
-    CONSTRAINT `blankActions_Moving_createPerson_id` FOREIGN KEY (`createPerson_id`) REFERENCES `person` (`id`),
-    CONSTRAINT `blankActions_Moving_modifyPerson_id` FOREIGN KEY (`modifyPerson_id`) REFERENCES `person` (`id`),
-    CONSTRAINT `blankActions_Moving_orgStructure_id` FOREIGN KEY (`orgStructure_id`) REFERENCES `orgstructure` (`id`),
-    CONSTRAINT `blankActions_Moving_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
+    CONSTRAINT `blankActions_Moving_blankParty_id` FOREIGN KEY (`blankParty_id`) REFERENCES `BlankActions_Party` (`id`),
+    CONSTRAINT `blankActions_Moving_createPerson_id` FOREIGN KEY (`createPerson_id`) REFERENCES `Person` (`id`),
+    CONSTRAINT `blankActions_Moving_modifyPerson_id` FOREIGN KEY (`modifyPerson_id`) REFERENCES `Person` (`id`),
+    CONSTRAINT `blankActions_Moving_orgStructure_id` FOREIGN KEY (`orgStructure_id`) REFERENCES `OrgStructure` (`id`),
+    CONSTRAINT `blankActions_Moving_person_id` FOREIGN KEY (`person_id`) REFERENCES `Person` (`id`)
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
