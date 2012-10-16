@@ -114,11 +114,11 @@ ALTER TABLE BlankActions CHANGE COLUMN code code VARCHAR(16) COMMENT 'Код' NO
 
 ALTER TABLE BlankActions CHANGE COLUMN name name VARCHAR(64) COMMENT 'Наименование' NOT NULL;
 
-ALTER TABLE BlankActions CHANGE COLUMN checkingSerial checkingSerial TINYINT COMMENT 'Контроль серии 0-нет, 1-мягко, 2-жестко' NOT NULL;
+ALTER TABLE BlankActions CHANGE COLUMN checkingSerial checkingSerial TINYINT(3) COMMENT 'Контроль серии 0-нет, 1-мягко, 2-жестко' NOT NULL;
 
-ALTER TABLE BlankActions CHANGE COLUMN checkingNumber checkingNumber TINYINT COMMENT 'Контроль номера 0-нет, 1-мягко, 2-жестко' NOT NULL;
+ALTER TABLE BlankActions CHANGE COLUMN checkingNumber checkingNumber TINYINT(3) COMMENT 'Контроль номера 0-нет, 1-мягко, 2-жестко' NOT NULL;
 
-ALTER TABLE BlankActions CHANGE COLUMN checkingAmount checkingAmount TINYINT COMMENT 'Контроль количества 0-нет, 1-списание' NOT NULL;
+ALTER TABLE BlankActions CHANGE COLUMN checkingAmount checkingAmount TINYINT(2) COMMENT 'Контроль количества 0-нет, 1-списание' NOT NULL;
 
 ALTER TABLE BlankActions COMMENT = 'Бланки на основе Action';
 
@@ -192,7 +192,7 @@ ALTER TABLE EventType CHANGE COLUMN age_bu age_bu TINYINT UNSIGNED COMMENT 'Ед
 
 ALTER TABLE EventType CHANGE COLUMN age_eu age_eu TINYINT UNSIGNED COMMENT 'Единица измерения верхней границы дипазона возраста (0 - не задано, 1 - день, 2 - неделя, 3 - месяц, 4 - год)' NULL;
 
-ALTER TABLE EventType_Action CHANGE COLUMN age_bu age_bu TINYINT(1) UNSIGNED COMMENT 'Единица измерения нижней границы дипазона возраста (0 - не задано, 1 - день, 2 - неделя, 3 - месяц, 4 - год)' NULL;
+ALTER TABLE EventType_Action CHANGE COLUMN age_bu age_bu TINYINT(1) UNSIGNED zerofill COMMENT 'Единица измерения нижней границы дипазона возраста (0 - не задано, 1 - день, 2 - неделя, 3 - месяц, 4 - год)' NULL;
 
 ALTER TABLE EventType_Action CHANGE COLUMN age_eu age_eu TINYINT(1) UNSIGNED COMMENT 'Единица измерения верхней границы дипазона возраста (0 - не задано, 1 - день, 2 - неделя, 3 - месяц, 4 - год)' NULL;
 
