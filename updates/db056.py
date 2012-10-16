@@ -40,9 +40,9 @@ ALTER TABLE Action CHANGE COLUMN contract_id contract_id INTEGER COMMENT 'дог
 
 ALTER TABLE Action CHANGE COLUMN coordDate coordDate DATETIME COMMENT 'Дата и время согласования' NULL;
 
-ALTER TABLE Action CHANGE COLUMN coordAgent coordAgent VARCHAR(128) COMMENT 'Сотрудник ЛПУ, согласовавший действие' NOT NULL;
+ALTER TABLE Action CHANGE COLUMN coordAgent coordAgent VARCHAR(128) DEFAULT '' COMMENT 'Сотрудник ЛПУ, согласовавший действие' NOT NULL;
 
-ALTER TABLE Action CHANGE COLUMN coordInspector coordInspector VARCHAR(128) COMMENT 'Представитель плательщика (сотрудник СМО), согласовавший действие' NOT NULL;
+ALTER TABLE Action CHANGE COLUMN coordInspector coordInspector VARCHAR(128) DEFAULT '' COMMENT 'Представитель плательщика (сотрудник СМО), согласовавший действие' NOT NULL;
 
 ALTER TABLE Action CHANGE COLUMN coordText coordText TINYTEXT COMMENT 'Текст согласования' NOT NULL;
 
@@ -58,9 +58,9 @@ ALTER TABLE ActionProperty_rbFinance CHANGE COLUMN value value INTEGER COMMENT '
 
 ALTER TABLE ActionProperty_rbFinance COMMENT = 'Значение свойства действия';
 
-ALTER TABLE ActionType CHANGE COLUMN age_bu age_bu TINYINT(1) UNSIGNED COMMENT 'Единица измерения нижней границы дипазона возраста (0 - не задано, 1 - день, 2 - неделя,3 - месяц,4 - год)' NULL;
+ALTER TABLE ActionType CHANGE COLUMN age_bu age_bu TINYINT(1) UNSIGNED zerofill COMMENT 'Единица измерения нижней границы дипазона возраста (0 - не задано, 1 - день, 2 - неделя,3 - месяц,4 - год)' NULL;
 
-ALTER TABLE ActionType CHANGE COLUMN age_eu age_eu TINYINT(1) UNSIGNED COMMENT 'Единица измерения верхней границы дипазона возраста (0 - не задано, 1 - день, 2 - неделя, 3 - месяц,4 - год)' NULL;
+ALTER TABLE ActionType CHANGE COLUMN age_eu age_eu TINYINT(1) UNSIGNED zerofill COMMENT 'Единица измерения верхней границы дипазона возраста (0 - не задано, 1 - день, 2 - неделя, 3 - месяц,4 - год)' NULL;
 
 ALTER TABLE ActionType CHANGE COLUMN defaultDirectionDate defaultDirectionDate TINYINT DEFAULT 0 COMMENT 'Код значение по умолчанию для даты назначения действияия: 0-Не задано, 1-По дате начала события, 2-Текущая дата, 3-Синхронизация по дате выполн' NOT NULL;
 
@@ -138,9 +138,9 @@ ALTER TABLE Client CHANGE COLUMN growth growth VARCHAR(16) COMMENT 'Рост п�
 
 ALTER TABLE Client CHANGE COLUMN weight weight VARCHAR(16) COMMENT 'Вес при рождении' NOT NULL;
 
-ALTER TABLE ClientPolicy CHANGE COLUMN name name VARCHAR(64) COMMENT 'Название' NOT NULL;
+ALTER TABLE ClientPolicy CHANGE COLUMN name name VARCHAR(64) DEFAULT '' COMMENT 'Название' NOT NULL;
 
-ALTER TABLE ClientPolicy CHANGE COLUMN note note VARCHAR(200) COMMENT 'Примечание' NOT NULL;
+ALTER TABLE ClientPolicy CHANGE COLUMN note note VARCHAR(200) DEFAULT '' COMMENT 'Примечание' NOT NULL;
 
 ALTER TABLE Client_Quoting CHANGE COLUMN statment statment VARCHAR(255) COMMENT 'Показания' NULL;
 
@@ -214,9 +214,9 @@ ALTER TABLE Event_Feed COMMENT = 'Питание';
 
 ALTER TABLE Event_LocalContract CHANGE COLUMN coordDate coordDate DATETIME COMMENT 'Дата и время согласования' NULL;
 
-ALTER TABLE Event_LocalContract CHANGE COLUMN coordAgent coordAgent VARCHAR(128) COMMENT 'Сотрудник ЛПУ, согласовавший действие' NOT NULL;
+ALTER TABLE Event_LocalContract CHANGE COLUMN coordAgent coordAgent VARCHAR(128) DEFAULT '' COMMENT 'Сотрудник ЛПУ, согласовавший действие' NOT NULL;
 
-ALTER TABLE Event_LocalContract CHANGE COLUMN coordInspector coordInspector VARCHAR(128) COMMENT 'Представитель плательщика (сотрудник СМО), согласовавший действие' NOT NULL;
+ALTER TABLE Event_LocalContract CHANGE COLUMN coordInspector coordInspector VARCHAR(128) DEFAULT ''  COMMENT 'Представитель плательщика (сотрудник СМО), согласовавший действие' NOT NULL;
 
 ALTER TABLE Event_LocalContract CHANGE COLUMN coordText coordText TINYTEXT COMMENT 'Текст согласования' NOT NULL;
 
@@ -272,9 +272,9 @@ ALTER TABLE Person CHANGE COLUMN office2 office2 VARCHAR(8) COMMENT 'Кабин�
 
 ALTER TABLE Person CHANGE COLUMN tariffCategory_id tariffCategory_id INTEGER COMMENT 'Тарифная категория {rbTariffCategory}' NULL;
 
-ALTER TABLE Person CHANGE COLUMN ambPlan2 ambPlan2 SMALLINT COMMENT 'Количество человек на весь амбулаторный приём' NOT NULL;
+ALTER TABLE Person CHANGE COLUMN ambPlan2 ambPlan2 SMALLINT(4) COMMENT 'Количество человек на весь амбулаторный приём' NOT NULL;
 
-ALTER TABLE Person CHANGE COLUMN homPlan2 homPlan2 SMALLINT COMMENT 'Количество человек на вызов' NOT NULL;
+ALTER TABLE Person CHANGE COLUMN homPlan2 homPlan2 SMALLINT(4) COMMENT 'Количество человек на вызов' NOT NULL;
 
 ALTER TABLE Person CHANGE COLUMN lastAccessibleTimelineDate lastAccessibleTimelineDate DATE COMMENT 'Последняя доступная дата в расписании врача' NULL;
 
@@ -294,7 +294,7 @@ ALTER TABLE PersonTimeTemplate CHANGE COLUMN ambBegTime ambBegTime TIME COMMENT 
 
 ALTER TABLE PersonTimeTemplate CHANGE COLUMN ambEndTime ambEndTime TIME COMMENT 'конец амбулаторного приёма' NULL;
 
-ALTER TABLE PersonTimeTemplate CHANGE COLUMN ambPlan ambPlan SMALLINT COMMENT 'Количество человек на амбулаторный приём' NOT NULL;
+ALTER TABLE PersonTimeTemplate CHANGE COLUMN ambPlan ambPlan SMALLINT(4) COMMENT 'Количество человек на амбулаторный приём' NOT NULL;
 
 ALTER TABLE PersonTimeTemplate CHANGE COLUMN office office VARCHAR(8) COMMENT 'Кабинет' NOT NULL;
 
@@ -302,7 +302,7 @@ ALTER TABLE PersonTimeTemplate CHANGE COLUMN ambBegTime2 ambBegTime2 TIME COMMEN
 
 ALTER TABLE PersonTimeTemplate CHANGE COLUMN ambEndTime2 ambEndTime2 TIME COMMENT 'конец второго амбулаторного приёма' NULL;
 
-ALTER TABLE PersonTimeTemplate CHANGE COLUMN ambPlan2 ambPlan2 SMALLINT COMMENT 'Количество человек на второй амбулаторный приём' NOT NULL;
+ALTER TABLE PersonTimeTemplate CHANGE COLUMN ambPlan2 ambPlan2 SMALLINT(4) COMMENT 'Количество человек на второй амбулаторный приём' NOT NULL;
 
 ALTER TABLE PersonTimeTemplate CHANGE COLUMN office2 office2 VARCHAR(8) COMMENT 'Кабинет2' NOT NULL;
 
@@ -310,13 +310,13 @@ ALTER TABLE PersonTimeTemplate CHANGE COLUMN homBegTime homBegTime TIME COMMENT 
 
 ALTER TABLE PersonTimeTemplate CHANGE COLUMN homEndTime homEndTime TIME COMMENT 'конец вызова' NULL;
 
-ALTER TABLE PersonTimeTemplate CHANGE COLUMN homPlan homPlan SMALLINT COMMENT 'Количество человек на вызов' NOT NULL;
+ALTER TABLE PersonTimeTemplate CHANGE COLUMN homPlan homPlan SMALLINT(4) COMMENT 'Количество человек на вызов' NOT NULL;
 
 ALTER TABLE PersonTimeTemplate CHANGE COLUMN homBegTime2 homBegTime2 TIME COMMENT 'начало второго вызова' NULL;
 
 ALTER TABLE PersonTimeTemplate CHANGE COLUMN homEndTime2 homEndTime2 TIME COMMENT 'конец второго вызова' NULL;
 
-ALTER TABLE PersonTimeTemplate CHANGE COLUMN homPlan2 homPlan2 SMALLINT COMMENT 'Количество человек на повторный вызов' NOT NULL;
+ALTER TABLE PersonTimeTemplate CHANGE COLUMN homPlan2 homPlan2 SMALLINT(4) COMMENT 'Количество человек на повторный вызов' NOT NULL;
 
 ALTER TABLE PersonTimeTemplate COMMENT = 'Персональный график';
 
@@ -340,7 +340,7 @@ ALTER TABLE Person_TimeTemplate CHANGE COLUMN ambBegTime ambBegTime TIME COMMENT
 
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN ambEndTime ambEndTime TIME COMMENT 'конец амбулаторного приёма' NULL;
 
-ALTER TABLE Person_TimeTemplate CHANGE COLUMN ambPlan ambPlan SMALLINT COMMENT 'Количество человек на амбулаторный приём' NOT NULL;
+ALTER TABLE Person_TimeTemplate CHANGE COLUMN ambPlan ambPlan SMALLINT(4) COMMENT 'Количество человек на амбулаторный приём' NOT NULL;
 
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN office office VARCHAR(8) COMMENT 'Кабинет' NOT NULL;
 
@@ -348,7 +348,7 @@ ALTER TABLE Person_TimeTemplate CHANGE COLUMN ambBegTime2 ambBegTime2 TIME COMME
 
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN ambEndTime2 ambEndTime2 TIME COMMENT 'конец второго амбулаторного приёма' NULL;
 
-ALTER TABLE Person_TimeTemplate CHANGE COLUMN ambPlan2 ambPlan2 SMALLINT COMMENT 'Количество человек на второй амбулаторный приём' NOT NULL;
+ALTER TABLE Person_TimeTemplate CHANGE COLUMN ambPlan2 ambPlan2 SMALLINT(4) COMMENT 'Количество человек на второй амбулаторный приём' NOT NULL;
 
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN office2 office2 VARCHAR(8) COMMENT 'Кабинет2' NOT NULL;
 
@@ -356,13 +356,13 @@ ALTER TABLE Person_TimeTemplate CHANGE COLUMN homBegTime homBegTime TIME COMMENT
 
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN homEndTime homEndTime TIME COMMENT 'конец вызова' NULL;
 
-ALTER TABLE Person_TimeTemplate CHANGE COLUMN homPlan homPlan SMALLINT COMMENT 'Количество человек на вызов' NOT NULL;
-
+ALTER TABLE Person_TimeTemplate CHANGE COLUMN homPlan homPlan SMALLINT(4) COMMENT 'Количество человек на вызов' NOT NULL;
+()
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN homBegTime2 homBegTime2 TIME COMMENT 'начало второго вызова' NULL;
 
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN homEndTime2 homEndTime2 TIME COMMENT 'конец второго вызова' NULL;
 
-ALTER TABLE Person_TimeTemplate CHANGE COLUMN homPlan2 homPlan2 SMALLINT COMMENT 'Количество человек на повторный вызов' NOT NULL;
+ALTER TABLE Person_TimeTemplate CHANGE COLUMN homPlan2 homPlan2 SMALLINT(4) COMMENT 'Количество человек на повторный вызов' NOT NULL;
 
 ALTER TABLE Person_TimeTemplate COMMENT = 'Персональный график';
 
@@ -370,7 +370,7 @@ ALTER TABLE Quoting COMMENT = 'Квотирование';
 
 ALTER TABLE Quoting_Region CHANGE COLUMN master_id master_id INTEGER COMMENT 'Идентификатор квотирования {Quoting}' NULL;
 
-ALTER TABLE Quoting_Region CHANGE COLUMN confirmed confirmed INTEGER DEFAULT 0 COMMENT 'Подтверждено' NOT NULL;
+ALTER TABLE Quoting_Region CHANGE COLUMN confirmed confirmed INTEGER(8) DEFAULT 0 COMMENT 'Подтверждено' NOT NULL;
 
 ALTER TABLE Quoting_Region COMMENT = 'Ограничение квотирования';
 
@@ -398,7 +398,7 @@ ALTER TABLE StockMotion_Item CHANGE COLUMN oldQnt oldQnt DOUBLE DEFAULT 0 COMMEN
 
 ALTER TABLE StockMotion_Item CHANGE COLUMN oldSum oldSum DOUBLE DEFAULT 0 COMMENT 'Старая сумма (в инвентаризации)' NOT NULL;
 
-ALTER TABLE StockMotion_Item CHANGE COLUMN isOut isOut INTEGER DEFAULT 0 COMMENT '0: затрата, 1:получение (в производстве)' NOT NULL;
+ALTER TABLE StockMotion_Item CHANGE COLUMN isOut isOut INTEGER(1) DEFAULT 0 COMMENT '0: затрата, 1:получение (в производстве)' NOT NULL;
 
 ALTER TABLE StockMotion_Item CHANGE COLUMN note note TINYTEXT COMMENT 'Примечания' NOT NULL;
 
@@ -420,7 +420,7 @@ ALTER TABLE StockRecipe_Item CHANGE COLUMN idx idx INTEGER DEFAULT 0 COMMENT 'о
 
 ALTER TABLE StockRecipe_Item CHANGE COLUMN qnt qnt DOUBLE DEFAULT 0 COMMENT 'Количество' NOT NULL;
 
-ALTER TABLE StockRecipe_Item CHANGE COLUMN isOut isOut INTEGER DEFAULT 0 COMMENT '0: затрата, 1: производство' NOT NULL;
+ALTER TABLE StockRecipe_Item CHANGE COLUMN isOut isOut INTEGER(1) DEFAULT 0 COMMENT '0: затрата, 1: производство' NOT NULL;
 
 ALTER TABLE StockRecipe_Item COMMENT = 'Элемент рецепта для производства';
 
@@ -466,13 +466,13 @@ ALTER TABLE TakenTissueJournal CHANGE COLUMN note note VARCHAR(128) COMMENT 'П�
 
 ALTER TABLE TakenTissueJournal COMMENT = 'Журнал забора тканей';
 
-ALTER TABLE TempInvalid CHANGE COLUMN duration duration INTEGER COMMENT 'Продолжительность в днях' NOT NULL;
+ALTER TABLE TempInvalid CHANGE COLUMN duration duration INTEGER(4) COMMENT 'Продолжительность в днях' NOT NULL;
 
-ALTER TABLE rbActionShedule CHANGE COLUMN code code VARCHAR(16) COMMENT 'Код' NOT NULL;
+ALTER TABLE rbActionShedule CHANGE COLUMN code code VARCHAR(16) DEFAULT '' COMMENT 'Код' NOT NULL;
 
-ALTER TABLE rbActionShedule CHANGE COLUMN name name VARCHAR(64) COMMENT 'Наименование' NOT NULL;
+ALTER TABLE rbActionShedule CHANGE COLUMN name name VARCHAR(64) DEFAULT '' COMMENT 'Наименование' NOT NULL;
 
-ALTER TABLE rbActionShedule CHANGE COLUMN period period TINYINT DEFAULT 1 COMMENT 'Период; ежедневно = 1' NOT NULL;
+ALTER TABLE rbActionShedule CHANGE COLUMN period period TINYINT(2) DEFAULT 1 COMMENT 'Период; ежедневно = 1' NOT NULL;
 
 ALTER TABLE rbActionShedule COMMENT = 'График выполнения действия';
 
@@ -480,7 +480,7 @@ ALTER TABLE rbActionShedule_Item CHANGE COLUMN master_id master_id INTEGER COMME
 
 ALTER TABLE rbActionShedule_Item CHANGE COLUMN idx idx INTEGER DEFAULT 0 COMMENT 'относительный индекс (для сортировки в списке)' NOT NULL;
 
-ALTER TABLE rbActionShedule_Item CHANGE COLUMN offset offset TINYINT DEFAULT 0 COMMENT 'Смещение в сутках от начала выполнения; 0-первый день, 1-второй и т.п.' NOT NULL;
+ALTER TABLE rbActionShedule_Item CHANGE COLUMN offset offset TINYINT(2) DEFAULT 0 COMMENT 'Смещение в сутках от начала выполнения; 0-первый день, 1-второй и т.п.' NOT NULL;
 
 ALTER TABLE rbActionShedule_Item CHANGE COLUMN time time TIME DEFAULT '00:00:00' COMMENT 'Время выполнения' NOT NULL;
 
@@ -498,7 +498,7 @@ ALTER TABLE rbAgreementType CHANGE COLUMN code code VARCHAR(32) COMMENT 'Код 
 
 ALTER TABLE rbAgreementType CHANGE COLUMN name name VARCHAR(64) COMMENT 'Название типа согласования' NOT NULL;
 
-ALTER TABLE rbAgreementType CHANGE COLUMN quotaStatusModifier quotaStatusModifier INTEGER DEFAULT 0 COMMENT 'Модификатор статуса квоты 0-Не меняет, 1-Отменено, 2-Ожидание, 3-Активный талон, 4-Талон для заполнения, 5-Заблокированный талон, 6-Отказано,7-Не' NULL;
+ALTER TABLE rbAgreementType CHANGE COLUMN quotaStatusModifier quotaStatusModifier INTEGER(2) DEFAULT 0 COMMENT 'Модификатор статуса квоты 0-Не меняет, 1-Отменено, 2-Ожидание, 3-Активный талон, 4-Талон для заполнения, 5-Заблокированный талон, 6-Отказано,7-Не' NULL;
 
 ALTER TABLE rbAgreementType COMMENT = 'Типы согласования';
 
@@ -510,7 +510,7 @@ ALTER TABLE rbCounter CHANGE COLUMN value value INTEGER DEFAULT 0 COMMENT 'Те�
 
 ALTER TABLE rbCounter CHANGE COLUMN prefix prefix VARCHAR(32) COMMENT 'Префикс' NULL;
 
-ALTER TABLE rbCounter CHANGE COLUMN reset reset INTEGER DEFAULT 0 COMMENT '0-Не сбрасывается, 1-Через сутки,2-Через неделю,3-через месяц,4-через квартал, 5-через полугодие, 6-через год' NOT NULL;
+ALTER TABLE rbCounter CHANGE COLUMN reset reset INTEGER(1) DEFAULT 0 COMMENT '0-Не сбрасывается, 1-Через сутки,2-Через неделю,3-через месяц,4-через квартал, 5-через полугодие, 6-через год' NOT NULL;
 
 ALTER TABLE rbCounter CHANGE COLUMN startDate startDate DATETIME COMMENT 'Дата начала работы счетчика' NOT NULL;
 
@@ -530,7 +530,7 @@ ALTER TABLE rbImageMap CHANGE COLUMN code code VARCHAR(8) COMMENT 'код кар
 
 ALTER TABLE rbImageMap CHANGE COLUMN image image MEDIUMBLOB COMMENT 'Картинка в QByteArray' NOT NULL;
 
-ALTER TABLE rbImageMap CHANGE COLUMN markSize markSize INTEGER COMMENT 'Размер наносимого маркера' NULL;
+ALTER TABLE rbImageMap CHANGE COLUMN markSize markSize INTEGER(2) COMMENT 'Размер наносимого маркера' NULL;
 
 ALTER TABLE rbImageMap COMMENT = 'Библиотека изображений';
 
@@ -618,13 +618,13 @@ ALTER TABLE rbService_Profile CHANGE COLUMN idx idx INTEGER DEFAULT 0 COMMENT '�
 
 ALTER TABLE rbService_Profile CHANGE COLUMN sex sex TINYINT DEFAULT 0 COMMENT 'Применимо для указанного пола (0-любой, 1-М, 2-Ж)' NOT NULL;
 
-ALTER TABLE rbService_Profile CHANGE COLUMN age age VARCHAR(9) COMMENT 'рименимо для указанного интервала возрастов пусто-нет ограничения, "{NNN{д|н|м|г}-{MMM{д|н|м|г}}" - с NNN дней/недель/месяцев/лет по MMM дней/недель/мес' NOT NULL;
+ALTER TABLE rbService_Profile CHANGE COLUMN age age VARCHAR(9) DEFAULT '' COMMENT 'рименимо для указанного интервала возрастов пусто-нет ограничения, "{NNN{д|н|м|г}-{MMM{д|н|м|г}}" - с NNN дней/недель/месяцев/лет по MMM дней/недель/мес' NOT NULL;
 
-ALTER TABLE rbService_Profile CHANGE COLUMN age_bu age_bu TINYINT UNSIGNED COMMENT 'Единица измерения нижней границы дипазона возраста (0 - не задано, 1 - день, 2 - неделя, 3 - месяц, 4 - год)' NULL;
+ALTER TABLE rbService_Profile CHANGE COLUMN age_bu age_bu TINYINT(1) UNSIGNED zerofill COMMENT 'Единица измерения нижней границы дипазона возраста (0 - не задано, 1 - день, 2 - неделя, 3 - месяц, 4 - год)' NULL;
 
-ALTER TABLE rbService_Profile CHANGE COLUMN age_eu age_eu TINYINT UNSIGNED COMMENT 'Единица измерения верхней границы дипазона возраста (0 - не задано,1 - день, 2 - неделя, 3 - месяц, 4 - год)' NULL;
+ALTER TABLE rbService_Profile CHANGE COLUMN age_eu age_eu TINYINT(1) UNSIGNED zerofill COMMENT 'Единица измерения верхней границы дипазона возраста (0 - не задано,1 - день, 2 - неделя, 3 - месяц, 4 - год)' NULL;
 
-ALTER TABLE rbService_Profile CHANGE COLUMN mkbRegExp mkbRegExp VARCHAR(64) COMMENT 'Регулярное выражение для сопоставления с кодом МКБ' NOT NULL;
+ALTER TABLE rbService_Profile CHANGE COLUMN mkbRegExp mkbRegExp VARCHAR(64) DEFAULT '' COMMENT 'Регулярное выражение для сопоставления с кодом МКБ' NOT NULL;
 
 ALTER TABLE rbService_Profile COMMENT = 'Профили мед.помощи';
 
