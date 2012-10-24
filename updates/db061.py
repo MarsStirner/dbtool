@@ -14,8 +14,15 @@ def upgrade(conn):
     
     sql = u'''
 DROP TRIGGER IF EXISTS `INCREMENT_Event_RECORD_VERSION_ON_UPDATE`;
-DROP TRIGGER IF EXISTS `Delete_Action_ON_UPDATE`;
+'''
+    c.execute(sql)
     
+    sql = u'''
+DROP TRIGGER IF EXISTS `Delete_Action_ON_UPDATE`;
+'''
+    c.execute(sql)
+    
+    sql = u'''
 CREATE
 DEFINER=`%s`@`%s`
 TRIGGER `INCREMENT_Event_RECORD_VERSION_ON_UPDATE`
@@ -24,7 +31,10 @@ FOR EACH ROW
 BEGIN
     SET NEW.version = OLD.version + 1;
 END;
-
+''' % (config['username'], config['host'])
+    c.execute(sql)
+    
+    sql = u'''
 CREATE
 DEFINER=`%s`@`%s`
 TRIGGER `Delete_Action_ON_UPDATE`
@@ -38,11 +48,20 @@ BEGIN
     END IF;
 
 END;
-
-
+''' % (config['username'], config['host'])
+    c.execute(sql)
+    
+    sql = u'''
 DROP TRIGGER IF EXISTS `INCREMENT_Action_RECORD_VERSION_ON_UPDATE`;
+'''
+    c.execute(sql)
+    
+    sql = u'''
 DROP TRIGGER IF EXISTS `Delete_ActionProperty_ON_UPDATE`;
-
+'''
+    c.execute(sql)
+    
+    sql = u'''
 CREATE
 DEFINER=`%s`@`%s`
 TRIGGER `INCREMENT_Action_RECORD_VERSION_ON_UPDATE`
@@ -51,7 +70,10 @@ FOR EACH ROW
 BEGIN
     SET NEW.version = OLD.version + 1;
 END;
-
+''' % (config['username'], config['host'])
+    c.execute(sql)
+    
+    sql = u'''
 CREATE
 DEFINER=`%s`@`%s`
 TRIGGER `Delete_ActionProperty_ON_UPDATE`
@@ -64,10 +86,9 @@ BEGIN
         WHERE action_id = NEW.id;
     END IF;
 END;
-''' % ((config['username'], config['host']) * 4)
+''' % (config['username'], config['host'])
 
     c.execute(sql)
-    c.close()
         
 
 def downgrade(conn):
