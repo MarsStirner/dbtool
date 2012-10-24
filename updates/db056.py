@@ -357,7 +357,7 @@ ALTER TABLE Person_TimeTemplate CHANGE COLUMN homBegTime homBegTime TIME COMMENT
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN homEndTime homEndTime TIME COMMENT 'конец вызова' NULL;
 
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN homPlan homPlan SMALLINT(4) COMMENT 'Количество человек на вызов' NOT NULL;
-()
+
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN homBegTime2 homBegTime2 TIME COMMENT 'начало второго вызова' NULL;
 
 ALTER TABLE Person_TimeTemplate CHANGE COLUMN homEndTime2 homEndTime2 TIME COMMENT 'конец второго вызова' NULL;
