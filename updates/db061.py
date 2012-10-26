@@ -107,7 +107,34 @@ COMMENT='Таблица отрендеренных документов от Act
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 '''
-        
+    c.execute(sql)
+
+    sql = u'''
+CREATE TABLE `rbSpecialVariablesPreferences` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`name` varchar(64) NOT NULL COMMENT 'название',
+`query` text NOT NULL COMMENT 'запрос',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Специальные переменные';
+'''
+    c.execute(sql)
+
+    sql = u'''CREATE TABLE `VariablesforSQL` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`specialVarName_id` int(11) NOT NULL COMMENT 'имя специальной переменной',
+`name` varchar(64) NOT NULL COMMENT 'наименование',
+`var_type` varchar(64) NOT NULL COMMENT 'тип',
+`label` varchar(64) NOT NULL COMMENT 'метка',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Переменные для получения значений специальных переменных с п';
+'''
+    c.execute(sql)
+    
+    sql = u'''
+ALTER TABLE ClientDocument CHANGE COLUMN origin origin VARCHAR(256) NOT NULL COMMENT 'Организация выдавшая документ';
+'''
+    c.execute(sql)
+
 
 def downgrade(conn):
     pass
