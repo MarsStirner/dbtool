@@ -103,7 +103,7 @@ CREATE TABLE `action_document` (
     CONSTRAINT `FK_action_document_action` FOREIGN KEY (`action_id`) REFERENCES `action` (`id`),
     CONSTRAINT `FK_action_document_rbprinttemplate` FOREIGN KEY (`template_id`) REFERENCES `rbprinttemplate` (`id`)
 )
-COMMENT='Таблица отрендеренных документов от Action\'ов, версионная. Документы хранятся сжатыми алгоритмом gzip.'
+COMMENT='Таблица отрендеренных документов от Action-ов, версионная. Документы хранятся сжатыми алгоритмом gzip.'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 '''
