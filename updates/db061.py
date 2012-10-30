@@ -100,8 +100,8 @@ CREATE TABLE `action_document` (
     PRIMARY KEY (`id`),
     INDEX `action_id` (`action_id`),
     INDEX `FK_action_document_rbprinttemplate` (`template_id`),
-    CONSTRAINT `FK_action_document_action` FOREIGN KEY (`action_id`) REFERENCES `action` (`id`),
-    CONSTRAINT `FK_action_document_rbprinttemplate` FOREIGN KEY (`template_id`) REFERENCES `rbprinttemplate` (`id`)
+    CONSTRAINT `FK_action_document_action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`),
+    CONSTRAINT `FK_action_document_rbprinttemplate` FOREIGN KEY (`template_id`) REFERENCES `rbPrintTemplate` (`id`)
 )
 COMMENT='Таблица отрендеренных документов от Action-ов, версионная. Документы хранятся сжатыми алгоритмом gzip.'
 COLLATE='utf8_general_ci'
