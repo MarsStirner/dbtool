@@ -37,7 +37,7 @@ CREATE TABLE `ActionType_EventType_check` (
   CONSTRAINT `fk_actionType_id` FOREIGN KEY (`actionType_id`) REFERENCES `ActionType` (`id`),
   CONSTRAINT `fk_eventType_id` FOREIGN KEY (`eventType_id`) REFERENCES `EventType` (`id`),
   CONSTRAINT `fk_related_ActionType_id` FOREIGN KEY (`related_actionType_id`) REFERENCES `ActionType` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Проверка на наличие типа действия для конкретных типов обращений'
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='Проверка на наличие типа действия для конкретных типов обращений!'
 '''
     c.execute(sql) 
 
