@@ -14,7 +14,7 @@ def upgrade(conn):
     c = conn.cursor()
     
     sql = u'''
-ALTER TABLE `Client_Quoting` ADD COLUMN `prevTalon_event_id` INT(11) NULL DEFAULT NULL COMMENT 'Ссылка на предыдущее обращение для использования данных ранее выданного талона'  AFTER `event_id` , CHANGE COLUMN `event_id` `event_id` INT(11) NOT NULL COMMENT 'ref to {Event}'  ;
+ALTER TABLE `Client_Quoting` ADD COLUMN `prevTalon_event_id` INT(11) NULL DEFAULT NULL COMMENT 'Ссылка на предыдущее обращение для использования данных ранее выданного талона'  AFTER `event_id`  ;
 '''
     c.execute(sql)
     
