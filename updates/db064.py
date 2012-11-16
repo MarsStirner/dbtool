@@ -5,6 +5,7 @@ from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
 - Неоходимые изменения для работы ВМП
+- Забытые изменения таблиц для работы функционала 6098
 '''
 
 
@@ -35,6 +36,110 @@ CREATE OR REPLACE ALGORITHM=UNDEFINED DEFINER=`%s`@`%s` SQL SECURITY DEFINER VIE
     sql = u'''
 CREATE OR REPLACE ALGORITHM=UNDEFINED DEFINER=`%s`@`%s` SQL SECURITY DEFINER VIEW `vClient_Quoting_History` AS select `cq`.`id` AS `id`,`p`.`login` AS `modifyPerson`,`cq`.`createDatetime` AS `createDatetime`,`cq`.`master_id` AS `client_id`,`cq`.`identifier` AS `identifier`,`cq`.`quotaTicket` AS `quotaTicket`,`qt`.`code` AS `quotaCode`,`cq`.`stage` AS `stage`,`cq`.`directionDate` AS `directionDate`,`cq`.`freeInput` AS `freeInput`,`o`.`shortName` AS `organ`,`cq`.`amount` AS `amount`,`cq`.`MKB` AS `MKB`,`qs`.`name` AS `status`,`cq`.`request` AS `request`,`cq`.`statment` AS `statment`,`cq`.`dateRegistration` AS `dateRegistration`,`cq`.`dateEnd` AS `dateEnd`,`os`.`name` AS `orgStruct`,`cq`.`regionCode` AS `regionCode`,`pm`.`code` AS `patientModelCode`,`t`.`code` AS `treatmentCode`,`cq`.`event_id` AS `event_id`,`cq`.`prevTalon_event_id` AS `prevTalon_event_id` from (((((((`Client_Quoting` `cq` left join `Person` `p` on((`cq`.`createPerson_id` = `p`.`id`))) left join `QuotaType` `qt` on((`cq`.`quotaType_id` = `qt`.`id`))) left join `Organisation` `o` on((`cq`.`org_id` = `o`.`id`))) left join `rbQuotaStatus` `qs` on((`cq`.`status` = `qs`.`id`))) left join `OrgStructure` `os` on((`cq`.`orgStructure_id` = `os`.`id`))) left join `rbPacientModel` `pm` on((`cq`.`pacientModel_id` = `pm`.`id`))) left join `rbTreatment` `t` on((`cq`.`treatment_id` = `t`.`id`))) order by `cq`.`master_id`,`cq`.`createDatetime` desc
 ''' % (config['username'], config['host'])
+    c.execute(sql)
+    
+    
+    sql = u'''
+ALTER TABLE `Person` ADD `maxCito` TINYINT DEFAULT 0 AFTER `maxOverQueue`;
+'''
+    c.execute(sql)
+    
+    sql = u'''
+CREATE TABLE IF NOT EXISTS QuotingByTime (
+    `id`                INT(11) NOT NULL    AUTO_INCREMENT,
+    `doctor_id`         INT(11)             COMMENT "Идентификатор доктора",
+    `quoting_date`      DATE    NOT NULL    COMMENT "Дата, к которой применяется данное квотирование",
+    `QuotingTimeStart`  TIME    NOT NULL    COMMENT "Начало перидона, доступного для записи",
+    `QuotingTimeEnd`    TIME    NOT NULL    COMMENT "Конец перидона, доступного для записи",
+    `QuotingType`       INT                 COMMENT "Тип записи, ссылается на rbTimeQuotingType.code",
+    PRIMARY KEY (`id`)
+);
+'''
+    c.execute(sql)
+    
+    sql = u'''
+CREATE TABLE IF NOT EXISTS `rbTimeQuotingType` (
+    `id`    INT(11) NOT NULL AUTO_INCREMENT,
+    `code`  INT(11) NOT NULL UNIQUE,
+    `name`  TEXT NOT NULL,
+    PRIMARY KEY (`id`)
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+'''
+    c.execute(sql)
+    
+    sql = u'''
+INSERT INTO `rbTimeQuotingType` (
+    `code`, `name` )
+values
+    (1, "Запись из регистратуры"),
+    (2, "Запись врачём на повторный приём"),
+    (3, "Межкабинетная запись"),
+    (4, "Запись из других ЛПУ"),
+    (5, "Запись через Портал");
+'''
+    c.execute(sql)
+    
+    sql = u'''
+CREATE TABLE IF NOT EXISTS `rbTransferDateType` (
+    `id`    INT(11) NOT NULL AUTO_INCREMENT,
+    `code`  INT(11) NOT NULL UNIQUE,
+    `name`  TEXT     NOT NULL,
+    PRIMARY KEY (`id`)
+)COLLATE='utf8_unicode_ci' ENGINE=InnoDB;
+'''
+    c.execute(sql)
+    
+    sql = u'''
+INSERT INTO `rbTransferDateType` (
+    `code`, `name` )
+values
+    (1, "В день приема"),
+    (2, "За день до приема");
+'''
+    c.execute(sql)
+    
+    sql = u'''
+CREATE TABLE IF NOT EXISTS `CouponsTransferQuotes` (
+    `id`                INT(11)     NOT NULL AUTO_INCREMENT,
+    `srcQuotingType_id` INT(11)     NOT NULL,
+    `dstQuotingType_id` INT(11)     NOT NULL,
+    `transferDayType`   INT(11)     NOT NULL,
+    `transferTime`      TIME        NOT NULL,
+    `couponsEnabled`    TINYINT(1)  NULL  DEFAULT '0',
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`srcQuotingType_id`) REFERENCES rbTimeQuotingType(`code`),
+    FOREIGN KEY (`dstQuotingType_id`) REFERENCES rbTimeQuotingType(`code`),
+    FOREIGN KEY (`transferDayType`)   REFERENCES rbTransferDateType(`code`)
+)COLLATE='utf8_unicode_ci' ENGINE=InnoDB;
+'''
+    c.execute(sql)
+    
+    sql = u'''
+ALTER TABLE `Person` ADD `quotUnit` TINYINT DEFAULT 0 AFTER `maxCito`;
+'''
+    c.execute(sql)
+    
+    sql = u'''
+ALTER TABLE `rbSpeciality` ADD COLUMN `quotingEnabled` TINYINT(1) UNSIGNED ZEROFILL NULL DEFAULT '0' COMMENT 'Если флажок установлен – при записи к врачам выбранной специальности из других ЛПУ учитываются квоты, определенные для этих ЛПУ на данной форме.' AFTER `regionalCode`;
+'''
+    c.execute(sql)
+    
+    sql = u'''
+CREATE TABLE IF NOT EXISTS `QuotingBySpeciality` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `speciality_id` INT(11) NOT NULL,
+    `organisation_id` INT(11) NOT NULL,
+    `coupons_quote` INT(11) NULL DEFAULT NULL,
+    `coupons_remaining` INT(11) NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (speciality_id)   REFERENCES rbSpeciality(`id`),
+    FOREIGN KEY (organisation_id) REFERENCES Organisation(`id`)
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+'''
     c.execute(sql)
     
 
