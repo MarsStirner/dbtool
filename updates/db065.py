@@ -73,7 +73,10 @@ ALTER TABLE `Action` ADD COLUMN `parentAction_id` INT(11) NULL DEFAULT NULL COMM
     
     sql = u'''
 INSERT INTO `ActionType` (`class`, `code`, `name`, `title`, `flatCode`) VALUES (-1, 'PRPA_IN402006UV02', 'Отмена сообщения о госпитализации (поступлении)', 'Отмена сообщения о госпитализации', 'del_received');
-
+'''
+    c.execute(sql)
+    
+    sql = u'''
 INSERT INTO `ActionType` (`class`, `code`, `name`, `title`, `flatCode`) VALUES (-1, 'PRPA_IN402006UV02', 'Отмена сообщения о переводе между отделениями внутри стационара', 'Отмена сообщения переводе', 'del_moving');
 '''
     c.execute(sql)
