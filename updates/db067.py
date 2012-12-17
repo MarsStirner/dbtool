@@ -48,6 +48,17 @@ ALTER TABLE `OrgStructure` ADD COLUMN `uuid_id` INT(11) NOT NULL DEFAULT 0  AFTE
 '''
     c.execute(sql)
     
+    sql = u'''
+CREATE TABLE `Pharmacy` (
+  `actionId` int(11) NOT NULL,
+  `uuid` varchar(255) DEFAULT NULL,
+  `flatCode` varchar(255) DEFAULT NULL,
+  `result` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`actionId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf-8;
+'''
+    c.execute(sql)
     
     updateExistingRecords(conn)
     
