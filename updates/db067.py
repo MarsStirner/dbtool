@@ -56,7 +56,7 @@ CREATE TABLE `Pharmacy` (
   `result` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`actionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf-8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 '''
     c.execute(sql)
     
