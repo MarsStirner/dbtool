@@ -75,7 +75,7 @@ ALTER TABLE `Action` ADD COLUMN `parentAction_id` INT(11) NULL DEFAULT NULL COMM
 INSERT INTO `ActionType` (`class`, `code`, `name`, `title`, `flatCode`,
 `createDatetime`, `modifyDatetime`, `sex`, `age`, `office`, `showInForm`, `genTimetable`, `context`, `defaultPlannedEndDate`)
 VALUES (-1, 'PRPA_IN402006UV02', 'Отмена сообщения о госпитализации (поступлении)', 'Отмена сообщения о госпитализации', 'del_received', 
-CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, '0-969', '', 0, 0, '', '2);
+CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, '0-969', '', 0, 0, '', 2);
 '''
     c.execute(sql)
     
