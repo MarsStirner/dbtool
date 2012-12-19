@@ -49,12 +49,6 @@ ALTER TABLE `OrgStructure` ADD COLUMN `uuid_id` INT(11) NOT NULL DEFAULT 0  AFTE
     c.execute(sql)
     
     sql = u'''
-ALTER TABLE `Person` ADD COLUMN `uuid_id` INT(11) NOT NULL DEFAULT 0  AFTER `academicTitle_id` 
-, ADD INDEX `uuid_id` (`uuid_id` ASC) ;
-'''
-    c.execute(sql)
-    
-    sql = u'''
 CREATE TABLE `Pharmacy` (
   `actionId` int(11) NOT NULL,
   `uuid` varchar(255) DEFAULT NULL,
@@ -92,19 +86,12 @@ def updateExistingRecords(conn):
     orgStructureIds = [id_[0] for id_ in c.fetchall()]
     numOrgStructureRecords = len(orgStructureIds)
     
-    sql = u'''SELECT id from Person order by id'''
-    c.execute(sql)
-    personIds = [id_[0] for id_ in c.fetchall()]
-    numPersonRecords = len(personIds)
-    
-    numRecords = sum([numActionRecords, numClientRecords, numEventRecords,
-        numOrgStructureRecords, numPersonRecords])    
+    numRecords = sum([numActionRecords, numClientRecords, numEventRecords, numOrgStructureRecords])    
     print("TOTAL: " + str(numRecords) + '\n', end='')
     sys.stdout.flush()
     
     tableRanges = {'Action': iter(actionIds), 'Client': iter(clientIds),
-        'Event': iter(eventIds), 'OrgStructure': iter(orgStructureIds),
-        'Person': iter(personIds)}
+        'Event': iter(eventIds), 'OrgStructure': iter(orgStructureIds)}
     
     i = 1
     ii = 0 # индекс в tableRanges
