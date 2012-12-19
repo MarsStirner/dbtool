@@ -25,9 +25,9 @@ INSERT IGNORE INTO `rbPrintTemplate` SET
   </head>
   <body style=" font-family:\'Times New Roman\'; font-size:14pt; font-style:normal;">
     {% for (action, propList) in actList %}
-        <b>${action[0]}</b>
+        <b>{{action[0]}}</b>
         <b style=" font-family:\'Times New Roman\'; font-size:12pt; font-style:normal;">
-            (${action[2]})</b>
+            ({{action[2]}})</b>
         <br/>
         <table border="1" cellpadding="0" cellspacing="0" width="100%">
                 <thead>
@@ -43,11 +43,11 @@ INSERT IGNORE INTO `rbPrintTemplate` SET
                 <tbody>
                     {% for prop in propList %}
 						<tr style="font-family: \'Times New Roman\'; font-size: 12pt; font-style:normal;" border="1" cellpadding="0" cellspacing="0" width="100%">
-							<td align="left">${prop[0]}</td>
-							<td align="center">${prop[2]}</td>
+							<td align="left">{{prop[0]}}</td>
+							<td align="center">{{prop[2]}}</td>
 							{% if action[4] == 1 %}
-								<td align="center">${prop[1]}</td>
-								<td align="center">${prop[3]}</td>
+								<td align="center">{{prop[1]}}</td>
+								<td align="center">{{prop[3]}}</td>
 							{% endif %}
 						</tr>
                     {% endfor %}
@@ -72,12 +72,18 @@ ALTER TABLE `Action` ADD COLUMN `parentAction_id` INT(11) NULL DEFAULT NULL COMM
     c.execute(sql)
     
     sql = u'''
-INSERT INTO `ActionType` (`class`, `code`, `name`, `title`, `flatCode`) VALUES (-1, 'PRPA_IN402006UV02', 'Отмена сообщения о госпитализации (поступлении)', 'Отмена сообщения о госпитализации', 'del_received');
+INSERT INTO `ActionType` (`class`, `code`, `name`, `title`, `flatCode`,
+`createDatetime`, `modifyDatetime`, `sex`, `age`, `office`, `showInForm`, `genTimetable`, `context`, `defaultPlannedEndDate`)
+VALUES (-1, 'PRPA_IN402006UV02', 'Отмена сообщения о госпитализации (поступлении)', 'Отмена сообщения о госпитализации', 'del_received', 
+CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, '0-969', '', 0, 0, '', '0000-00-00');
 '''
     c.execute(sql)
     
     sql = u'''
-INSERT INTO `ActionType` (`class`, `code`, `name`, `title`, `flatCode`) VALUES (-1, 'PRPA_IN402006UV02', 'Отмена сообщения о переводе между отделениями внутри стационара', 'Отмена сообщения переводе', 'del_moving');
+INSERT INTO `ActionType` (`class`, `code`, `name`, `title`, `flatCode`,
+`createDatetime`, `modifyDatetime`, `sex`, `age`, `office`, `showInForm`, `genTimetable`, `context`, `defaultPlannedEndDate`)
+VALUES (-1, 'PRPA_IN402006UV02', 'Отмена сообщения о переводе между отделениями внутри стационара', 'Отмена сообщения переводе', 'del_moving',
+CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, '0-969', '', 0, 0, '', '0000-00-00');
 '''
     c.execute(sql)
     
