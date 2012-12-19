@@ -52,12 +52,12 @@ ALTER TABLE `FDRecord` ADD `flatDirectory_code` CHAR(128) NULL  DEFAULT  NULL  C
 ALTER TABLE `FDRecord` ADD INDEX FK_FDRecord_FlatDirectory_code (`flatDirectory_code`);
 UPDATE `FDRecord` SET `FDRecord`.`flatDirectory_code` = `FDRecord`.`flatDirectory_id`;
 ALTER TABLE `FDRecord` ADD CONSTRAINT `FK_FDRecord_FlatDirectory_code` FOREIGN KEY (`flatDirectory_code`) REFERENCES `FlatDirectory` (`code`);
-ALTER TABLE `FDField` DROP FOREIGN KEY FK_FDField_FlatDirectory;
-ALTER TABLE `FDField` DROP INDEX FK_FDField_FlatDirectory;
-ALTER TABLE `FDField` DROP flatDirectory_id;
-ALTER TABLE `FDRecord` DROP FOREIGN KEY FK_FDRecord_FlatDirectory;
-ALTER TABLE `FDRecord` DROP INDEX FK_FDRecord_FlatDictionary;
-ALTER TABLE `FDRecord` DROP flatDirectory_id;
+-- ALTER TABLE `FDField` DROP FOREIGN KEY FK_FDField_FlatDirectory;
+-- ALTER TABLE `FDField` DROP INDEX FK_FDField_FlatDirectory;
+-- ALTER TABLE `FDField` DROP flatDirectory_id;
+-- ALTER TABLE `FDRecord` DROP FOREIGN KEY FK_FDRecord_FlatDirectory;
+-- ALTER TABLE `FDRecord` DROP INDEX FK_FDRecord_FlatDictionary;
+-- ALTER TABLE `FDRecord` DROP flatDirectory_id;
 '''
     c.execute(sql)
 
