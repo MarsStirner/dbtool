@@ -5,6 +5,7 @@ from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
 - Изменения, неоходимые  для работы аналитических отчетов
+- Добавлено поле для фильтрации отображаемых оргструктур
 '''
 
 
@@ -19,6 +20,11 @@ def upgrade(conn):
 	      ENGINE = InnoDB
 	      DEFAULT CHARSET=utf8
 	      COMMENT 'Аналитические отчеты';
+'''
+    c.execute(sql)
+    
+    sql = u'''
+ALTER TABLE `OrgStructure` ADD COLUMN `show` INT(11) NOT NULL DEFAULT 1  AFTER `uuid_id` ;
 '''
     c.execute(sql)
     
