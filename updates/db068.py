@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
-import uuid
-import sys
-from _mysql_exceptions import IntegrityError
 
 __doc__ = '''\
 - Добавление признака наличия отделения у роли
