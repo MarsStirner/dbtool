@@ -133,12 +133,8 @@ def updateExistingRecords(conn):
             
         except IntegrityError:
             print('Opa, uuid dublicate!', end='')
-    
-    
-    
-    
-    
-    
+        
+    print('\n')
     
 
 def downgrade(conn):
