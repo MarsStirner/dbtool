@@ -292,21 +292,47 @@ CREATE TABLE `rlsTradeNameToCode` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 '''
     c.execute(sql)
-    
+        
     sql = u'''
-CREATE ALGORITHM=UNDEFINED DEFINER=`%s`@`%s` SQL SECURITY DEFINER VIEW `vnomen` 
-AS select `rlsnomen`.`id` AS `id`,`rlsnomen`.`code` AS `code`,`rlsnomen`.`tradeName_id` AS `tradeName_id`,
-`rlsnomen`.`INPName_id` AS `INPName_id`,`rlsnomen`.`form_id` AS `form_id`,`rlsnomen`.`dosage_id` AS `dosage_id`,
-`rlsnomen`.`filling_id` AS `filling_id`,`rlsnomen`.`packing_id` AS `packing_id`,`rlsnomen`.`regDate` AS `regDate`,
-`rlsnomen`.`annDate` AS `annDate`,`rlstradename`.`name` AS `tradeName`,`rlstradename`.`latName` AS `tradeNameLat`,
-`rlsinpname`.`name` AS `INPName`,`rlsinpname`.`latName` AS `INPNameLat`,`rlsform`.`name` AS `form`,
-`rlsdosage`.`name` AS `dosage`,`rlsfilling`.`name` AS `filling`,`rlspacking`.`name` AS `packing`,
-(`rlsnomen`.`disabledForPrescription` or if(isnull(`rlsfilling`.`disabledForPrescription`),0,`rlsfilling`.`disabledForPrescription`) or 
-if(isnull(`rlspacking`.`disabledForPrescription`),0,`rlspacking`.`disabledForPrescription`)) AS `disabledForPrescription` 
-from ((((((`rlsnomen` left join `rlstradename` on((`rlstradename`.`id` = `rlsnomen`.`tradeName_id`))) 
-left join `rlsinpname` on((`rlsinpname`.`id` = `rlsnomen`.`INPName_id`))) left join `rlsform` 
-on((`rlsform`.`id` = `rlsnomen`.`form_id`))) left join `rlsdosage` on((`rlsdosage`.`id` = `rlsnomen`.`dosage_id`))) 
-left join `rlsfilling` on((`rlsfilling`.`id` = `rlsnomen`.`filling_id`))) left join `rlspacking` on((`rlspacking`.`id` = `rlsnomen`.`packing_id`)))
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `%s`@`%s` 
+    SQL SECURITY DEFINER
+VIEW `vNomen` AS
+    select 
+        `rlsNomen`.`id` AS `id`,
+        `rlsNomen`.`code` AS `code`,
+        `rlsNomen`.`tradeName_id` AS `tradeName_id`,
+        `rlsNomen`.`INPName_id` AS `INPName_id`,
+        `rlsNomen`.`form_id` AS `form_id`,
+        `rlsNomen`.`dosage_id` AS `dosage_id`,
+        `rlsNomen`.`filling_id` AS `filling_id`,
+        `rlsNomen`.`packing_id` AS `packing_id`,
+        `rlsNomen`.`regDate` AS `regDate`,
+        `rlsNomen`.`annDate` AS `annDate`,
+        `rlsTradeName`.`name` AS `tradeName`,
+        `rlsTradeName`.`latName` AS `tradeNameLat`,
+        `rlsINPName`.`name` AS `INPName`,
+        `rlsINPName`.`latName` AS `INPNameLat`,
+        `rlsForm`.`name` AS `form`,
+        `rlsDosage`.`name` AS `dosage`,
+        `rlsFilling`.`name` AS `filling`,
+        `rlsPacking`.`name` AS `packing`,
+        (`rlsNomen`.`disabledForPrescription`
+            or if(isnull(`rlsFilling`.`disabledForPrescription`),
+            0,
+            `rlsFilling`.`disabledForPrescription`)
+            or if(isnull(`rlsPacking`.`disabledForPrescription`),
+            0,
+            `rlsPacking`.`disabledForPrescription`)) AS `disabledForPrescription`
+    from
+        ((((((`rlsNomen`
+        left join `rlsTradeName` ON ((`rlsTradeName`.`id` = `rlsNomen`.`tradeName_id`)))
+        left join `rlsINPName` ON ((`rlsINPName`.`id` = `rlsNomen`.`INPName_id`)))
+        left join `rlsForm` ON ((`rlsForm`.`id` = `rlsNomen`.`form_id`)))
+        left join `rlsDosage` ON ((`rlsDosage`.`id` = `rlsNomen`.`dosage_id`)))
+        left join `rlsFilling` ON ((`rlsFilling`.`id` = `rlsNomen`.`filling_id`)))
+        left join `rlsPacking` ON ((`rlsPacking`.`id` = `rlsNomen`.`packing_id`)))
 ''' % (config['username'], config['host'])
     c.execute(sql)
    
