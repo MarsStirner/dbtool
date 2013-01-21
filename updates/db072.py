@@ -10,6 +10,11 @@ __doc__ = '''\
 
 simple_queries = \
 (
+# DICOM Архив
+'''
+ALTER TABLE `Action`
+ADD `dcm_study_uid` VARCHAR(50) NULL DEFAULT NULL COMMENT 'Внешний идентификатор записи в системе DICOM Архив'
+''',
 # Интеграция с ТФОМС
 u'''
 CREATE TABLE IF NOT EXISTS `rbMedicalKind` (
@@ -17,12 +22,12 @@ CREATE TABLE IF NOT EXISTS `rbMedicalKind` (
     `code`       VARCHAR(1)   NOT NULL COMMENT 'Код вида помощи',
     `name`       VARCHAR(64)  NOT NULL COMMENT 'Описание вида помощи',
     PRIMARY KEY (`id`)) 
-COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Виды медицинской помощи';
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Виды медицинской помощи'
 ''',
 '''
 ALTER TABLE EventType
 ADD `rbMedicalKind_id` INT(11) NULL COMMENT 'Ссылка на вид помощи rbMedicalKind.id' AFTER `age`,
-ADD FOREIGN KEY (`rbMedicalKind_id`) REFERENCES `rbMedicalKind`(`id`);
+ADD FOREIGN KEY (`rbMedicalKind_id`) REFERENCES `rbMedicalKind`(`id`)
 ''',
 '''
 CREATE TABLE IF NOT EXISTS `rbServiceFinance` (
@@ -30,22 +35,19 @@ CREATE TABLE IF NOT EXISTS `rbServiceFinance` (
     `code`    VARCHAR(2)   NOT NULL COMMENT 'Код',
     `name`    VARCHAR(64)  NOT NULL COMMENT 'Описание',
     PRIMARY KEY (`id`)) 
-COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Источники финансирования услуг';
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Источники финансирования услуг'
 ''',
 '''
 ALTER TABLE Contract_Tariff
 ADD `rbServiceFinance_id` INT(11) NULL COMMENT 'Ссылка на источник финансирования услуги rbServiceFinance.id' AFTER `MKB`,
-ADD FOREIGN KEY (`rbServiceFinance_id`) REFERENCES `rbServiceFinance`(`id`);
+ADD FOREIGN KEY (`rbServiceFinance_id`) REFERENCES `rbServiceFinance`(`id`)
 ''',
 '''
 ALTER TABLE rbService
 ADD `rbMedicalKind_id` INT(11) NULL COMMENT 'Ссылка на вид помощи rbMedicalKind.id',
 ADD FOREIGN KEY (`rbMedicalKind_id`) REFERENCES `rbMedicalKind`(`id`),
-ADD `departCode` VARCHAR(3) NULL COMMENT 'Код отделения, соответствующего услуге (в поликлинике это характеристика отдельной услуги, а не отделения)';
-''',
-'''
-ALTER TABLE rbService
-ADD `UET` DOUBLE NOT NULL DEFAULT 0 COMMENT 'УЕТ по умолчанию' AFTER `rbMedicalKind_id`;
+ADD `departCode` VARCHAR(3) NULL COMMENT 'Код отделения, соответствующего услуге (в поликлинике это характеристика отдельной услуги, а не отделения)',
+ADD `UET` DOUBLE NOT NULL DEFAULT 0 COMMENT 'УЕТ по умолчанию' AFTER `rbMedicalKind_id`
 ''',
 '''
 CREATE TABLE IF NOT EXISTS `rbServiceUET` (
@@ -56,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `rbServiceUET` (
     PRIMARY KEY (`id`),
     FOREIGN KEY (`rbService_id`) REFERENCES `rbService`(`id`)
 ) 
-COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Таблица для хранения числа УЕТ, соответствующих услуге в зависимости от возраста пациента';
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Таблица для хранения числа УЕТ, соответствующих услуге в зависимости от возраста пациента'
 ''',
 '''
 CREATE TABLE IF NOT EXISTS `rbPayType` (
@@ -65,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `rbPayType` (
     `name`                VARCHAR(64)  NOT NULL COMMENT 'Описание способа оплаты',
     PRIMARY KEY (`id`)
 ) 
-COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Способы оплаты услуг';
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Способы оплаты услуг'
 ''',
 '''
 CREATE TABLE IF NOT EXISTS `rbTariffType` (
@@ -74,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `rbTariffType` (
     `name`                VARCHAR(64)  NOT NULL COMMENT 'Описание вида тарификации',
     PRIMARY KEY (`id`)
 ) 
-COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Виды тарификации услуг';
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Виды тарификации услуг'
 ''',
 '''
 CREATE TABLE IF NOT EXISTS `MedicalKindUnit` (
@@ -91,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `MedicalKindUnit` (
     FOREIGN KEY (`rbPayType_id`) REFERENCES `rbPayType`(`id`),
     FOREIGN KEY (`rbTariffType_id`) REFERENCES `rbTariffType`(`id`)
 ) 
-COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Таблица для хранения связи категорий помощи и способов оплаты услуг';
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Таблица для хранения связи категорий помощи и способов оплаты услуг'
 ''',
 '''
 CREATE TABLE IF NOT EXISTS `rbAcheResult` (
@@ -102,21 +104,21 @@ CREATE TABLE IF NOT EXISTS `rbAcheResult` (
     PRIMARY KEY (`id`),
     FOREIGN KEY (`eventPurpose_id`) REFERENCES `rbEventTypePurpose`(`id`)
 ) 
-COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Исходы заболеваний';
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Исходы заболеваний'
 ''',
 '''
 ALTER TABLE Event
 ADD `rbAcheResult_id` INT(11) NULL COMMENT 'Ссылка на исход заболевания rbAcheResult.id' AFTER `mesSpecification_id`,
-ADD FOREIGN KEY (`rbAcheResult_id`) REFERENCES `rbAcheResult`(`id`);
+ADD FOREIGN KEY (`rbAcheResult_id`) REFERENCES `rbAcheResult`(`id`)
 ''',
 '''
 ALTER TABLE Diagnostic
 ADD `rbAcheResult_id` INT(11) NULL COMMENT 'Ссылка на исход заболевания rbAcheResult.id' AFTER `notes`,
-ADD FOREIGN KEY (`rbAcheResult_id`) REFERENCES `rbAcheResult`(`id`);
+ADD FOREIGN KEY (`rbAcheResult_id`) REFERENCES `rbAcheResult`(`id`)
 ''',
 '''
 ALTER TABLE rbEventTypePurpose
-ADD `codePlace` VARCHAR(2) NULL COMMENT 'Код условий оказания мед.помощи' AFTER `name`;
+ADD `codePlace` VARCHAR(2) NULL COMMENT 'Код условий оказания мед.помощи' AFTER `name`
 ''',
 '''
 CREATE TABLE IF NOT EXISTS `rbHospitalBedProfile_Service` (
@@ -127,10 +129,9 @@ CREATE TABLE IF NOT EXISTS `rbHospitalBedProfile_Service` (
     FOREIGN KEY (`rbHospitalBedProfile_id`) REFERENCES `rbHospitalBedProfile`(`id`),
     FOREIGN KEY (`rbService_id`) REFERENCES `rbService`(`id`)
 ) 
-COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Данные об услугах, соответствующих профилю койки';
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Данные об услугах, соответствующих профилю койки'
 ''',
 '''
-DROP TABLE IF EXISTS `ActionProperty_HospitalBedProfile`;
 CREATE TABLE IF NOT EXISTS `ActionProperty_HospitalBedProfile` (
     `id`                      INT(11)      NOT NULL COMMENT '{ActionProperty.id}',
     `index`                INT(11)      NOT NULL DEFAULT 0 COMMENT 'Индекс элемента векторного значения или 0',
@@ -138,21 +139,17 @@ CREATE TABLE IF NOT EXISTS `ActionProperty_HospitalBedProfile` (
     PRIMARY KEY (`id`,`index`),
     INDEX `value` (`value`) 
 ) 
-COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Значение свойства действия типа «Профиль койки»';
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Значение свойства действия типа «Профиль койки»'
 ''',
-# DICOM Архив
-'''
-ALTER TABLE Action
-ADD `dcm_study_uid` VARCHAR(50) NULL DEFAULT NULL COMMENT 'Внешний идентификатор записи в системе DICOM Архив';
-'''
 )
 
 def upgrade(conn):
     global config    
-    c = conn.cursor()
     
     for query in simple_queries:
+        c = conn.cursor()
         c.execute(query)
+        c.close()
     
     
 def downgrade(conn):
