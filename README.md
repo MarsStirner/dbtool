@@ -12,7 +12,7 @@ TODO
 
 ### Зависимости
 
-* Python 2.7
+* Python 2.6.6
 * setuptools-0.6c11
 * mysql-python
 * libmysqlclient
