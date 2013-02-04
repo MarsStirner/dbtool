@@ -112,15 +112,20 @@ def upgrade(conn):
 
     c = conn.cursor()
     c.execute(u'''
-CREATE TABLE IF NOT EXISTS `rbBloodComponentType` (
-    `id`         INT(11)      NOT NULL AUTO_INCREMENT,
-    `code`       VARCHAR(64)   NOT NULL COMMENT 'Код типа компонента крови',
-    `name`       VARCHAR(128)  NOT NULL COMMENT 'Описание типа компонента крови',
-    PRIMARY KEY (`id`)) 
-COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Виды медицинской помощи'
+CREATE TABLE `rbbloodcomponenttype` (
+    `id` INT(11) NOT NULL,
+    `trfu_id` INT(11) NULL DEFAULT NULL COMMENT 'Идентификатор записи в системе ТРФУ',
+    `code` VARCHAR(32) NULL DEFAULT NULL COMMENT 'код компонента крови',
+    `name` VARCHAR(256) NULL DEFAULT NULL COMMENT 'название компонента крови',
+    `unused` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'флаг доступности компонента крови',
+    PRIMARY KEY (`id`)
+)
+COMMENT='Справочник типов компонентов крови'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
 ''')
     c.execute(u'''
-CREATE TABLE IF NOT EXISTS `ActionProperty_rbBloodType` (
+CREATE TABLE IF NOT EXISTS `ActionProperty_rbBloodComponentType` (
     `id`         INT(11)      NOT NULL AUTO_INCREMENT,
     `index`      INT(11)      NOT NULL COMMENT 'Индекс векторного значения',
     `value`      INT(64)      NOT NULL COMMENT 'Указатель на запись rbBloodComponentType',
