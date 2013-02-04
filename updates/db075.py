@@ -9,6 +9,8 @@ __doc__ = '''\
 '''
 __author__ = 'viruzzz-kun'
 
+# Эти записи выпилены, потому как слишком опасны.
+
 simple_queries = \
 (
 u'''
@@ -98,15 +100,36 @@ CREATE
 def upgrade(conn):
     global config    
     
-    for query in simple_queries:
-        c = conn.cursor()
-        c.execute(query)
-        c.close()
+#    for query in simple_queries:
+#        c = conn.cursor()
+#        c.execute(query)
+#        c.close()
+#
+#    for query in user_queries:
+#        c = conn.cursor()
+#        c.execute(query % (config['username'], config['host']))
+#        c.close()
 
-    for query in user_queries:
-        c = conn.cursor()
-        c.execute(query % (config['username'], config['host']))
-        c.close()
+    c = conn.cursor()
+    c.execute(u'''
+CREATE TABLE IF NOT EXISTS `rbBloodComponentType` (
+    `id`         INT(11)      NOT NULL AUTO_INCREMENT,
+    `code`       VARCHAR(64)   NOT NULL COMMENT 'Код типа компонента крови',
+    `name`       VARCHAR(128)  NOT NULL COMMENT 'Описание типа компонента крови',
+    PRIMARY KEY (`id`)) 
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Виды медицинской помощи'
+''')
+    c.execute(u'''
+CREATE TABLE IF NOT EXISTS `ActionProperty_rbBloodType` (
+    `id`         INT(11)      NOT NULL AUTO_INCREMENT,
+    `index`      INT(11)      NOT NULL COMMENT 'Индекс векторного значения',
+    `value`      INT(64)      NOT NULL COMMENT 'Указатель на запись rbBloodComponentType',
+    PRIMARY KEY (`id`, `index`)) 
+COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='rbBloodComponentType'
+''')
+    c.close()
+
+
 
 def downgrade(conn):
     pass
