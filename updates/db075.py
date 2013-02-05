@@ -112,7 +112,7 @@ def upgrade(conn):
 
     c = conn.cursor()
     c.execute(u'''
-CREATE TABLE `rbbloodcomponenttype` (
+CREATE TABLE `rbBloodComponentType` (
     `id` INT(11) NOT NULL,
     `trfu_id` INT(11) NULL DEFAULT NULL COMMENT 'Идентификатор записи в системе ТРФУ',
     `code` VARCHAR(32) NULL DEFAULT NULL COMMENT 'код компонента крови',
