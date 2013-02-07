@@ -108,6 +108,9 @@ UPDATE `ActionPropertyType` SET `code`='assocDiag' WHERE `actionType_id` in (sel
 u'''
 UPDATE `ActionPropertyType` SET `code`='assocDiagMkb' WHERE `actionType_id` in (select id from ActionType where group_id=128 and deleted=0) and name="Сопутствующие диагнозы по МКБ";
 ''',
+u'''
+SET SQL_SAFE_UPDATES=1;
+''',
 )
 user_queries = \
 ()
