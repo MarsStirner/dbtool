@@ -14,6 +14,7 @@ simple_queries = \
 u'''
 SET SQL_SAFE_UPDATES=0;
 ''',
+
 u'''
 ALTER TABLE `Diagnostic` ADD COLUMN `action_id` INT(11) NULL DEFAULT NULL  AFTER `version` 
 , ADD INDEX `action_id` (`action_id` ASC) ;
@@ -30,9 +31,18 @@ UPDATE `rbRequestType` SET `code`='hospital' WHERE `id`='2';
 u'''
 UPDATE `rbRequestType` SET `code`='policlinic' WHERE `id`='3';
 ''',
+u'''
+UPDATE `EventType` SET `canHavePayableActions`='1' WHERE `code`='02';
+''',
 #u'''
 #ALTER TABLE `ActionPropertyType` ADD COLUMN `code` VARCHAR(25) NULL  AFTER `toEpicrisis` ;
 #''',
+u'''
+ALTER TABLE `TempInvalid` ADD COLUMN `event_id` INT(11) NULL DEFAULT NULL  AFTER `caseBegDate` ;
+''',
+u'''
+ALTER TABLE `Event` ADD COLUMN `lpu_transfer` VARCHAR(100) NULL DEFAULT NULL  AFTER `uuid_id` ;
+''',
 
 # Выписка
 
@@ -65,6 +75,9 @@ UPDATE `ActionPropertyType` SET `code`='diagReceived' WHERE `actionType_id`=112 
 
 u'''
 UPDATE `ActionPropertyType` SET `code`='timeLeaved' WHERE `actionType_id`=113 and name="Время выбытия";
+''',
+u'''
+UPDATE `ActionPropertyType` SET `code`='orgStructTransfer' WHERE `actionType_id`=113 and name="Переведен в отделение";
 ''',
 
 # Первичные осмотры
@@ -108,6 +121,40 @@ UPDATE `ActionPropertyType` SET `code`='assocDiag' WHERE `actionType_id` in (sel
 u'''
 UPDATE `ActionPropertyType` SET `code`='assocDiagMkb' WHERE `actionType_id` in (select id from ActionType where group_id=128 and deleted=0) and name="Сопутствующие диагнозы по МКБ";
 ''',
+
+# Протокол (карта) патологоанатомического исследования
+u'''
+UPDATE `ActionPropertyType` SET `code`='mainDiagPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Основное заболевание.";
+''',
+u'''
+UPDATE `ActionPropertyType` SET `code`='mainDiagMkbPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Основное заболевание по МКБ.";
+''',
+u'''
+UPDATE `ActionPropertyType` SET `code`='complDiagPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Осложнения.";
+''',
+u'''
+UPDATE `ActionPropertyType` SET `code`='complDiagMkbPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Осложнения по МКБ.";
+''',
+u'''
+UPDATE `ActionPropertyType` SET `code`='assocDiagPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Сопутствующие заболевания.";
+''',
+u'''
+UPDATE `ActionPropertyType` SET `code`='assocDiagMkbPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Сопутствующие заболевания по МКБ.";
+''',
+
+# Посмертный эпикриз
+u'''
+UPDATE `ActionPropertyType` SET `code`='mainReasonOD' WHERE `actionType_id`=567 and name="Основная причина смерти";
+''',
+u'''
+UPDATE `ActionPropertyType` SET `code`='mainReasonODMkb' WHERE `actionType_id`=567 and name="Код МКБ";
+''',
+
+# ВЫПИСКА ИЗ МЕДИЦИНСКОЙ КАРТЫ СТАЦИОНАРНОГО БОЛЬНОГО ЗЛОКАЧЕСТВЕННЫМ НОВООБРАЗОВАНИЕМ
+u'''
+UPDATE `ActionPropertyType` SET `code`='tumorStage' WHERE `actionType_id`=3577 and name="Стадия опухолевого процесса";
+''',
+
 u'''
 SET SQL_SAFE_UPDATES=1;
 ''',
