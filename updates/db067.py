@@ -17,21 +17,6 @@ ALTER TABLE rbUserProfile ADD COLUMN withDep TINYINT(1) NOT NULL DEFAULT 0 COMME
 '''
     c.execute(sql)
     
-    sql = u'''
-UPDATE rbUserProfile SET withDep=1 WHERE id=26;
-'''
-    c.execute(sql)
-
-    sql = u'''
-UPDATE rbUserProfile SET withDep=1 WHERE id=28;
-'''
-    c.execute(sql)
-
-    sql = u'''
-UPDATE rbUserProfile SET withDep=1 WHERE id=33;
-'''
-    c.execute(sql)
-    
 
 
     
