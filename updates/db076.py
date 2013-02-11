@@ -44,6 +44,11 @@ u'''
 ALTER TABLE `Event` ADD COLUMN `lpu_transfer` VARCHAR(100) NULL DEFAULT NULL  AFTER `uuid_id` ;
 ''',
 
+# Промежуточная выписка
+u'''
+UPDATE `ActionType` SET `code`='4511' WHERE `code`='4504' and name="Промежуточная выписка";
+''',
+
 # Выписка
 
 u'''
@@ -150,9 +155,15 @@ u'''
 UPDATE `ActionPropertyType` SET `code`='mainReasonODMkb' WHERE `actionType_id`=567 and name="Код МКБ";
 ''',
 
-# ВЫПИСКА ИЗ МЕДИЦИНСКОЙ КАРТЫ СТАЦИОНАРНОГО БОЛЬНОГО ЗЛОКАЧЕСТВЕННЫМ НОВООБРАЗОВАНИЕМ
+# Документы и извещения
 u'''
 UPDATE `ActionPropertyType` SET `code`='tumorStage' WHERE `actionType_id`=3577 and name="Стадия опухолевого процесса";
+''',
+u'''
+UPDATE `ActionPropertyType` SET `code`='tumorStage' WHERE `actionType_id`=1507 and name="Стадия опухолевого процесса";
+''',
+u'''
+UPDATE `ActionPropertyType` SET `code`='tumorStage' WHERE `actionType_id`=1500 and name="Стадия опухолевого процесса";
 ''',
 
 u'''
