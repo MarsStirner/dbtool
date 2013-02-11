@@ -15,12 +15,19 @@ def upgrade(conn):
     # Добавление мнемоники для ActionType
     sql = u'''
     ALTER TABLE ActionType ADD COLUMN mnem VARCHAR(32) NULL DEFAULT '' COMMENT 'Мнемоника'  AFTER jobType_id;'''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except:
+            print("Column MNEM already exists.")
     
     #  Добавление признака "Дозаказ" для лабораторных исследований
     sql = u'''
     ALTER TABLE Action ADD COLUMN toOrder TINYINT(1) NULL COMMENT 'Дозаказ в лабораторию'  AFTER version;'''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except:
+        print("Column ToORDER already exists.")
+    
 
     #TODO: заполнение поля mnem 
     
