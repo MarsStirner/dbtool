@@ -38,19 +38,19 @@ u'''
 CREATE TABLE IF NOT EXISTS trfuOrderIssueResult (
     id INT(11) NOT NULL AUTO_INCREMENT,
     action_id INT(11) NOT NULL COMMENT 'идентификатор требования на выдачу КК ',
-    trfu_comp_id INT(11) NULL DEFAULT NULL COMMENT 'идентификатор компонента крови',
+    trfu_blood_comp INT(11) NULL DEFAULT NULL COMMENT 'идентификатор компонента крови',
     comp_number VARCHAR(40) NULL DEFAULT NULL COMMENT 'номер компонента крови (номер, зашитый в ШК)',
-    comp_type INT(11) NULL DEFAULT NULL COMMENT 'идентификатор типа компонента крови',
+    comp_type_id INT(11) NULL DEFAULT NULL COMMENT 'идентификатор типа компонента крови',
     blood_type_id INT(11) NULL DEFAULT NULL COMMENT 'название группы крови',
     volume INT(11) NULL DEFAULT NULL COMMENT 'объем компонента крови',
     dose_count DOUBLE NULL DEFAULT NULL COMMENT 'количество донорских доз',
-    trfu_donor_id INT(11) NULL DEFAULT NULL COMMENT 'количество донорских доз',
+    trfu_donor_id INT(11) NULL DEFAULT NULL COMMENT 'код донора',
     PRIMARY KEY (id),
     INDEX FK_trfuOrderIssueResult_action (action_id),
     INDEX FK_trfuorderissueresult_rbbloodtype (blood_type_id),
-    INDEX FK_trfuorderissueresult_rbbloodcomponenttype (comp_type),
+    INDEX FK_trfuorderissueresult_rbbloodcomponenttype (comp_type_id),
     CONSTRAINT FK_trfuOrderIssueResult_action FOREIGN KEY (action_id) REFERENCES Action (id),
-    CONSTRAINT FK_trfuOrderIssueResult_rbbloodcomponenttype FOREIGN KEY (comp_type) REFERENCES rbBloodComponentType (id),
+    CONSTRAINT FK_trfuOrderIssueResult_rbbloodcomponenttype FOREIGN KEY (comp_type_id) REFERENCES rbBloodComponentType (id),
     CONSTRAINT FK_trfuorderIssueResult_rbbloodtype FOREIGN KEY (blood_type_id) REFERENCES rbBloodType (id)
 )
 COMMENT='Результаты выдачи компонентов крови'
