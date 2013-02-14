@@ -133,5 +133,10 @@ def upgrade(conn):
         c.execute(q % actionType_id[0])
         c.close()
 
+    c = conn.cursor()
+    c.execute(u'''ALTER TABLE `rbBloodComponentType` CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT FIRST''')
+    c.close()
+
+
 def downgrade(conn):
     pass
