@@ -111,7 +111,7 @@ def upgrade(conn):
             "Licence_Service                      ",
             "MKB                                  ",
             "MKB_QuotaType_PacientModel           ",
-            "Meta                                 ",
+            #"Meta                                 ",
             "ModelDescription                     ",
             "NotificationOccurred                 ",
             "OrgStructure                         ",
