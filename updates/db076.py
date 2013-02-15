@@ -34,9 +34,9 @@ UPDATE `rbRequestType` SET `code`='policlinic' WHERE `id`='3';
 u'''
 UPDATE `EventType` SET `canHavePayableActions`='1' WHERE `code`='02';
 ''',
-#u'''
-#ALTER TABLE `ActionPropertyType` ADD COLUMN `code` VARCHAR(25) NULL  AFTER `toEpicrisis` ;
-#''',
+u'''
+ALTER TABLE `ActionPropertyType` ADD COLUMN `code` VARCHAR(25) NULL  AFTER `toEpicrisis` ;
+''',
 u'''
 ALTER TABLE `TempInvalid` ADD COLUMN `event_id` INT(11) NULL DEFAULT NULL  AFTER `caseBegDate` ;
 ''',
