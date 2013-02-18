@@ -23,13 +23,13 @@ u'''
 ALTER TABLE `rbRequestType` CHANGE COLUMN `code` `code` VARCHAR(16) NOT NULL COMMENT 'Код'  ;
 ''',
 u'''
-UPDATE `rbRequestType` SET `code`='clinic' WHERE `id`='1';
+UPDATE `rbRequestType` SET `code`='clinic' WHERE `code`='1';
 ''',
 u'''
-UPDATE `rbRequestType` SET `code`='hospital' WHERE `id`='2';
+UPDATE `rbRequestType` SET `code`='hospital' WHERE `code`='2';
 ''',
 u'''
-UPDATE `rbRequestType` SET `code`='policlinic' WHERE `id`='3';
+UPDATE `rbRequestType` SET `code`='policlinic' WHERE `code`='3';
 ''',
 u'''
 UPDATE `EventType` SET `canHavePayableActions`='1' WHERE `code`='02';
@@ -52,118 +52,182 @@ UPDATE `ActionType` SET `code`='4511' WHERE `code`='4504' and name="Промеж
 # Выписка
 
 u'''
-UPDATE `ActionPropertyType` SET `code`='resort' WHERE `actionType_id`=118 and name="Рекомендовано санаторно-курортное лечение в санатории:";
+UPDATE `ActionPropertyType` SET `code`='resort' 
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4203' and deleted='0')
+and name="Рекомендовано санаторно-курортное лечение в санатории:";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='hospLength' WHERE `actionType_id`=118 and name="Продолжительность госпитализации";
+UPDATE `ActionPropertyType` SET `code`='hospLength'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4203' and deleted='0')
+and name="Продолжительность госпитализации";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='nextHospDate' WHERE `actionType_id`=118 and name="Дата следующей госпитализации(в текущем году)";
+UPDATE `ActionPropertyType` SET `code`='nextHospDate'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4203' and deleted='0')
+and name="Дата следующей госпитализации(в текущем году)";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='hospOrgStruct' WHERE `actionType_id`=118 and name="Отделение госпитализации";
+UPDATE `ActionPropertyType` SET `code`='hospOrgStruct'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4203' and deleted='0')
+and name="Отделение госпитализации";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='nextHospFinance' WHERE `actionType_id`=118 and name="Источник финансирования следующей госпитализации";
+UPDATE `ActionPropertyType` SET `code`='nextHospFinance'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4203' and deleted='0')
+and name="Источник финансирования следующей госпитализации";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='hospOutcome' WHERE `actionType_id`=118 and name="Исход госпитализации";
+UPDATE `ActionPropertyType` SET `code`='hospOutcome'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4203' and deleted='0')
+and name="Исход госпитализации";
 ''',
 
 # Поступление
 
 u'''
-UPDATE `ActionPropertyType` SET `code`='diagReceived' WHERE `actionType_id`=112 and name="Диагноз направившего учреждения";
+UPDATE `ActionPropertyType` SET `code`='diagReceived'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4201' and deleted='0')
+and name="Диагноз направившего учреждения";
 ''',
 
 # Движение
 
 u'''
-UPDATE `ActionPropertyType` SET `code`='timeLeaved' WHERE `actionType_id`=113 and name="Время выбытия";
+UPDATE `ActionPropertyType` SET `code`='timeLeaved'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4202' and deleted='0')
+and name="Время выбытия";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='orgStructTransfer' WHERE `actionType_id`=113 and name="Переведен в отделение";
+UPDATE `ActionPropertyType` SET `code`='orgStructTransfer'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4202' and deleted='0')
+and name="Переведен в отделение";
 ''',
 
 # Первичные осмотры
 
 u'''
-UPDATE `ActionPropertyType` SET `code`='mainDiag' WHERE `actionType_id` in (select id from ActionType where group_id=28 and deleted=0) and name="Основной клинический диагноз";
+UPDATE `ActionPropertyType` SET `code`='mainDiag' WHERE `actionType_id` in 
+(select id from ActionType where group_id=(select id from ActionType where code='1_1' and deleted='0') and deleted=0)
+and name="Основной клинический диагноз";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='mainDiag' WHERE `actionType_id`=139 and name="Клиническое описание";
+UPDATE `ActionPropertyType` SET `code`='mainDiag'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_1_01' and deleted='0')
+and name="Клиническое описание";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='mainDiag' WHERE `actionType_id`=2456 and name="Клиническое описание диагноза";
+UPDATE `ActionPropertyType` SET `code`='mainDiag'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_1_02' and deleted='0')
+and name="Клиническое описание диагноза";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='assocDiag' WHERE `actionType_id` in (select id from ActionType where group_id=28 and deleted=0) and name="Сопутствующие диагнозы";
+UPDATE `ActionPropertyType` SET `code`='assocDiag' WHERE `actionType_id` in 
+(select id from ActionType where group_id=(select id from ActionType where code='1_1' and deleted='0') and deleted=0)
+and name="Сопутствующие диагнозы";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='diagCompl' WHERE `actionType_id` in (select id from ActionType where group_id=28 and deleted=0) and name="Осложнения";
+UPDATE `ActionPropertyType` SET `code`='diagCompl' WHERE `actionType_id`in
+(select id from ActionType where group_id=(select id from ActionType where code='1_1' and deleted='0') and deleted=0)
+and name="Осложнения";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='preHospDefect' WHERE `actionType_id` in (select id from ActionType where group_id=28 and deleted=0) and name="Дефекты догоспитального этапа";
+UPDATE `ActionPropertyType` SET `code`='preHospDefect' WHERE `actionType_id` in
+(select id from ActionType where group_id=(select id from ActionType where code='1_1' and deleted='0') and deleted=0)
+and name="Дефекты догоспитального этапа";
 ''',
 
 # Эпикризы
 
 u'''
-UPDATE `ActionPropertyType` SET `code`='mainDiag' WHERE `actionType_id` in (select id from ActionType where group_id=128 and deleted=0) and name="Основной клинический диагноз";
+UPDATE `ActionPropertyType` SET `code`='mainDiag' WHERE `actionType_id` in
+(select id from ActionType where group_id=(select id from ActionType where code='4500' and deleted='0') and deleted=0)
+and name="Основной клинический диагноз";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='mainDiagMkb' WHERE `actionType_id` in (select id from ActionType where group_id=128 and deleted=0) and name="Основной клинический диагноз по МКБ";
+UPDATE `ActionPropertyType` SET `code`='mainDiagMkb' WHERE `actionType_id` in
+(select id from ActionType where group_id=(select id from ActionType where code='4500' and deleted='0') and deleted=0)
+and name="Основной клинический диагноз по МКБ";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='diagCompl' WHERE `actionType_id` in (select id from ActionType where group_id=128 and deleted=0) and name="Осложнения";
+UPDATE `ActionPropertyType` SET `code`='diagCompl' WHERE `actionType_id` in
+(select id from ActionType where group_id=(select id from ActionType where code='4500' and deleted='0') and deleted=0)
+and name="Осложнения";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='diagComplMkb' WHERE `actionType_id` in (select id from ActionType where group_id=128 and deleted=0) and name="Осложнения по МКБ";
+UPDATE `ActionPropertyType` SET `code`='diagComplMkb' WHERE `actionType_id` in
+(select id from ActionType where group_id=(select id from ActionType where code='4500' and deleted='0') and deleted=0)
+and name="Осложнения по МКБ";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='assocDiag' WHERE `actionType_id` in (select id from ActionType where group_id=128 and deleted=0) and name="Сопутствующие диагнозы";
+UPDATE `ActionPropertyType` SET `code`='assocDiag' WHERE `actionType_id` in
+(select id from ActionType where group_id=(select id from ActionType where code='4500' and deleted='0') and deleted=0)
+and name="Сопутствующие диагнозы";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='assocDiagMkb' WHERE `actionType_id` in (select id from ActionType where group_id=128 and deleted=0) and name="Сопутствующие диагнозы по МКБ";
+UPDATE `ActionPropertyType` SET `code`='assocDiagMkb' WHERE `actionType_id` in
+(select id from ActionType where group_id=(select id from ActionType where code='4500' and deleted='0') and deleted=0)
+and name="Сопутствующие диагнозы по МКБ";
 ''',
 
 # Протокол (карта) патологоанатомического исследования
 u'''
-UPDATE `ActionPropertyType` SET `code`='mainDiagPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Основное заболевание.";
+UPDATE `ActionPropertyType` SET `code`='mainDiagPat'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_9_02' and deleted='0')
+and name="Патологоанатомический диагноз. Основное заболевание.";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='mainDiagMkbPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Основное заболевание по МКБ.";
+UPDATE `ActionPropertyType` SET `code`='mainDiagMkbPat'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_9_02' and deleted='0')
+and name="Патологоанатомический диагноз. Основное заболевание по МКБ.";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='complDiagPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Осложнения.";
+UPDATE `ActionPropertyType` SET `code`='complDiagPat'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_9_02' and deleted='0')
+and name="Патологоанатомический диагноз. Осложнения.";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='complDiagMkbPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Осложнения по МКБ.";
+UPDATE `ActionPropertyType` SET `code`='complDi1_1_01agMkbPat'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_9_02' and deleted='0')
+and name="Патологоанатомический диагноз. Осложнения по МКБ.";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='assocDiagPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Сопутствующие заболевания.";
+UPDATE `ActionPropertyType` SET `code`='assocDiagPat'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_9_02' and deleted='0')
+and name="Патологоанатомический диагноз. Сопутствующие заболевания.";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='assocDiagMkbPat' WHERE `actionType_id`=3660 and name="Патологоанатомический диагноз. Сопутствующие заболевания по МКБ.";
+UPDATE `ActionPropertyType` SET `code`='assocDiagMkbPat'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_9_02' and deleted='0')
+and name="Патологоанатомический диагноз. Сопутствующие заболевания по МКБ.";
 ''',
 
 # Посмертный эпикриз
 u'''
-UPDATE `ActionPropertyType` SET `code`='mainReasonOD' WHERE `actionType_id`=567 and name="Основная причина смерти";
+UPDATE `ActionPropertyType` SET `code`='mainReasonOD'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4507' and deleted='0')
+and name="Основная причина смерти";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='mainReasonODMkb' WHERE `actionType_id`=567 and name="Код МКБ";
+UPDATE `ActionPropertyType` SET `code`='mainReasonODMkb'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='4507' and deleted='0')
+and name="Код МКБ";
 ''',
 
 # Документы и извещения
 u'''
-UPDATE `ActionPropertyType` SET `code`='tumorStage' WHERE `actionType_id`=3577 and name="Стадия опухолевого процесса";
+UPDATE `ActionPropertyType` SET `code`='tumorStage'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_8_5' and deleted='0')
+and name="Стадия опухолевого процесса";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='tumorStage' WHERE `actionType_id`=1507 and name="Стадия опухолевого процесса";
+UPDATE `ActionPropertyType` SET `code`='tumorStage'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_7_1' and deleted='0')
+and name="Стадия опухолевого процесса";
 ''',
 u'''
-UPDATE `ActionPropertyType` SET `code`='tumorStage' WHERE `actionType_id`=1500 and name="Стадия опухолевого процесса";
+UPDATE `ActionPropertyType` SET `code`='tumorStage'
+WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_7_2' and deleted='0')
+and name="Стадия опухолевого процесса";
 ''',
 
 u'''
@@ -175,16 +239,15 @@ user_queries = \
 
 def upgrade(conn):
     global config    
+    c = conn.cursor()
     
     for query in simple_queries:
-        c = conn.cursor()
         c.execute(query)
-        c.close()
 
     for query in user_queries:
-        c = conn.cursor()
         c.execute(query % (config['username'], config['host']))
-        c.close()
+    
+    c.close()
 
 def downgrade(conn):
     pass

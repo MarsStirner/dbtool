@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
-import sys
-sys.path.append(sys.path[0] + "/updates")
-from db004 import query 
 
 __doc__ = '''\
 - Изменения, необходимые для интеграции с системой ТРФУ. Запрос на выдачу КК.
@@ -120,20 +117,18 @@ VALUES
  )
 
 def upgrade(conn):
-    global config        
-    for q in simple_queries:
-        c = conn.cursor()
-        c.execute(q)
-        c.close()
-        
-    actionType_id = query(conn, actiontype_id_query);
-
-    for q in simple_queries_ActionPropertyType:
-        c = conn.cursor()
-        c.execute(q % actionType_id[0])
-        c.close()
-
+    global config
     c = conn.cursor()
+         
+    for q in simple_queries:
+        c.execute(q)
+    
+    c.execute(actiontype_id_query)
+    actionType_id = c.fetchall()
+       
+    for q in simple_queries_ActionPropertyType:
+        c.execute(q % actionType_id[0])
+
     c.execute(u'''ALTER TABLE `rbBloodComponentType` CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT FIRST''')
     c.close()
 

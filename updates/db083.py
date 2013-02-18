@@ -87,9 +87,9 @@ VALUES ('Порядок направления', 'Порядок направл�
         u"name='Обоснование направления' and deleted=0 and actionType_id=%s" % AT_id)
     if not prop_id:
         sql = u'''
-INSERT INTO ActionPropertyType(`name`, `descr`, `typeName`, `penalty`, `actionType_id`, `idx`,
+INSERT INTO ActionPropertyType(`name`, `descr`, `typeName`, `valueDomain`, `penalty`, `actionType_id`, `idx`,
 `defaultValue`, `norm`, `sex`, `age`) 
-VALUES ('Обоснование направления', 'Обоснование', 'Text', 0, %s, 2, '', '', 0, '')
+VALUES ('Обоснование направления', 'Обоснование', 'Text', '', 0, %s, 2, '', '', 0, '')
 ''' % AT_id
         c.execute(sql)
 
@@ -97,9 +97,9 @@ VALUES ('Обоснование направления', 'Обоснование
         u"name='Данные результатов обследования' and deleted=0 and actionType_id=%s" % AT_id)
     if not prop_id:
         sql = u'''
-INSERT INTO ActionPropertyType(`name`, `descr`, `typeName`, `penalty`, `actionType_id`, `idx`,
+INSERT INTO ActionPropertyType(`name`, `descr`, `typeName`, `valueDomain`, `penalty`, `actionType_id`, `idx`,
 `defaultValue`, `norm`, `sex`, `age`) 
-VALUES ('Данные результатов обследования', 'Данные результатов обследования', 'Text', 0, %s, 3, '', '', 0, '')
+VALUES ('Данные результатов обследования', 'Данные результатов обследования', 'Text', '', 0, %s, 3, '', '', 0, '')
 ''' % AT_id
         c.execute(sql)
         
@@ -107,11 +107,13 @@ VALUES ('Данные результатов обследования', 'Дан�
         u"name='Время приема' and deleted=0 and actionType_id=%s" % AT_id)
     if not prop_id:
         sql = u'''
-INSERT INTO ActionPropertyType(`name`, `descr`, `typeName`, `penalty`, `actionType_id`, `idx`,
+INSERT INTO ActionPropertyType(`name`, `descr`, `typeName`, `valueDomain`, `penalty`, `actionType_id`, `idx`,
 `defaultValue`, `norm`, `sex`, `age`)
- VALUES ('Время приема', 'Время приема', 'Запись в др. ЛПУ', 0, %s, 4, '', '', 0, '')
+ VALUES ('Время приема', 'Время приема', 'Запись в др. ЛПУ', '', 0, %s, 4, '', '', 0, '')
 ''' % AT_id
         c.execute(sql)
+        
+    c.close()
 
 
 def downgrade(conn):
