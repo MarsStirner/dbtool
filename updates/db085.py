@@ -49,7 +49,7 @@ u'''CREATE TABLE IF NOT EXISTS `trfuLaboratoryMeasure` (
     `afterOperation` VARCHAR(255) NULL COMMENT 'лабораторные измерения после процедуры',
     PRIMARY KEY (`id`),
     CONSTRAINT `FK_trfuLaboratoryMeasure_rbTrfuLaboratoryMeasureTypes` FOREIGN KEY (`trfu_lab_measure_id`) REFERENCES `rbTrfuLaboratoryMeasureTypes` (`id`),
-    CONSTRAINT `FK_trfuLaboratoryMeasure_Action` FOREIGN KEY (`action_id`) REFERENCES `action` (`id`)
+    CONSTRAINT `FK_trfuLaboratoryMeasure_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`)
 ) 
 COMMENT 'Результаты лабораторных измерений для процедур ТРФУ'
 ENGINE=InnoDB
@@ -65,7 +65,7 @@ u'''CREATE TABLE IF NOT EXISTS `trfuFinalVolume` (
     `anticoagulantInCollect` DOUBLE NULL COMMENT 'AC в collect',
     `anticoagulantInPlasma` DOUBLE NULL COMMENT 'AC в plasma',
     PRIMARY KEY (`id`),
-    CONSTRAINT `FK_trfuFinalVolume_Action` FOREIGN KEY (`action_id`) REFERENCES `action` (`id`)
+    CONSTRAINT `FK_trfuFinalVolume_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`)
 ) 
 COMMENT 'Финальные объемы (для процедур ТРФУ)'
 ENGINE=InnoDB
