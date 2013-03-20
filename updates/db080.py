@@ -32,10 +32,6 @@ SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema=DATABASE() a
         print("Changing Engine for table", table)
         sql = u'''ALTER TABLE %s ENGINE=InnoDB;''' % table
         c.execute(sql)
-    table = "Meta"
-    print("Changing Engine for table", table)
-    sql = u'''ALTER TABLE %s ENGINE=InnoDB;''' % table
-    c.execute(sql)
     
     
 def downgrade(conn):
