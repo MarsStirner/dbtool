@@ -34,9 +34,6 @@ UPDATE `rbRequestType` SET `code`='policlinic' WHERE `code`='3';
 u'''
 UPDATE `EventType` SET `canHavePayableActions`='1' WHERE `code`='02';
 ''',
-#u'''
-#ALTER TABLE `ActionPropertyType` ADD COLUMN `code` VARCHAR(25) NULL  AFTER `toEpicrisis` ;
-#''',
 u'''
 ALTER TABLE `TempInvalid` ADD COLUMN `event_id` INT(11) NULL DEFAULT NULL  AFTER `caseBegDate` ;
 ''',
@@ -240,6 +237,12 @@ user_queries = \
 def upgrade(conn):
     global config    
     c = conn.cursor()
+    try:
+        sql = u'''ALTER TABLE `ActionPropertyType` ADD COLUMN `code` VARCHAR(25) NULL  AFTER `toEpicrisis` ;'''
+        c.execute(sql)
+    except:
+        # Уже есть, благодаря неким бравым ребятам?
+        pass
     
     for query in simple_queries:
         c.execute(query)
