@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
+from MySQLdb import OperationalError
 
 __doc__ = '''\
 - Потерянные столбцы из функционала 6098
@@ -16,12 +17,24 @@ def upgrade(conn):
     sql = u'''
 ALTER TABLE `Action` ADD `pacientInQueueType` TINYINT DEFAULT 0 AFTER `hospitalUidFrom`;
 '''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
 
     sql = u'''
 ALTER TABLE `Person` ADD `maxOverQueue` TINYINT DEFAULT 0 AFTER `typeTimeLinePerson`;
 '''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
     
     sql = u'''
 CREATE TABLE `ActionType_EventType_check` (

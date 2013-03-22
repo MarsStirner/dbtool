@@ -84,9 +84,9 @@ SELECT `id`, `age` FROM {tableName}
     struct_ages = []
     c.execute(sql.format(tableName=tblName))
     for r in c.fetchall():
-	print(r)
+	#print(r)
 	struct_ages.append((r[0], parseAgeSelectorInt(r[1])))
-	print(parseAgeSelectorInt(r[1]))
+	#print(parseAgeSelectorInt(r[1]))
 
     sql = '''\
 UPDATE {tableName} SET `age_bu` = {a_bu},

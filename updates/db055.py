@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
+from MySQLdb import OperationalError
 
 __doc__ = '''\
 - Коллекция необходимых изменений для ЗНР по ВМП
@@ -23,7 +24,10 @@ CREATE TABLE IF NOT EXISTS `rbPacientModel` (
 COMMENT='Модели пациента'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
-
+'''
+    c.execute(sql)
+    
+    sql = u'''
 CREATE TABLE IF NOT EXISTS `rbTreatment` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `code` VARCHAR(32) NOT NULL COMMENT 'код',
@@ -35,12 +39,30 @@ CREATE TABLE IF NOT EXISTS `rbTreatment` (
 COMMENT='Методы лечения'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
-
+'''
+    c.execute(sql)
+    
+    sql = u'''
 ALTER TABLE `Client_Quoting` ADD `pacientModel_id` INT(11)  NOT NULL COMMENT 'ref to {rbPacientModel}' AFTER `regionCode`;
+'''
+    c.execute(sql)
+    
+    sql = u'''    
 ALTER TABLE `Client_Quoting` ADD `treatment_id`    INT(11)  NOT NULL COMMENT 'ref to {rbTreatment}'  AFTER `pacientModel_id`;
+'''
+    c.execute(sql)
+    
+    sql = u'''
 ALTER TABLE `QuotaType` ADD COLUMN `MKB` VARCHAR(8) NOT NULL AFTER `name`;
+'''
+    c.execute(sql)
+    
+    sql = u'''
 ALTER TABLE `Quoting` ADD COLUMN `teenOlder` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Для пациентов старше 18 лет' AFTER `inQueue`;
-
+'''
+    c.execute(sql)
+    
+    sql = u'''
 CREATE TABLE IF NOT EXISTS `LastChanges` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `table` VARCHAR(32) NOT NULL COMMENT 'название таблицы',
@@ -51,14 +73,30 @@ CREATE TABLE IF NOT EXISTS `LastChanges` (
 COMMENT='Хранит изменения таблицы { table }'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
-
+'''
+    c.execute(sql)
+    
+    sql = u'''
 ALTER TABLE `QuotaType` ADD COLUMN `teenOlder` TINYINT(1) NOT NULL COMMENT "Для пациентов старше 18 лет" AFTER `MKB`;
+'''
+    c.execute(sql)
+    
+    sql = u'''
 ALTER TABLE `Quoting` DROP COLUMN `teenOlder`;
-
+'''
+    c.execute(sql)
+    
+    sql = u'''
 ALTER TABLE `Client_Quoting`
 ADD COLUMN `event_id` INT(11) NULL DEFAULT NULL COMMENT 'ref to {Event}' AFTER `treatment_id`;
 '''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
 
 
 def downgrade(conn):

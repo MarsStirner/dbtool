@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
+from MySQLdb import OperationalError
 
 __doc__ = '''\
 - Интеграция с ТФОМС
@@ -145,11 +146,15 @@ COLLATE='utf8_unicode_ci' ENGINE=InnoDB COMMENT='Значение свойств
 
 def upgrade(conn):
     global config    
-    
+    c = conn.cursor()
     for query in simple_queries:
-        c = conn.cursor()
-        c.execute(query)
-        c.close()
+        try:
+            c.execute(query)
+        except OperationalError as e:
+            if 'Duplicate column name' in unicode(e):
+                pass
+            else:
+                raise
     
     
 def downgrade(conn):

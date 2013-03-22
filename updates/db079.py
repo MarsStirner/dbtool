@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
+from MySQLdb import OperationalError
 
 __doc__ = '''\
 - Добавление полей в таблицы Action и ActionType (Веб-клиент)
@@ -17,8 +18,11 @@ def upgrade(conn):
     ALTER TABLE Action ADD COLUMN toOrder TINYINT(1) NULL COMMENT 'Дозаказ в лабораторию'  AFTER version;'''
     try:
         c.execute(sql)
-    except:
-        print("Column ToORDER already exists.")
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
     
 
     #TODO: заполнение поля mnem 

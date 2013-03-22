@@ -4,7 +4,8 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-- Коллекция необходимых изменений для ЗНР по ВМП
+- Добавлены триггеры на удаление (deleted=1) экшенов при удалении ивента
+- Добавлены таблицы для работы со специальными переменными
 '''
 
 
@@ -110,7 +111,7 @@ ENGINE=InnoDB;
     c.execute(sql)
 
     sql = u'''
-CREATE TABLE `rbSpecialVariablesPreferences` (
+CREATE TABLE IF NOT EXISTS `rbSpecialVariablesPreferences` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `name` varchar(64) NOT NULL COMMENT 'название',
 `query` text NOT NULL COMMENT 'запрос',
@@ -119,7 +120,7 @@ PRIMARY KEY (`id`)
 '''
     c.execute(sql)
 
-    sql = u'''CREATE TABLE `VariablesforSQL` (
+    sql = u'''CREATE TABLE IF NOT EXISTS `VariablesforSQL` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `specialVarName_id` int(11) NOT NULL COMMENT 'имя специальной переменной',
 `name` varchar(64) NOT NULL COMMENT 'наименование',

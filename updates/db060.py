@@ -4,9 +4,8 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-- Коллекция необходимых изменений для ЗНР по ВМП
+- Исправление для справочника показателей исследований
 '''
-
 
 def upgrade(conn):
     c = conn.cursor()

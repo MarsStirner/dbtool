@@ -2,27 +2,39 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
+from MySQLdb import OperationalError
 
 __doc__ = '''\
-- Коллекция необходимых изменений для ЗНР по ВМП
+- Добавление таблиц из 6098
+- Изменения таблиц из 6098
+- Дополнительные изменения для ЗНР по ВМП
 '''
 
 
 def upgrade(conn):
+    c = conn.cursor()
+    
     sql = u'''
 ALTER TABLE `rbMedicalAidUnit` ADD COLUMN `regionalCode` VARCHAR(1) NOT NULL AFTER `descr`;
-
-
+'''
+    try:
+        c.execute(sql)
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
+    
+    sql = u'''
 ALTER TABLE `rbTempInvalidDocument`
 ADD COLUMN `checkingSerial` ENUM('нет', 'мягко', 'жестко') NOT NULL COMMENT 'контроль серии' AFTER `name`,
 ADD COLUMN `checkingNumber` ENUM('нет', 'мягко', 'жестко') NOT NULL COMMENT 'контроль номера' AFTER `checkingSerial`,
 ADD COLUMN `checkingAmount` ENUM('нет', 'списание') NOT NULL COMMENT 'контроль количества' AFTER `checkingNumber`;
 '''
-    c = conn.cursor()
     c.execute(sql)
-	
+
     sql = u'''
-CREATE TABLE `rbBlankActions` (
+CREATE TABLE IF NOT EXISTS `rbBlankActions` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `doctype_id` INT(11) NOT NULL,
     `code` VARCHAR(16) NOT NULL,
@@ -36,11 +48,10 @@ CREATE TABLE `rbBlankActions` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 '''
-    c = conn.cursor()
     c.execute(sql)
 
     sql = u'''
-CREATE TABLE `rbBlankTempInvalids` (
+CREATE TABLE IF NOT EXISTS `rbBlankTempInvalids` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `doctype_id` INT(11) NOT NULL,
     `code` VARCHAR(16) NOT NULL,
@@ -53,9 +64,11 @@ CREATE TABLE `rbBlankTempInvalids` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
-
-
-CREATE TABLE `BlankTempInvalid_Party` (
+'''
+    c.execute(sql)
+    
+    sql = u'''
+CREATE TABLE IF NOT EXISTS `BlankTempInvalid_Party` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `createDatetime` DATETIME NOT NULL,
     `createPerson_id` INT(11) NULL DEFAULT NULL,
@@ -86,11 +99,10 @@ CREATE TABLE `BlankTempInvalid_Party` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 '''
-    c = conn.cursor()
     c.execute(sql)
-	
+
     sql = u'''
-CREATE TABLE `BlankTempInvalid_Moving` (
+CREATE TABLE IF NOT EXISTS `BlankTempInvalid_Moving` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `createDatetime` DATETIME NOT NULL,
     `createPerson_id` INT(11) NULL DEFAULT NULL,
@@ -120,8 +132,11 @@ CREATE TABLE `BlankTempInvalid_Moving` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
-
-CREATE TABLE `BlankActions_Party` (
+'''
+    c.execute(sql)
+    
+    sql = u'''
+CREATE TABLE IF NOT EXISTS `BlankActions_Party` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `createDatetime` DATETIME NOT NULL,
     `createPerson_id` INT(11) NULL DEFAULT NULL,
@@ -152,12 +167,10 @@ CREATE TABLE `BlankActions_Party` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 '''
-
-    c = conn.cursor()
     c.execute(sql)
-	
+
     sql = u'''
-CREATE TABLE `BlankActions_Moving` (
+CREATE TABLE IF NOT EXISTS `BlankActions_Moving` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `createDatetime` DATETIME NOT NULL,
     `createPerson_id` INT(11) NULL DEFAULT NULL,
@@ -187,8 +200,10 @@ CREATE TABLE `BlankActions_Moving` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
-
-
+'''
+    c.execute(sql)
+    
+    sql = u'''
 CREATE TABLE `MKB_QuotaType_PacientModel` (
 `id` INT(11) NOT NULL AUTO_INCREMENT,   
 `MKB_id` INT(11) NOT NULL COMMENT 'ref to {MKB}',
@@ -199,12 +214,19 @@ PRIMARY KEY (`id`)
 COMMENT='Связь таблиц для талонов ВМП'
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
-
-
+'''
+    c.execute(sql)
+    
+    sql = u'''
 ALTER TABLE `Action` ADD `hospitalUidFrom` VARCHAR(128)  NOT NULL  DEFAULT '0'  AFTER `coordText`;
 '''
-    c = conn.cursor()
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
 
 
 def downgrade(conn):

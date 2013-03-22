@@ -44,11 +44,15 @@ DELETE FROM EventType_Action WHERE id IN (1184, 1185)
 '''
 
 def upgrade(conn):
-    for sql in [sqlInsert1, sqlInsert2]:
-	execute(conn, sql)
+    # Отключено по причине бессмысленного манипулирования id-шниками    
+    
+#    for sql in [sqlInsert1, sqlInsert2]:
+#        execute(conn, sql)
+    pass
 
 def downgrade(conn):
-    execute(conn, sqlDelete)
+#    execute(conn, sqlDelete)
+    pass
     
 
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
-import re
+from MySQLdb import OperationalError
 
 __doc__ = '''\
 Полная интеграция НТК и ВебМис
@@ -292,7 +292,13 @@ CREATE TABLE `rbCoreActionProperty` (
 ALTER TABLE `Client` ADD COLUMN `birthPlace` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_general_ci
 NOT NULL DEFAULT '' COMMENT 'Место рождения';
 '''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
     
     sql = u'''
 ALTER TABLE `ClientDocument` ADD COLUMN `endDate` DATE NOT NULL COMMENT 'Срок окончания действия документа';

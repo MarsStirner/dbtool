@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
+from MySQLdb import OperationalError
 
 __doc__ = '''\
 - Неоходимые изменения для работы ВМП
@@ -42,7 +43,13 @@ CREATE OR REPLACE ALGORITHM=UNDEFINED DEFINER=`%s`@`%s` SQL SECURITY DEFINER VIE
     sql = u'''
 ALTER TABLE `Person` ADD `maxCito` TINYINT DEFAULT 0 AFTER `maxOverQueue`;
 '''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
     
     sql = u'''
 CREATE TABLE IF NOT EXISTS QuotingByTime (
@@ -70,7 +77,7 @@ ENGINE=InnoDB;
     c.execute(sql)
     
     sql = u'''
-INSERT INTO `rbTimeQuotingType` (
+INSERT IGNORE INTO `rbTimeQuotingType` (
     `code`, `name` )
 values
     (1, "Запись из регистратуры"),
@@ -92,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `rbTransferDateType` (
     c.execute(sql)
     
     sql = u'''
-INSERT INTO `rbTransferDateType` (
+INSERT IGNORE INTO `rbTransferDateType` (
     `code`, `name` )
 values
     (1, "В день приема"),
@@ -119,12 +126,24 @@ CREATE TABLE IF NOT EXISTS `CouponsTransferQuotes` (
     sql = u'''
 ALTER TABLE `Person` ADD `quotUnit` TINYINT DEFAULT 0 AFTER `maxCito`;
 '''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
     
     sql = u'''
 ALTER TABLE `rbSpeciality` ADD COLUMN `quotingEnabled` TINYINT(1) UNSIGNED ZEROFILL NULL DEFAULT '0' COMMENT 'Если флажок установлен – при записи к врачам выбранной специальности из других ЛПУ учитываются квоты, определенные для этих ЛПУ на данной форме.' AFTER `regionalCode`;
 '''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
     
     sql = u'''
 CREATE TABLE IF NOT EXISTS `QuotingBySpeciality` (

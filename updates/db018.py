@@ -7,8 +7,7 @@ __doc__ = '''\
 Изменение шаблона печати "Графическое отображение показателей больного"
 '''
 
-# быдлокод, магические числа
-id = 136
+where = 'code="22" and name like "%Результат исследован%" and context="action21"'
 
 
 def upgrade(conn):
@@ -72,8 +71,8 @@ SET rbPrintTemplate.default = "<html>
 {end:}
 </body>
 </html>"
-WHERE id=%d
-    ''' %id
+WHERE %s
+    ''' % where
     ]
     # Исполнение 
     c = conn.cursor()
