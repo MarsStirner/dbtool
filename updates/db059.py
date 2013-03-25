@@ -26,6 +26,22 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 '''
     c.execute(sql)
+    
+    sql = u'''INSERT IGNORE INTO `rbQuotaStatus` (`id`,`code`,`name`) VALUES (%s, %s, %s);'''
+    data = [(1,'1',u'Отменено'),
+            (2,'2',u'Ожидание'),
+            (3,'3',u'Активный талон'),
+            (4,'4',u'Талон для заполнения'),
+            (5,'5',u'Заблокированный талон'),
+            (6,'6',u'Отказано'),
+            (7,'7',u'Необходимо согласовать дату обслуживания'),
+            (8,'8',u'Дата обслуживания на согласовании'),
+            (9,'9',u'Дата обслуживания согласована'),
+            (10,'10',u'Пролечен'),
+            (11,'11',u'Обслуживание отложено'),
+            (12,'12',u'Отказ пациента'),
+            (13,'13',u'Импортировано из ВТМП')]
+    c.executemany(sql, data)
 
     sql = u'''
 CREATE ALGORITHM = UNDEFINED DEFINER=`%s`@`%s` SQL SECURITY DEFINER VIEW `vClient_Quoting_sub` AS select distinct c1.* 

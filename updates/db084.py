@@ -31,17 +31,16 @@ replacements = (
 
 def upgrade(conn):
     global config
-
+    c = conn.cursor()
+    
     print (u"Установка кодов для свойств действий...")
+    c.execute(u"SET SQL_SAFE_UPDATES=0;")
     for rep in replacements:
         query = query_template % rep
-        try:
-            c = conn.cursor()
-            c.execute(query)
-            if c.rowcount < 1:
-                print (u'Не удалось установить код "%s" для свойства "%s" типа действия "%s". Требуется ручное вмешательство.' % rep)
-        finally:
-            c.close()
+        c.execute(query)
+        if c.rowcount < 1:
+            print (u'Не удалось установить код "%s" для свойства "%s" типа действия "%s". Требуется ручное вмешательство.' % rep)
+    c.execute(u"SET SQL_SAFE_UPDATES=1;")
 
 
 def downgrade(conn):

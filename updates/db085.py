@@ -98,6 +98,7 @@ VALUES
 def upgrade(conn):
     global config        
     c = conn.cursor()
+    c.execute(u"SET SQL_SAFE_UPDATES=0;")
     for q in simple_queries:
         try: 
             c.execute(q)
@@ -106,10 +107,9 @@ def upgrade(conn):
             
     c.execute(actiontype_id_query)
     actionType_id = c.fetchall()
-    
     c.execute(blood_comp_pasport % actionType_id[0])
             
-    c.close()
+    c.execute(u"SET SQL_SAFE_UPDATES=1;")
 
 
 def downgrade(conn):

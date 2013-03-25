@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
+from MySQLdb import OperationalError
 
 __doc__ = '''\
 - Изменения, необходимые для работы закрытия обращения
@@ -237,12 +238,14 @@ user_queries = \
 def upgrade(conn):
     global config    
     c = conn.cursor()
+    sql = u'''ALTER TABLE `ActionPropertyType` ADD COLUMN `code` VARCHAR(25) NULL  AFTER `toEpicrisis` ;'''
     try:
-        sql = u'''ALTER TABLE `ActionPropertyType` ADD COLUMN `code` VARCHAR(25) NULL  AFTER `toEpicrisis` ;'''
         c.execute(sql)
-    except:
-        # Уже есть, благодаря неким бравым ребятам?
-        pass
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
     
     for query in simple_queries:
         c.execute(query)
