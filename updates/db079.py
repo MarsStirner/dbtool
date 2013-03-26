@@ -19,9 +19,13 @@ def upgrade(conn):
             print('''Column 'mnem' already exists.''')
     
     # Записываем мнемоники для лабраторных исследований
-    labId = input('''Please, input parent ID for laboratory (by default it's 782): ''')
-    setMnem(labId, conn)
+    c.execute(u'''SELECT * FROM hospital_devel.ActionType where name = "ЛАБОРАТОРНЫЕ ИССЛЕДОВАНИЯ";''')
+    rows = c.fetchall()
     
+    if len(rows) > 0:
+        for row in rows:
+            setMnem(row[0], conn)
+        
   
 def setMnem(recordId, conn):
     c = conn.cursor()

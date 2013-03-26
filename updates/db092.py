@@ -11,11 +11,14 @@ __doc__ = '''\
 
 def upgrade(conn):
     global config    
-       
-    labId = input('''Please, input parent ID for laboratory (by default it's 782): ''')
-    addProperty(labId, conn)
+    c = conn.cursor() 
+    c.execute(u'''SELECT * FROM hospital_devel.ActionType where name = "ЛАБОРАТОРНЫЕ ИССЛЕДОВАНИЯ";''')
+    rows = c.fetchall()
     
-  
+    if len(rows) > 0:
+        for row in rows:
+            addProperty(row[0], conn)
+   
 def addProperty(recordId, conn):
     c = conn.cursor()
     c.execute(u'''SELECT * FROM ActionType where group_id="%s" and deleted=0''', recordId)
