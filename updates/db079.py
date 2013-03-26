@@ -19,7 +19,7 @@ def upgrade(conn):
             print('''Column 'mnem' already exists.''')
     
     # Записываем мнемоники для лабраторных исследований
-    c.execute(u'''SELECT * FROM hospital_devel.ActionType where name = "ЛАБОРАТОРНЫЕ ИССЛЕДОВАНИЯ";''')
+    c.execute(u'''SELECT * FROM ActionType where name = "ЛАБОРАТОРНЫЕ ИССЛЕДОВАНИЯ";''')
     rows = c.fetchall()
     
     if len(rows) > 0:
