@@ -4,7 +4,7 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-- http://helpdesk.korusconsulting.ru/browse/MIS-308 - решение гонок при создании новой записи в журнале забора БМ
+- Таблица для хранения фона главного окна ТК
 '''
 
 
