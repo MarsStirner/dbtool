@@ -12,7 +12,7 @@ __doc__ = '''\
 def upgrade(conn):
     global config    
     c = conn.cursor() 
-    c.execute(u'''SELECT * FROM hospital_devel.ActionType where name = "ЛАБОРАТОРНЫЕ ИССЛЕДОВАНИЯ";''')
+    c.execute(u'''SELECT * FROM ActionType where name = "ЛАБОРАТОРНЫЕ ИССЛЕДОВАНИЯ";''')
     rows = c.fetchall()
     
     if len(rows) > 0:
