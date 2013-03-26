@@ -14,7 +14,7 @@ def upgrade(conn):
 
     sqls = [
             u"""
-CREATE DEFINER=DEFINER = `%s`@`%s` TRIGGER `TTJ_INSERT` BEFORE INSERT ON `TakenTissueJournal` FOR EACH ROW BEGIN
+CREATE DEFINER = `%s`@`%s` TRIGGER `TTJ_INSERT` BEFORE INSERT ON `TakenTissueJournal` FOR EACH ROW BEGIN
     DECLARE n_period INT;
     DECLARE n_barcode INT;
     IF NEW.barcode = NULL OR NEW.period = NULL THEN
