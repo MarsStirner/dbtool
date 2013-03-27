@@ -10,7 +10,7 @@ def upgrade(conn):
     global config
     c = conn.cursor()
     sql = u'''
-CREATE TABLE `rbUFMS` (
+CREATE TABLE IF NOT EXISTS `rbUFMS` (
     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `code` VARCHAR(50) NOT NULL,
     `name` VARCHAR(256) NOT NULL,
