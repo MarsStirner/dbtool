@@ -64,6 +64,7 @@ def get_config():
         'username': p.get(b'database', b'username'),
         'password': p.get(b'database', b'password'),
         'dbname': p.get(b'database', b'dbname'),
+        'definer': p.get(b'database', b'definer'),
     }
 
 
