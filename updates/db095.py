@@ -18,17 +18,17 @@ def upgrade(conn):
     except:
         print('''Column 'isOrganisation' already exists.''')    
 
-
+    c.execute(u"SET SQL_SAFE_UPDATES=0;")
     sql = u'''
 UPDATE `ActionType`
 SET
     flatCode = 'dutyDoctor'
 WHERE
-    `deleted`= 0 and `title` LIKE 'Осмотр дежурного врача' 
+    `deleted`= 0 and `title` LIKE 'Осмотр дежурного врача'
 '''
 
-    c.execute(sql)        
-    c.close()
+    c.execute(sql)
+    c.execute(u"SET SQL_SAFE_UPDATES=1;")      
 
 
 def downgrade(conn):

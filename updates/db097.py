@@ -46,7 +46,7 @@ ALTER TABLE `rbPrintTemplate` CHANGE COLUMN `default` `default` LONGTEXT NOT NUL
     result = c.fetchone()
     if result:
         prescr_at_id = result[0]
-        sql = u'''UPDATE `ActionType` SET `flatCode` = %s WHERE `id` = %s;''' % (prescript_flatCode, prescr_at_id)
+        sql = u'''UPDATE `ActionType` SET `flatCode` = "%s" WHERE `id` = %s;''' % (prescript_flatCode, prescr_at_id)
         c.execute(sql)
     
     # Добавить uuid к таблице Organisation
@@ -147,7 +147,7 @@ def updateRbUserProfileWithCode(conn):
         ('labDoctor',            u'Врач лаборатории'),
     ]
     
-    sql = u'''UPDATE %s SET code = %s where name = %s'''
+    sql = u'''UPDATE %s SET code = "%s" where name = %s'''
     for profile in profile_data:
         c.execute(sql % (table, profile[0], profile[1]))
 
