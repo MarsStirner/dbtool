@@ -18,7 +18,7 @@ ALTER TABLE `TakenTissueJournal`
     CHANGE COLUMN `barcode` `barcode` INT(11) NULL DEFAULT NULL AFTER `note`,
     CHANGE COLUMN `period` `period` INT(11) NULL DEFAULT NULL AFTER `barcode`;""",
             u"""
-CREATE TRIGGER DEFINER = %s `TTJ_INSERT` BEFORE INSERT ON `TakenTissueJournal` FOR EACH ROW BEGIN
+CREATE DEFINER = %s TRIGGER `TTJ_INSERT` BEFORE INSERT ON `TakenTissueJournal` FOR EACH ROW BEGIN
     DECLARE n_period INT;
     DECLARE n_barcode INT;
     IF NEW.barcode is NULL OR NEW.period is NULL THEN
