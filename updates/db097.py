@@ -48,7 +48,7 @@ ALTER TABLE `rbPrintTemplate` CHANGE COLUMN `default` `default` LONGTEXT NOT NUL
         prescr_at_id = result[0]
         sql = u'''UPDATE `ActionType` SET `flatCode` = "%s" WHERE `id` = %s;''' % (prescript_flatCode, prescr_at_id)
         c.execute(sql)
-    
+    c.close()
     # Добавить uuid к таблице Organisation
     updateOrganisationWithUUID(conn)
     
@@ -93,10 +93,10 @@ ALTER TABLE `Organisation` ADD COLUMN `uuid_id` INT(11) NOT NULL DEFAULT 0  AFTE
             sql = '''UPDATE `%s` SET uuid_id=%s where id=%s''' % (curTable, last_id, dst_id)
             c.execute(sql)
             i += 1
-            if i % 100 == 0:
+            if i % 10 == 0:
                 print(".", end='')
                 sys.stdout.flush()
-            if i % 1000 == 0:
+            if i % 100 == 0:
                 print(str(i), end='')
                 sys.stdout.flush()
             
@@ -104,6 +104,7 @@ ALTER TABLE `Organisation` ADD COLUMN `uuid_id` INT(11) NOT NULL DEFAULT 0  AFTE
             print('Opa, uuid dublicate!', end='')
         
     print('\n')
+    c.close()
     
 
 def updateRbUserProfileWithCode(conn):
@@ -147,9 +148,10 @@ def updateRbUserProfileWithCode(conn):
         ('labDoctor',            u'Врач лаборатории'),
     ]
     
-    sql = u'''UPDATE %s SET code = "%s" where name = %s'''
+    sql = u'''UPDATE %s SET code = "%s" where name = "%s"'''
     for profile in profile_data:
         c.execute(sql % (table, profile[0], profile[1]))
+    c.close()
 
 
 def downgrade(conn):
