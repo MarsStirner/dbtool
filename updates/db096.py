@@ -26,7 +26,8 @@ WHERE
 replacements_1 = (
     (1, 0, u'orgStructDirection', u'received'),
     (1, 0, u'hospOrgStruct',      u'moving'),
-    (1, 0, u'hospOrgStruct',      u'leaved'),
+#    (1, 0, u'hospOrgStruct',      u'leaved'),
+    (1, 0, u'hospOutcome',        u'leaved'),
 )
 
 
@@ -46,9 +47,11 @@ WHERE
 '''
 
 replacements_2 = (
-    (u'nomen',    1, 0, u'Наименование',  u'prescription'),
-    (u'dosage',   0, 1, u'Дозировка',     u'prescription'),
-    (u'units',    0, 1, u'Единицы',       u'prescription'),
+    (u'nomen',       1, 0, u'Наименование',  u'prescription'),
+    (u'dosage',      0, 1, u'Дозировка',     u'prescription'),
+    (u'units',       0, 1, u'Единицы',       u'prescription'),
+    (u'hospitalBed', 1, 0, u'койка',         u'moving'),
+    (u'patronage',   1, 0, u'Патронаж',      u'moving'),
 )
 
 
