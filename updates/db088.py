@@ -14,10 +14,14 @@ def upgrade(conn):
 
     sqls = [
             u"""
-CREATE DEFINER = %s TRIGGER `TTJ_INSERT` BEFORE INSERT ON `TakenTissueJournal` FOR EACH ROW BEGIN
+ALTER TABLE `TakenTissueJournal`
+    CHANGE COLUMN `barcode` `barcode` INT(11) NULL DEFAULT NULL AFTER `note`,
+    CHANGE COLUMN `period` `period` INT(11) NULL DEFAULT NULL AFTER `barcode`;""",
+            u"""
+CREATE TRIGGER DEFINER = %s `TTJ_INSERT` BEFORE INSERT ON `TakenTissueJournal` FOR EACH ROW BEGIN
     DECLARE n_period INT;
     DECLARE n_barcode INT;
-    IF NEW.barcode = NULL OR NEW.period = NULL THEN
+    IF NEW.barcode is NULL OR NEW.period is NULL THEN
         SELECT
             barcode, period
         INTO
@@ -33,10 +37,6 @@ CREATE DEFINER = %s TRIGGER `TTJ_INSERT` BEFORE INSERT ON `TakenTissueJournal` F
         SET NEW.period = n_period;
     END IF;
 END;""" % config['definer'],
-            u"""
-ALTER TABLE `TakenTissueJournal`
-    CHANGE COLUMN `barcode` `barcode` INT(11) NOT NULL AFTER `note`,
-    CHANGE COLUMN `period` `period` INT(11) NOT NULL AFTER `barcode`;""",
     ]
 
     for sql in sqls:
