@@ -17,8 +17,7 @@ CREATE TABLE IF NOT EXISTS `rbUFMS` (
     PRIMARY KEY (`id`)
 )
 COMMENT='Справочник УФМС'
-COLLATE='utf8_bin'
-ENGINE=InnoDB;
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
 '''   
     c.execute(sql)    
     c.close()
