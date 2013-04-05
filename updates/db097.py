@@ -110,6 +110,11 @@ ALTER TABLE `Organisation` ADD COLUMN `uuid_id` INT(11) NOT NULL DEFAULT 0  AFTE
 def updateRbUserProfileWithCode(conn):
     c = conn.cursor()
     table = 'rbUserProfile'
+    sql = u'''
+ALTER TABLE `rbUserProfile` CHANGE COLUMN `code` `code` VARCHAR(20) NOT NULL COMMENT 'Код'  ;    
+'''
+    c.execute(sql)
+    
     profile_data = [
         ('admin',                u'Администратор'),
         ('personal',             u'Отдел кадров'),
