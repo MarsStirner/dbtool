@@ -249,8 +249,10 @@ def downgrade(conn):
 
 def upgrade(conn):
     # Удаляем все action и actionProperty с event_id = NULL
-    deleteActionPropertiesWithNullEvent(conn)
+    # Нет, этого делать нельзя, потому что есть ActionTemplates, у которых event_id is NULL
+    # deleteActionPropertiesWithNullEvent(conn)
     # Удаляем все actionProperties без action
+    # А вот это - можно удалять, ибо реальные висюки
     deleteActionPropertiesWithoutAction(conn)
 
     # Выбираем все actionTypeId, для которых было свойство АД

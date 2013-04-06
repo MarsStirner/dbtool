@@ -282,7 +282,7 @@ def downgrade(conn):
 
 def upgrade(conn):
     # Удаляем все action и actionProperty с event_id = NULL
-    deleteActionPropertiesWithNullEvent(conn)
+    # deleteActionPropertiesWithNullEvent(conn)
     # Удаляем все actionProperties без action
     deleteActionPropertiesWithoutAction(conn)
 

@@ -16,6 +16,8 @@ def query(conn, sql):
     return rows
 
 def upgrade(conn):
+    return
+    # всё остальное делать нельзя, ибо нужно для Бурденко
     rows = query(conn, 'SELECT id FROM ActionType where code="%s" or flatCode="%s"' % (actionReceivedTypeCode, actionReceivedTypeFlatCode))
     if rows:
         at_id = rows[0][0]
@@ -26,6 +28,8 @@ def upgrade(conn):
         c.execute(sql0)
         
 def downgrade(conn):
+    return
+    # апгрейд отключен
     rows = query(conn, 'SELECT id FROM ActionType where code="%s" or flatCode="%s"' % (actionReceivedTypeCode, actionReceivedTypeFlatCode))
     if rows:
         at_id = rows[0][0]
