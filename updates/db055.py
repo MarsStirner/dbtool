@@ -97,6 +97,35 @@ ADD COLUMN `event_id` INT(11) NULL DEFAULT NULL COMMENT 'ref to {Event}' AFTER `
             pass
         else:
             raise
+        
+    # Исправление некоторых косяков
+    sql = u'''
+ALTER TABLE `rbService` ADD COLUMN `adultUetDoctor` DOUBLE NULL DEFAULT '0'  , 
+    ADD COLUMN `adultUetAverageMedWorker` DOUBLE NULL DEFAULT '0'  AFTER `adultUetDoctor` , 
+    ADD COLUMN `childUetDoctor` DOUBLE NULL DEFAULT '0'  AFTER `adultUetAverageMedWorker` , 
+    ADD COLUMN `childUetAverageMedWorker` DOUBLE NULL DEFAULT '0'  AFTER `childUetDoctor` , 
+    ADD COLUMN `qualityLevel` DOUBLE NOT NULL DEFAULT '1'  AFTER `childUetAverageMedWorker` , 
+    ADD COLUMN `superviseComplexityFactor` DOUBLE NOT NULL DEFAULT '1'  AFTER `qualityLevel` , 
+  ADD CONSTRAINT `rbService_medicalAidProfile`
+  FOREIGN KEY (`medicalAidProfile_id` )
+  REFERENCES `ResBol_Gemchueva`.`rbMedicalAidProfile` (`id` )
+  ON DELETE SET NULL
+  ON UPDATE RESTRICT;
+'''
+    try:
+        c.execute(sql)
+    except OperationalError as e:
+        if 'Duplicate column name' in unicode(e):
+            pass
+        else:
+            raise
+    
+    sql = u'''
+ALTER TABLE `ActionType` CHANGE COLUMN `code` `code` VARCHAR(25) NOT NULL COMMENT 'Код'  ;
+    
+'''
+    c.execute(sql)
+        
 
 
 def downgrade(conn):
