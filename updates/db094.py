@@ -12,12 +12,12 @@ def upgrade(conn):
     sql = u'''
 CREATE TABLE IF NOT EXISTS `rbUFMS` (
     `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `code` VARCHAR(50) NOT NULL COLLATE 'utf8_unicode_ci',
-    `name` VARCHAR(256) NOT NULL COLLATE 'utf8_unicode_ci',
+    `code` VARCHAR(50) NOT NULL,
+    `name` VARCHAR(256) NOT NULL,
     PRIMARY KEY (`id`)
 )
 COMMENT='Справочник УФМС'
-COLLATE='utf8_unicode_ci'
+COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 '''
     c.execute(sql)
