@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
+from _mysql_exceptions import OperationalError
 
 __doc__ = '''
 Табличные типы данных свойств действий
@@ -24,8 +25,8 @@ ENGINE=InnoDB;
 ''',
 '''
 CREATE TABLE IF NOT EXISTS `rbAPTableField` (
-    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-    `idx` INT(10) UNSIGNED NOT NULL COMMENT 'Положение столбца в отображенной таблице',
+    `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    `idx` INT(11) UNSIGNED NOT NULL COMMENT 'Положение столбца в отображенной таблице',
     `master_id` INT(11) UNSIGNED NOT NULL COMMENT '{rbAPTable.id}',
     `name` VARCHAR(256) NOT NULL COMMENT 'Отображаемое название столбца',
     `fieldName` VARCHAR(256) NOT NULL COMMENT 'Наименование столбца отображаемой таблицы БД',
@@ -70,7 +71,11 @@ INSERT INTO `rbAPTable` (`id`, `code`, `name`, `tableName`, `masterField`) VALUE
 def upgrade(conn):
     global config
     c = conn.cursor()
-    map(c.execute, sqls)
+    for sql in sqls:
+        try:
+            c.execute(sql)
+        except OperationalError, e:
+            print(e)
     c.close()
 
 def downgrade(conn):
