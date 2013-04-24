@@ -11,9 +11,9 @@ __doc__ = '''\
 
 
 def upgrade(conn):
-    global config        
+    global config
     c = conn.cursor()
-    
+
 #           /|    -----       -----
 #          / |  /       \   /       \
 #         /  | |         | |         |
@@ -24,7 +24,7 @@ def upgrade(conn):
 #            | |         | |         | get
 #            |  \       /   \       /
 #            |    -----       -----
-    
+
     sql = u'''
 ALTER TABLE `Person` DROP COLUMN `academicDegree` ;
 '''
@@ -34,6 +34,7 @@ ALTER TABLE `Person` DROP COLUMN `academicDegree` ;
         pass
     else:
         print(u'column `Person`.`academicDegree` deleted')
-        
+    c.close()
+
 def downgrade(conn):
     pass

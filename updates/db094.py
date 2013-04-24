@@ -17,11 +17,12 @@ CREATE TABLE IF NOT EXISTS `rbUFMS` (
     PRIMARY KEY (`id`)
 )
 COMMENT='Справочник УФМС'
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
-'''   
-    c.execute(sql)    
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+'''
+    c.execute(sql)
     c.close()
-    
+
 def downgrade(conn):
     pass
 

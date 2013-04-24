@@ -43,7 +43,7 @@ def upgrade(conn):
         sql = u'''INSERT INTO rbPrintTemplate (`context`, `code`, `default`, `render`, `name`, `fileName`, `dpdagreement`) VALUES ('__client_info', '{0}', '{1}', 1, '{0}', '', 0)
         '''.format(code, html)
         c.execute(sql)
-
+    c.close()
 
 def downgrade(conn):
     pass

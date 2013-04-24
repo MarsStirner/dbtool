@@ -10,18 +10,18 @@ __doc__ = '''\
 
 
 def upgrade(conn):
-    global config        
+    global config
     c = conn.cursor()
-    
+
     sql = u'''
 ALTER TABLE `PersonEducation` ADD COLUMN `cost` DOUBLE NULL DEFAULT NULL;
 '''
     try:
         c.execute(sql)
-    except OperationalError:
+    except OperationalError, e:
+        print(e)
         pass
-    else:
-        print(u'column `PersonEducation`.`cost` exists or elsewhy cannot be added')
-        
+    c.close()
+
 def downgrade(conn):
     pass
