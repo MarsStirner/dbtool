@@ -12,7 +12,7 @@ def upgrade(conn):
     sql = [
 # Создаём таблицу
 '''\
-CREATE  TABLE `ActionProperty_MKB` (
+CREATE TABLE IF NOT EXISTS `ActionProperty_MKB` (
   `id` INT(11) NOT NULL COMMENT '{ActionProperty}' ,
   `index` INT(11) NOT NULL DEFAULT '0' COMMENT 'Индекс элемента векторного значения или 0' ,
   `value` INT(11) NULL DEFAULT NULL COMMENT 'собственно значение {MKB}' ,
