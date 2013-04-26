@@ -22,7 +22,6 @@ ALTER TABLE `rbRequestType` ADD COLUMN `relevant` TINYINT(1) NOT NULL DEFAULT 1;
     except OperationalError, e:
         print(e)
         pass
-    c.close()
 
     sql = u'''
 ALTER TABLE `rbPolicyType`
