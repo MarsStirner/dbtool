@@ -43,11 +43,13 @@ templates = \
 def upgrade(conn):
     global config        
     c = conn.cursor()
+    c.execute(u"SET SQL_SAFE_UPDATES=0;")
     c.execute(ur'''DELETE FROM rbPrintTemplate WHERE `context`='__client_info';''')
     for code, html in templates:
         sql = u'''INSERT INTO rbPrintTemplate (`context`, `code`, `default`, `render`, `name`, `fileName`, `dpdagreement`) VALUES ('__client_info', '{0}', '{1}', 1, '{0}', '', 0)
         '''.format(code, html)
         c.execute(sql)
+    c.execute(u"SET SQL_SAFE_UPDATES=1;")
     c.close()
 
 def downgrade(conn):
