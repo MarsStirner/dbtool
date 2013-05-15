@@ -8,8 +8,6 @@ __doc__ = '''\
 - Интеграция с системой ТРФУ. Изменения типа табличных данных ТРФУ на Table.
 '''
 
-flat_code_trfu_extracorporeal = "ExtracorporealMethods";
-
 simple_queries = \
 (
 u'''UPDATE `ActionPropertyType` SET `valueDomain`='TRFU_OIR', typeName = "Table" WHERE `code`='trfuReqBloodCompPasport' ''',
