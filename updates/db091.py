@@ -14,6 +14,7 @@ u'''UPDATE rbDiagnosisType SET flatCode='final' WHERE name LIKE 'заключи�
 u'''UPDATE rbDiagnosisType SET flatCode='clinical' WHERE name LIKE 'основной'; ''',
 u'''UPDATE rbDiagnosisType SET flatCode='complicateToClinical' WHERE name LIKE 'осложнение основного' ; ''',
 u'''UPDATE rbDiagnosisType SET flatCode='secondaryToClinical' WHERE name LIKE 'сопутствующий'; ''',
+u'''UPDATE rbDiagnosisType SET flatCode='admission' WHERE name LIKE 'Основной предварительный диагноз'; ''',
 u'''INSERT INTO rbDiagnosisType (code, `name`, `replaceInDiagnosis`, `flatCode`) VALUES (LAST_INSERT_ID(), 'Направительный диагноз', '9', 'assignment'); ''',
 u'''INSERT INTO rbDiagnosisType (code, `name`, `replaceInDiagnosis`, `flatCode`) VALUES (LAST_INSERT_ID(), 'Сопутствующий к направительному', '9', 'aftereffect'); ''',
 u'''INSERT INTO rbDiagnosisType (code, `name`, `replaceInDiagnosis`, `flatCode`) VALUES (LAST_INSERT_ID(), 'Осложнения к направительному', '3', 'attendant'); ''',
