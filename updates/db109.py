@@ -20,7 +20,7 @@ def upgrade(conn):
             FROM ActionPropertyType as apt, ActionType as at 
             WHERE apt.actionType_id = at.id 
             AND at.flatCode = 'moving' 
-            AND apt.name = 'Время поступления')    
+            AND apt.name LIKE 'Время поступления')
         as p); '''
     try:
         c.execute(sql)
