@@ -10,7 +10,9 @@ __doc__ = '''\
 def upgrade(conn):
     global config
     c = conn.cursor()
+    c.execute(u"SET SQL_SAFE_UPDATES=0;")
     c.execute("TRUNCATE rbRequestType;")
+    c.execute(u"SET SQL_SAFE_UPDATES=1;")
     sql = u'''INSERT INTO rbRequestType(`id`, `code`, `name`) VALUES (%s, %s, %s)'''   
     data = [(1, 'clinic', u'Дневной стационар'),
             (2, 'hospital', u'Круглосуточный стационар'),

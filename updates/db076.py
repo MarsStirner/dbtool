@@ -116,7 +116,7 @@ and name="Клиническое описание";
 u'''
 UPDATE `ActionPropertyType` SET `code`='mainDiag'
 WHERE `actionType_id`=(SELECT id FROM ActionType WHERE code='1_1_02' and deleted='0')
-and name="Клиническое описание диагноза";
+and name="Клиническое описание";
 ''',
 u'''
 UPDATE `ActionPropertyType` SET `code`='assocDiag' WHERE `actionType_id` in 
