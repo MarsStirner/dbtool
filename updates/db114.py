@@ -4,42 +4,64 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-- Добавление таблиц для хранения разметки документов
+- Обновление поля MNEM для медицинских документов
 '''
 
+replacements = (
+    (0, u'ПЕРВИЧНЫЙ ОСМОТР', u'EXAM',),
+    (0, u'ДНЕВНИКОВЫЙ ОСМОТР', u'JOUR'),
+    (0, u'ЭПИКРИЗЫ', u'EPI'),
+    (0, u'КОНСИЛИУМ', u'EXAM'),
+    (0, u'СОВМЕСТНЫЙ ОСМОТР', u'EXAM'),
+    (0, u'ИЗВЕЩЕНИЯ', u'NOT'),
+    (0, u'ДЕЖУРНЫЙ ВРАЧ ОСМОТР', u'EXAM'),
+    (0, u'ПРОЧЕЕ/СОГЛАСИЯ', u'OTH'),
+    (3, u'Выписка', u'ORD'),
+)
+
+sql = u'''
+    SELECT * FROM ActionType
+    WHERE class = '%s' AND id IN (
+        SELECT data.id FROM (
+            SELECT id
+            FROM ActionType
+            WHERE name LIKE '%s'
+            ) 
+        as data); '''   
 
 def upgrade(conn):
     global config    
     c = conn.cursor()
+
+    c.execute(u"SET SQL_SAFE_UPDATES=0;")
+        
     
-    sql = u'''
-        CREATE TABLE `LayoutAttribute` (
-        `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'идентификатор атрибута',
-        `title` varchar(255) NOT NULL COMMENT 'название атрибута для отображения в интерфейсе',
-        `description` varchar(1023) NOT NULL COMMENT 'описание атрибута и его использования',
-        `code` varchar(255) NOT NULL COMMENT 'мнемо код атрибута для сопоставления с соответствующим свойством отображения в интерфейсе',
-        `typeName` varchar(255) DEFAULT NULL COMMENT 'название типа поля для которого данный атрибут применяется (прим. ‘Constructor’, ‘Text’ и т.д.)',
-        `measure` varchar(255) DEFAULT NULL COMMENT 'единица измерения значения данного атрибута',
-        `defaultValue` varchar(1023) DEFAULT NULL COMMENT 'значение по умолчанию',
-        PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-    '''
-    c.execute(sql)
+    # Установка мнемоники для вложений
+    for rep in replacements:
+        query = sql % (rep[0], rep[1])
+        c.execute(query)
+        rows = c.fetchall()
+        if len(rows) > 0:
+            for row in rows:
+                setMnem(row[0], rep[2], conn)
+
+    c.execute(u"SET SQL_SAFE_UPDATES=1;")     
+    c.close()
+  
+def setMnem(recordId, mnem, conn):
+    c = conn.cursor()
+    c.execute(u'''SELECT * FROM ActionType where group_id="%s" and deleted=0''', recordId)
+    rows = c.fetchall()
     
-   
-    sql = u'''
-    CREATE TABLE `LayoutAttributeValue` (
-        `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'идентификатор записи',
-        `actionPropertyType_id` int(11) NOT NULL COMMENT 'идентификатор свойства действия, к которому относится запись',
-        `layoutAttribute_id` int(11) NOT NULL COMMENT 'идентификатор записи, содержащий ссылку на код атрибута',
-        `value` varchar(1023) NOT NULL COMMENT 'значение атрибута',
-        PRIMARY KEY (`id`),
-        KEY `layoutAttribute_id_FK` (`layoutAttribute_id`),
-        CONSTRAINT `layoutAttribute_id_FK` FOREIGN KEY (`layoutAttribute_id`) REFERENCES `LayoutAttribute` (`id`) ON DELETE CASCADE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-    '''
-    c.execute(sql)
+    if len(rows) > 0:
+        for row in rows:
+            setMnem(row[0], mnem, conn)
+    else:
+        try:
+            c.execute(u'''UPDATE ActionType SET mnem='%s' WHERE id = %s and deleted = 0''' % (mnem, recordId))
+        except:
+            print(u'''Cann't set mnem "%s" for ActionType ID: "%s"''' % (mnem, recordId))
     
-           
+        
 def downgrade(conn):
     pass

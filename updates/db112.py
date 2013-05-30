@@ -2,42 +2,56 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
-import traceback
 
 __doc__ = '''\
-- Добавление Направительного диагноза в ActionPropertyType, относящихся к инструментальным исследованиям и консультациям (ВебМИС)
+- Обновление значения поля MNEM для Консультативных осмотров и инструментальных исследований
 '''
 
-mnems = (u'CONS', u'DIAG')
+replacements = (
+    (u'CONS', u'ОСМОТР КОНСУЛЬТАТИВНЫЙ'),
+    (u'DIAG', u'ИНСТРУМЕНТАЛЬНЫЕ ИССЛЕДОВАНИЯ'),
+)
+
+sql = u''' 
+    SELECT * FROM ActionType
+    WHERE class = 1 AND id IN(
+        SELECT data.id FROM (
+            SELECT id FROM ActionType WHERE 
+            name LIKE '%s'
+            )
+        as data); 
+    '''
 
 def upgrade(conn):
     global config    
-    c = conn.cursor() 
-        
-    for mnem in mnems:
-        query = u'''SELECT * FROM ActionType where mnem LIKE '%s';''' % mnem
+    c = conn.cursor()
+    
+    c.execute(u"SET SQL_SAFE_UPDATES=0;") 
+    
+    for rep in replacements:
+        query = sql % rep[1]
         c.execute(query)
         rows = c.fetchall()
         if len(rows) > 0:
             for row in rows:
-                addProperty(row[0], conn)
+                setMnem(row[0], rep[0], conn)
     
-def addProperty(recordId, conn):
+    c.execute(u"SET SQL_SAFE_UPDATES=1;")     
+    c.close()    
+  
+def setMnem(recordId, mnem, conn):
     c = conn.cursor()
     c.execute(u'''SELECT * FROM ActionType where group_id="%s" and deleted=0''', recordId)
     rows = c.fetchall()
     
     if len(rows) > 0:
         for row in rows:
-            addProperty(row[0], conn)
-    else: 
+            setMnem(row[0], mnem, conn)
+    else:
         try:
-            sql = u'''INSERT INTO ActionPropertyType VALUES ( "%s", 0, "%s", 99, null, 'Направительный диагноз', '', null, 'MKB', '', '', null, 0, '', 0, '', 0, '000', 0, '000', 0, 0, 0, null, 0, 0, 1, 0);''' % (str(recordId) + '0001', recordId)
-            c.execute(sql)
+            c.execute(u'''UPDATE ActionType SET mnem='%s' WHERE group_id =%s and deleted = 0''' % (mnem, recordId))
         except:
-            traceback.print_exc()
-    
+            print("Cann't set mnem for record ID: %s" % (recordId))
         
 def downgrade(conn):
     pass
-
