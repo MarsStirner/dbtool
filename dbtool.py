@@ -10,7 +10,7 @@ from getopt import getopt, GetoptError
 from glob import glob
 from contextlib import closing, contextmanager
 from ConfigParser import ConfigParser, Error as ConfigError
-
+from utils import tools
 import MySQLdb as db
 
 if os.name == 'nt' and sys.stdout.isatty():
@@ -100,7 +100,7 @@ def get_updates():
         except ValueError:
             raise DBToolException(b'file "{0}": bad version '
                                   b'number: "{1}"'.format(filename, name))
-        context = {'config': get_config()}
+        context = {'config': get_config(), 'tools': tools}
         try:
             exec open(filename, 'rb') in context
         except Exception, e:
