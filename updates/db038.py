@@ -13,6 +13,15 @@ def createTriggerName(tableName, triggerEvent):
         tableName=tableName, triggerEvent=triggerEvent)     
 
 def upgrade(conn):
+    sqlDropTrigger = "DROP TRIGGER IF EXISTS {triggerName}"
+    sql = [
+        sqlDropTrigger.format(triggerName=createTriggerName(tblThesaurus, "INSERT")),
+        sqlDropTrigger.format(triggerName=createTriggerName(tblThesaurus, "UPDATE")),
+        sqlDropTrigger.format(triggerName=createTriggerName(tblThesaurus, "DELETE")),
+    ]
+    c = conn.cursor()
+    for s in sql:
+        c.execute(s)
     # Код создания триггера на событие triggerEvent.
     # Триггер вставляет нулевую версию для таблицы tableName
     # или увеличивает номер версии для таблицы tableName

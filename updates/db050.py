@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
-import re
+from MySQLdb import OperationalError
 
 __doc__ = '''\
 Добавляет в таблицу Person столбец:
@@ -13,13 +13,14 @@ tbl = "Person"
 
 
 def upgrade(conn):
+    global tools
+    c = conn.cursor()
+    
     sqlAddColumns = u'''\
 ALTER TABLE {tableName}
     ADD COLUMN academicdegree_id INT(11) NULL DEFAULT NULL COMMENT 'Научная степень' AFTER typeTimeLinePerson;
 '''
-
-    c = conn.cursor()
-    c.execute(sqlAddColumns.format(tableName=tbl))
+    tools.executeEx(c, sqlAddColumns.format(tableName=tbl), mode=['ignore_dublicates'])
 
     sql = '''
 CREATE TABLE rbAcademicDegree (id INT(11) NOT NULL AUTO_INCREMENT, 
@@ -29,6 +30,3 @@ code VARCHAR(8) NOT NULL, name VARCHAR(64) NOT NULL, PRIMARY KEY (id));
 
 def downgrade(conn):
     pass
-
-    c = conn.cursor()
-    c.execute(sqlDropColumns.format(tableName=tbl))

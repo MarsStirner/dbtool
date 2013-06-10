@@ -18,7 +18,7 @@ def createTriggerName(tableName, triggerEvent):
 def upgrade(conn):
     # Код создания таблицы для хранения версий
     sqlCreateVersionsTable = '''\
-CREATE TABLE `Versions` (
+CREATE TABLE IF NOT EXISTS `Versions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `table` varchar(64) NOT NULL,
   `version` int(11) NOT NULL DEFAULT '0',
@@ -27,6 +27,24 @@ CREATE TABLE `Versions` (
   KEY `tableNameIndex` (`table`)
 ) DEFAULT CHARSET=utf8 COMMENT='Таблица с версиями справочников'
 '''
+    
+    
+    # Удаление триггеров, если они есть
+    sqlDropTrigger = "DROP TRIGGER IF EXISTS {triggerName}"
+    sql = [
+    sqlDropTrigger.format(triggerName=createTriggerName(tblActionType,"INSERT")),
+    sqlDropTrigger.format(triggerName=createTriggerName(tblActionType,"UPDATE")),
+    sqlDropTrigger.format(triggerName=createTriggerName(tblActionType,"DELETE")),
+    sqlDropTrigger.format(triggerName=createTriggerName(tblActionPropertyType,"INSERT")),
+    sqlDropTrigger.format(triggerName=createTriggerName(tblActionPropertyType,"UPDATE")),
+    sqlDropTrigger.format(triggerName=createTriggerName(tblActionPropertyType,"DELETE")),
+    ]
+    c = conn.cursor()
+    for s in sql:
+        c.execute(s)
+    
+    
+    
     # Код создания триггера на событие triggerEvent.
     # Триггер вставляет нулевую версию для таблицы tableName
     # или увеличивает номер версии для таблицы tableName
