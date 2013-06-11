@@ -118,6 +118,55 @@ def get_updates():
     return res
 
 
+def change_definers():
+    config = get_config()
+    current_db_name = config['dbname']
+    new_definer = config['definer']
+    with open_db_connection() as conn:
+        c = conn.cursor()
+        
+        print('- updating triggers')
+        c.execute('SELECT TRIGGER_NAME, DEFINER FROM information_schema.TRIGGERS WHERE TRIGGER_SCHEMA = "%s"' % current_db_name)
+        trigger_list = c.fetchall()
+        for name, definer in trigger_list:
+            definer = '`' + '`@`'.join(definer.split('@')) + '`' # mis@% -> `mis`@`%`
+            c.execute('SHOW CREATE TRIGGER %s' % name)
+            create_text = c.fetchone()[2]
+#             print (name, ' : ', definer, ' -> ', new_definer)
+            create_text = create_text.replace(definer, new_definer)
+            c.execute('DROP TRIGGER IF EXISTS %s' % name)
+            c.execute(create_text)
+         
+        print('- updating procedures')
+        c.execute('UPDATE mysql.proc SET definer = "%s" WHERE db="%s"' % (new_definer.replace('`', ''), current_db_name))
+        
+        print('- updating views')
+        c.execute('SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE = "VIEW" AND TABLE_SCHEMA = "%s"' % current_db_name)
+        views = c.fetchall()
+        wrong_views = []
+        for view in views:
+            try:
+                view_name = view[0]
+                c.execute('SHOW CREATE VIEW %s' % view_name)
+                create_stmt = c.fetchone()[1]
+                create_stmt = re.sub(r'`\w+`@`[\w\.%]+`', new_definer, create_stmt)
+                create_stmt = create_stmt.replace('CREATE', 'CREATE OR REPLACE')
+                c.execute(create_stmt)
+            except db.OperationalError as e:
+                # Случай, когда вьюха в теле ссылается на другую вьюху, у которой еще
+                # не поменялся дефайнер, может вызвать проблемы, если такого дефайнера
+                # нет в текущей бд. Такие случаи пропускаются
+                if '1449' in str(e):
+                    wrong_views.append(view_name)
+                    pass
+                else:
+                    raise
+        if wrong_views:
+            print('Возникла проблема изменения дефайнеров для следующих представлений: %s. '
+                'Требуется ручное вмешательство.' % ', '.join(wrong_views))
+    return
+
+
 @contextmanager
 def open_db_connection():
     params = get_config()
@@ -201,7 +250,7 @@ def update_db(version):
 
 def main(argv):
     try:
-        opts, args = getopt(argv, b'hlu:', [b'help', b'list', b'update='])
+        opts, args = getopt(argv, b'hlcu:', [b'help', b'list', b'change-definers', b'update='])
 
         if args:
             error('bad command line arguments: "{0}"'.format(' '.join(args)))
@@ -217,6 +266,8 @@ def main(argv):
                 sys.exit(0)
             elif opt in [b'-l', b'--list']:
                 list_db_updates()
+            elif opt in [b'-c', b'--change-definers']:
+                change_definers()
             elif opt in [b'-u', b'--update']:
                 try:
                     version = int(arg)
@@ -231,6 +282,7 @@ def main(argv):
             else:
                 usage()
                 sys.exit(1)
+        sys.exit(0)
     except db.Error, e:
         raise
         errcode, message = e.args
