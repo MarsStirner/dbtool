@@ -16,6 +16,11 @@ sqls = [
     u'''update ActionPropertyType set typeName = 'String', code = 'blankSerial' where typeName = 'BlankSerial';''',
     u'''update ActionPropertyType set typeName = 'String', code = 'blankNumber' where typeName = 'BlankNumber';''',
     u'''update ActionPropertyType set typeName = 'String', code = 'sample' where typeName = 'Проба';''',
+    u'''INSERT IGNORE INTO ActionProperty_String SELECT * FROM ActionProperty_CureEpicrisis;''',
+    u'''INSERT IGNORE INTO ActionProperty_String SELECT * FROM ActionProperty_DiagnosticEpicrisis;''',
+    u'''DROP TABLE ActionProperty_CureEpicrisis;''',
+    u'''DROP TABLE ActionProperty_DiagnosticEpicrisis;''',
+
 ]
 
 
