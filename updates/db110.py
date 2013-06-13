@@ -26,7 +26,8 @@ def upgrade(conn):
                 ids_to_delete.add(id_)
                 deleted_groups.add(id_)
     ids_str = [str(id_) for id_ in list(ids_to_delete)]
-    c.execute('UPDATE ActionType SET deleted=1 WHERE id IN (%s)' % ','.join(ids_str))
+    if ids_str:
+        c.execute('UPDATE ActionType SET deleted=1 WHERE id IN (%s)' % ','.join(ids_str))
             
     
 def downgrade(conn):
