@@ -2,28 +2,40 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
-import traceback
+
 __doc__ = '''\
--  Создание таблицы "История изменения группы крови" '''
+- Исправления для таблицы AppLock и связанных процедур, благодаря чему
+решается проблема возникновения дедлоков при блокирвоках.
+'''
 
 
 def upgrade(conn):
-    global config    
+    global config        
     c = conn.cursor()
     
     sql = u'''
-        CREATE TABLE `BloodHistory` (
-            `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор записи',
-            `bloodDate` date NOT NULL COMMENT 'Дата установления',
-            `client_id` int(11) NOT NULL COMMENT 'Пациент {Client}',
-            `bloodType_id` int(11) NOT NULL COMMENT 'Группа крови {rbBloodType}',
-            `person_id` int(11) NOT NULL COMMENT 'Сотрудник {Person}',
-            PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='История изменения группы крови'; '''
-    try:
-        c.execute(sql)
-    except:
-        pass
+DROP PROCEDURE IF EXISTS `ProlongAppLock`;
+'''
+    c.execute(sql)
+    
+    sql = u'''
+CREATE DEFINER=%s PROCEDURE `ProlongAppLock`(IN aLockId BIGINT)
+BEGIN
+    UPDATE AppLock SET retTime = NOW() WHERE AppLock.connectionId = CONNECTION_ID() AND AppLock.id = aLockId;
+END;
+''' % config['definer']
+    c.execute(sql)
+    
+    sql = u'''
+ALTER TABLE `AppLock` ENGINE = InnoDB;
+'''
+    c.execute(sql)
+    
+    sql = u'''
+CREATE INDEX `AppLock_connectionId` on `AppLock` (`connectionId`);
+'''
+    c.execute(sql) 
+            
     
 def downgrade(conn):
     pass
