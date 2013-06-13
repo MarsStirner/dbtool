@@ -8,11 +8,12 @@ __doc__ = '''\
 '''
 
 def upgrade(conn):
+    global tools
     sql = [        
         '''ALTER TABLE `AssignmentHour` ADD `comments` VARCHAR(120);''',]
     c = conn.cursor()
     for s in sql:
-        c.execute(s)
+        tools.executeEx(c, s, mode=['ignore_dublicates'])
 
 
 def downgrade(conn):

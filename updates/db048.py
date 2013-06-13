@@ -13,6 +13,7 @@ tblActionType = "ActionType"
 
 
 def upgrade(conn):
+    global tools
     sqlAddColumns = u'''\
 ALTER TABLE {tableName}
     ADD COLUMN `testTubeType_id` int(11),
@@ -28,7 +29,7 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 '''
 
     c = conn.cursor()
-    c.execute(sqlAddColumns.format(tableName=tblActionType))
+    tools.executeEx(c, sqlAddColumns.format(tableName=tblActionType), mode=['ignore_dublicates'])
     c.execute(sqlAddConstraints.format(tableName=tblActionType))
 
 

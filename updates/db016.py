@@ -51,21 +51,26 @@ def createTriggerName(tableName):
         tableName=tableName)
 
 def upgrade(conn):
+    global tools
+    c = conn.cursor()
     for t in tables:
-	# Создаем поле версии  для таблицы t
-	sql = sqlAddVersionColumn.format(tableName = t)
-	execute(conn, sql)
-	# Создаем триггер для 
-	sql = sqlCreateTrigger.format(triggerName=createTriggerName(t), tableName=t)
-	execute(conn, sql)
+        # Создаем поле версии  для таблицы t
+        sql = sqlAddVersionColumn.format(tableName = t)
+        tools.executeEx(c, sql, mode=['ignore_dublicates'])
+        # Удаляем триггер
+        sql = sqlDropTrigger.format(triggerName=createTriggerName(t))
+        execute(conn, sql)
+        # Создаем триггер для 
+        sql = sqlCreateTrigger.format(triggerName=createTriggerName(t), tableName=t)
+        execute(conn, sql)
 
 def downgrade(conn):
     for t in tables:
-	# Удаляем триггер
-	sql = sqlDropTrigger.format(triggerName=createTriggerName(t))
-	execute(conn, sql)
-	# Удаляем поле версии из таблицы t
-	sql = sqlDropVersionColumn.format(tableName = t)
-	execute(conn, sql)
+        # Удаляем триггер
+        sql = sqlDropTrigger.format(triggerName=createTriggerName(t))
+        execute(conn, sql)
+        # Удаляем поле версии из таблицы t
+        sql = sqlDropVersionColumn.format(tableName = t)
+        execute(conn, sql)
 
 

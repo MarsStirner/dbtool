@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
-import re
 
 __doc__ = '''\
 - Добавлен справочник научных званий;
@@ -10,6 +9,7 @@ __doc__ = '''\
 '''
 
 def upgrade(conn):
+    global tools
     c = conn.cursor()
 
     sql = '''
@@ -24,11 +24,11 @@ CREATE TABLE `rbAcademicTitle` (
     COMMENT='Научное звание'
     COLLATE='utf8_general_ci';'''
     c.execute(sql)
-
+    
     sql = '''
 ALTER TABLE `Person` 
     ADD COLUMN `academicTitle_id` INT(11) NULL DEFAULT NULL COMMENT 'Научное звание {rbAcademicTitle}' AFTER `academicdegree_id`;'''
-    c.execute(sql)
+    tools.executeEx(c, sql, mode=['ignore_dublicates'])
 
     sql = '''
 ALTER TABLE `EventType_Action`
@@ -38,6 +38,3 @@ ALTER TABLE `EventType_Action`
 
 def downgrade(conn):
     pass
-
-    c = conn.cursor()
-    c.execute(sqlDropColumns.format(tableName=tbl))

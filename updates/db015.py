@@ -9,7 +9,7 @@ __doc__ = '''\
 '''
 
 sqlCreateRbAnalysisStatusTable = '''\
-CREATE  TABLE `rbAnalysisStatus` (
+CREATE TABLE IF NOT EXISTS `rbAnalysisStatus` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `statusName` VARCHAR(80) NOT NULL ,
   PRIMARY KEY (`id`) ,
@@ -115,7 +115,10 @@ def insert(conn, sql):
 
 def upgrade(conn):
     execute(conn, sqlCreateRbAnalysisStatusTable);
-
+    
+    global tools
+    tools.executeEx(conn.cursor(), 'TRUNCATE rbAnalysisStatus;', mode=['safe_updates_off'])
+    
     for status in analysisStatuses:
         sqlInsertStatus = sqlInsertIntoRbAnalysisStatus % (status);
         execute(conn, sqlInsertStatus)

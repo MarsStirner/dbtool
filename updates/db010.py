@@ -105,6 +105,7 @@ UPDATE {tableName} SET `age_bu` = {a_bu},
 
 
 def upgrade(conn):
+    global tools
     # Код добавления столбцов для структурированного хранения 
     #  диапазонов возрастов
     sqlAddAgeColumns = u'''\
@@ -161,11 +162,11 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vHospitalBed` AS
 
     c = conn.cursor()
     for tblName in upgradeTables:
-        c.execute(sqlAddAgeColumns.format(tableName=tblName))
-        c.execute(sqlCommentAgeColumns.format(tableName=tblName))
+        tools.executeEx(c, sqlAddAgeColumns.format(tableName=tblName), mode=['ignore_dublicates'])
+        tools.executeEx(c, sqlCommentAgeColumns.format(tableName=tblName), mode=['ignore_dublicates'])
 
     for tblName in upgradeTables:
-    	copyAgeFromString(c, tblName)
+        copyAgeFromString(c, tblName)
 
     c.execute(sqlDropvHospitalBedView)
     c.execute(sqlCreatevHospitalBedView)

@@ -9,7 +9,7 @@ __doc__ = u'''\
 '''
 
 sqlCreateTissueTable = '''\
-CREATE  TABLE `Tissue` (
+CREATE  TABLE IF NOT EXISTS `Tissue` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `type_id` INT NOT NULL ,
   `date` DATETIME NOT NULL ,
@@ -35,7 +35,7 @@ COLLATE = utf8_general_ci;
 '''
 
 sqlCreateActionTissueTable = '''\
-CREATE  TABLE `ActionTissue` (
+CREATE  TABLE IF NOT EXISTS `ActionTissue` (
   `action_id` INT NOT NULL ,
   `tissue_id` INT NOT NULL ,
   PRIMARY KEY (`action_id`, `tissue_id`) ,
@@ -71,10 +71,10 @@ def execute(conn, sql):
 
 def upgrade(conn):
     for sql in [sqlCreateTissueTable, sqlCreateActionTissueTable]:
-	execute(conn, sql);
+        execute(conn, sql);
 
 def downgrade(conn):
     for sql in [sqlDropActionTissueTable, sqlDropTissueTable]:
-	execute(conn, sql);
+        execute(conn, sql);
 
 

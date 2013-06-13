@@ -13,10 +13,11 @@ Alter table `Event` add privilege tinyint(1) default 0
 '''\
 Alter table `Event` add urgent tinyint(1) default 0
 '''
-    ] 
+    ]
+    global tools
     c = conn.cursor()
     for s in sql0:
-        c.execute(s)
+        tools.executeEx(c, s, mode=['ignore_dublicates'])
         
 def downgrade(conn):
     sql0 = [

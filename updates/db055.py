@@ -10,6 +10,7 @@ __doc__ = '''\
 
 
 def upgrade(conn):
+    global tools
     c = conn.cursor()
 
     sql = u'''
@@ -55,12 +56,7 @@ ALTER TABLE `Client_Quoting` ADD `treatment_id`    INT(11)  NOT NULL COMMENT 're
     sql = u'''
 ALTER TABLE `QuotaType` ADD COLUMN `MKB` VARCHAR(8) NOT NULL AFTER `name`;
 '''
-    c.execute(sql)
-    
-    sql = u'''
-ALTER TABLE `Quoting` ADD COLUMN `teenOlder` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'Для пациентов старше 18 лет' AFTER `inQueue`;
-'''
-    c.execute(sql)
+    tools.executeEx(c, sql, mode=['ignore_dublicates'])
     
     sql = u'''
 CREATE TABLE IF NOT EXISTS `LastChanges` (
@@ -79,24 +75,13 @@ ENGINE=InnoDB;
     sql = u'''
 ALTER TABLE `QuotaType` ADD COLUMN `teenOlder` TINYINT(1) NOT NULL COMMENT "Для пациентов старше 18 лет" AFTER `MKB`;
 '''
-    c.execute(sql)
-    
-    sql = u'''
-ALTER TABLE `Quoting` DROP COLUMN `teenOlder`;
-'''
-    c.execute(sql)
+    tools.executeEx(c, sql, mode=['ignore_dublicates'])
     
     sql = u'''
 ALTER TABLE `Client_Quoting`
 ADD COLUMN `event_id` INT(11) NULL DEFAULT NULL COMMENT 'ref to {Event}' AFTER `treatment_id`;
 '''
-    try:
-        c.execute(sql)
-    except OperationalError as e:
-        if 'Duplicate column name' in unicode(e):
-            pass
-        else:
-            raise
+    tools.executeEx(c, sql, mode=['ignore_dublicates'])
         
     # Исправление некоторых косяков
     sql = u'''
@@ -112,13 +97,7 @@ ALTER TABLE `rbService` ADD COLUMN `adultUetDoctor` DOUBLE NULL DEFAULT '0'  ,
   ON DELETE SET NULL
   ON UPDATE RESTRICT;
 '''
-    try:
-        c.execute(sql)
-    except OperationalError as e:
-        if 'Duplicate column name' in unicode(e):
-            pass
-        else:
-            raise
+    tools.executeEx(c, sql, mode=['ignore_dublicates'])
     
     sql = u'''
 ALTER TABLE `ActionType` CHANGE COLUMN `code` `code` VARCHAR(25) NOT NULL COMMENT 'Код'  ;

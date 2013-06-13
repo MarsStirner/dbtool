@@ -15,6 +15,23 @@ def createTriggerName(tableName, triggerEvent):
         tableName=tableName, triggerEvent=triggerEvent)     
 
 def upgrade(conn):
+    sqlDropTrigger = "DROP TRIGGER IF EXISTS {triggerName}"
+    sql = [
+        sqlDropTrigger.format(triggerName=createTriggerName(tblMkb, "INSERT")),
+        sqlDropTrigger.format(triggerName=createTriggerName(tblMkb, "UPDATE")),
+        sqlDropTrigger.format(triggerName=createTriggerName(tblMkb, "DELETE")),
+
+        sqlDropTrigger.format(triggerName=createTriggerName(tblMkbSub, "INSERT")),
+        sqlDropTrigger.format(triggerName=createTriggerName(tblMkbSub, "UPDATE")),
+        sqlDropTrigger.format(triggerName=createTriggerName(tblMkbSub, "DELETE")),
+
+        sqlDropTrigger.format(triggerName=createTriggerName(tblMkbSubItem, "INSERT")),
+        sqlDropTrigger.format(triggerName=createTriggerName(tblMkbSubItem, "UPDATE")),
+        sqlDropTrigger.format(triggerName=createTriggerName(tblMkbSubItem, "DELETE")),
+    ]
+    c = conn.cursor()
+    for s in sql:
+        c.execute(s)
     # Код создания триггера на событие triggerEvent.
     # Триггер вставляет нулевую версию для таблицы tableName
     # или увеличивает номер версии для таблицы tableName
