@@ -62,7 +62,9 @@ def upgrade(conn):
         c.execute(sql)
         for clientInfoTable in clientInfoTables:
             c.execute(sqlTemplate % (config['definer'], triggerEvent, clientInfoTable, triggerEvent, clientInfoTable))
-
-           
+            
+    sql = u'''ALTER TABLE `rlsNomen` ADD COLUMN `version` INT(11) NOT NULL DEFAULT '0' AFTER `disabledForPrescription`;'''
+    c.execute(sql)
+                       
 def downgrade(conn):
     pass
