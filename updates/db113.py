@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
@@ -49,7 +49,7 @@ def setMnem(recordId, mnem, conn):
             setMnem(row[0], mnem, conn)
     else:
         try:
-            c.execute(u'''UPDATE ActionType SET mnem='%s' WHERE group_id =%s and deleted = 0''' % (mnem, recordId))
+            c.execute(u'''UPDATE ActionType SET mnem='%s' WHERE id =%s and deleted = 0''' % (mnem, recordId))
         except:
             print("Cann't set mnem for record ID: %s" % (recordId))
         
