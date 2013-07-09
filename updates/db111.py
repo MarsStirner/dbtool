@@ -34,7 +34,10 @@ ALTER TABLE `AppLock` ENGINE = InnoDB;
     sql = u'''
 CREATE INDEX `AppLock_connectionId` on `AppLock` (`connectionId`);
 '''
-    c.execute(sql) 
+    try:
+        c.execute(sql)
+    except:
+        pass
             
     
 def downgrade(conn):
