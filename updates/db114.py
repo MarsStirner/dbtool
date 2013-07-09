@@ -32,7 +32,9 @@ def addProperty(recordId, conn):
             addProperty(row[0], conn)
     else: 
         try:
-            sql = u'''INSERT INTO ActionPropertyType VALUES ( "%s", 0, "%s", 99, null, 'Направительный диагноз', '', null, 'MKB', '', '', null, 0, '', 0, '', 0, '000', 0, '000', 0, 0, 0, null, 0, 0, 1, 0);''' % (str(recordId) + '0001', recordId)
+            sql = u'''INSERT INTO ActionPropertyType
+            (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`,`defaultValue`,`code`,`isVector`,`norm`,`sex`,`age`,`age_bu`,`age_bc`,`age_eu`,`age_ec`,`penalty`,`visibleInJobTicket`,`isAssignable`,`test_id`,`defaultEvaluation`,`toEpicrisis`,`mandatory`,`readOnly`)
+             VALUES (0, "%s", 99, null, 'Направительный диагноз', '', null, 'MKB', '', '', null, 0, '', 0, '', 0, '000', 0, '000', 0, 0, 0, null, 0, 0, 1, 0);''' %  recordId
             c.execute(sql)
         except:
             traceback.print_exc()

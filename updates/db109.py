@@ -22,10 +22,8 @@ def upgrade(conn):
             AND at.flatCode = 'moving' 
             AND apt.name LIKE 'Время поступления')
         as p); '''
-    try:
-        c.execute(sql)
-    except:
-        pass
+
+    c.execute(sql)
     
 def downgrade(conn):
     pass
