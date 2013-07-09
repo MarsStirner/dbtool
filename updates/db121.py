@@ -29,7 +29,12 @@ def upgrade(conn):
     
     for rep in replacements:
         query = sql % rep
-        c.execute(query)
+        
+        try:
+            c.execute(query)
+        except:
+            pass
+  
         
     c.close()    
   
