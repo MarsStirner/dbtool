@@ -57,10 +57,11 @@ options:
 
 
 def get_config():
-    p = ConfigParser()
+    p = ConfigParser(defaults={'port': '3306'})
     p.read([CONFIG_FILENAME])
     return {
         'host': p.get(b'database', b'host'),
+        'port': p.get(b'database', b'port'),
         'username': p.get(b'database', b'username'),
         'password': p.get(b'database', b'password'),
         'dbname': p.get(b'database', b'dbname'),
@@ -171,6 +172,7 @@ def change_definers():
 def open_db_connection():
     params = get_config()
     with closing(db.connect(host=params['host'],
+                            port=int(params['port']),
                             user=params['username'],
                             passwd=params['password'],
                             db=params['dbname'],
