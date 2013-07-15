@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
-import traceback
+from utils import tools
 __doc__ = '''\
 -  Добавление кода к свойству действия "Время поступления" '''
 
@@ -23,7 +23,7 @@ def upgrade(conn):
             AND apt.name LIKE 'Время поступления')
         as p); '''
 
-    c.execute(sql)
+    tools.executeEx(c, sql, mode='safe_updates_off')
     
 def downgrade(conn):
     pass
