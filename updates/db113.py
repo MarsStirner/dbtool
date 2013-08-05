@@ -38,7 +38,7 @@ def setMnem(recordId, mnem, conn):
             setMnem(row[0], mnem, conn)
    
     try:
-        c.execute(u'''UPDATE ActionType SET mnem='%s' WHERE id =%s''' % (mnem, recordId))
+        c.execute(u'''UPDATE ActionType SET mnem='%s' WHERE group_id ="%s"''' % (mnem, recordId))
     except:
         print("Cann't set mnem for record ID: %s" % (recordId))
         
