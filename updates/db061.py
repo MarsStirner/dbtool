@@ -25,19 +25,19 @@ DROP TRIGGER IF EXISTS `Delete_Action_ON_UPDATE`;
     
     sql = u'''
 CREATE
-DEFINER=`%s`@`%s`
+DEFINER=%s
 TRIGGER `INCREMENT_Event_RECORD_VERSION_ON_UPDATE`
 BEFORE UPDATE ON `Event`
 FOR EACH ROW
 BEGIN
     SET NEW.version = OLD.version + 1;
 END;
-''' % (config['username'], config['host'])
+''' % config['definer']
     c.execute(sql)
     
     sql = u'''
 CREATE
-DEFINER=`%s`@`%s`
+DEFINER=%s
 TRIGGER `Delete_Action_ON_UPDATE`
 AFTER UPDATE ON `Event`
 FOR EACH ROW
@@ -49,7 +49,7 @@ BEGIN
     END IF;
 
 END;
-''' % (config['username'], config['host'])
+''' % config['definer']
     c.execute(sql)
     
     sql = u'''
@@ -64,19 +64,19 @@ DROP TRIGGER IF EXISTS `Delete_ActionProperty_ON_UPDATE`;
     
     sql = u'''
 CREATE
-DEFINER=`%s`@`%s`
+DEFINER=%s
 TRIGGER `INCREMENT_Action_RECORD_VERSION_ON_UPDATE`
 BEFORE UPDATE ON `Action`
 FOR EACH ROW
 BEGIN
     SET NEW.version = OLD.version + 1;
 END;
-''' % (config['username'], config['host'])
+''' % config['definer']
     c.execute(sql)
     
     sql = u'''
 CREATE
-DEFINER=`%s`@`%s`
+DEFINER=%s
 TRIGGER `Delete_ActionProperty_ON_UPDATE`
 AFTER UPDATE ON `Action`
 FOR EACH ROW
@@ -87,7 +87,7 @@ BEGIN
         WHERE action_id = NEW.id;
     END IF;
 END;
-''' % (config['username'], config['host'])
+''' % config['definer']
 
     c.execute(sql)
     

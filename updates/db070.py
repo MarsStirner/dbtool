@@ -15,7 +15,7 @@ def upgrade(conn):
     sql = u'''
 CREATE OR REPLACE
     ALGORITHM = UNDEFINED 
-    DEFINER = `%s`@`%s` 
+    DEFINER = %s 
     SQL SECURITY DEFINER
 VIEW `vClient_Quoting` AS
     select 
@@ -55,7 +55,7 @@ VIEW `vClient_Quoting` AS
             from `Client_Quoting` `c3`
             where `c3`.`prevTalon_event_id` is not null and `c3`.`deleted` = 0) 
             or c0.event_id is NULL)    ;
-''' % (config['username'], config['host'])
+''' % config['definer']
     c.execute(sql)
     
     

@@ -8,7 +8,6 @@ __doc__ = '''\
 '''
 
 def upgrade(conn):
-    global tools        
     c = conn.cursor()
     
     sql = u'''

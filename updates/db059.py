@@ -44,22 +44,22 @@ ENGINE=InnoDB;
     c.executemany(sql, data)
 
     sql = u'''
-CREATE ALGORITHM = UNDEFINED DEFINER=`%s`@`%s` SQL SECURITY DEFINER VIEW `vClient_Quoting_sub` AS select distinct c1.* 
+CREATE ALGORITHM = UNDEFINED DEFINER=%s SQL SECURITY DEFINER VIEW `vClient_Quoting_sub` AS select distinct c1.* 
 from Client_Quoting c1 join Client_Quoting c2 
 on c1.master_id=c2.master_id and c1.event_id=c2.event_id
  and c1.createDatetime<c2.createDatetime ;
-''' % (config['username'], config['host'])
+''' % config['definer']
     c.execute(sql)
     
     sql = u'''
-CREATE ALGORITHM = UNDEFINED DEFINER=`%s`@`%s` SQL SECURITY DEFINER VIEW `vClient_Quoting` AS select c0.* from Client_Quoting c0 left join 
+CREATE ALGORITHM = UNDEFINED DEFINER=%s SQL SECURITY DEFINER VIEW `vClient_Quoting` AS select c0.* from Client_Quoting c0 left join 
 vClient_Quoting_sub c00 on c0.id=c00.id
 where c00.id is NULL ;
-''' % (config['username'], config['host'])
+''' % config['definer']
     c.execute(sql)
     
     sql = u'''
-CREATE ALGORITHM = UNDEFINED DEFINER=`%s`@`%s` SQL SECURITY DEFINER VIEW `vClient_Quoting_History` AS
+CREATE ALGORITHM = UNDEFINED DEFINER=%s SQL SECURITY DEFINER VIEW `vClient_Quoting_History` AS
 select cq.id, p.login as modifyPerson, cq.createDatetime, cq.master_id as client_id,
 cq.identifier, cq.quotaTicket, qt.name as quotaName, cq.stage, cq.directionDate, cq.freeInput,
 o.shortName as organ, cq.amount, cq.MKB, qs.name as `status`, cq.request, cq.statment, cq.dateRegistration,
@@ -74,7 +74,7 @@ left join rbPacientModel pm on cq.pacientModel_id=pm.id
 left join rbTreatment t on cq.treatment_id=t.id 
 
 order by client_id, cq.createDatetime DESC;
-''' % (config['username'], config['host'])
+''' % config['definer']
     c.execute(sql)
         
 

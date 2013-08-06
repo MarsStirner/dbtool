@@ -53,7 +53,7 @@ def mergeRLSdb(conn):
         c.execute(show_stmt)
         create_stmt = c.fetchone()[1]
         create_stmt = create_stmt.replace('`rls`.', '')
-        replacedDefiner = '`%s`@`%s`' % (config['username'], config['host'])
+        replacedDefiner = config['definer']
         create_stmt = re.sub(r'`\w+`@`[\w\.]+`', replacedDefiner, create_stmt)
         c.execute(create_stmt)
         
@@ -296,7 +296,7 @@ CREATE TABLE `rlsTradeNameToCode` (
     sql = u'''
 CREATE 
     ALGORITHM = UNDEFINED 
-    DEFINER = `%s`@`%s` 
+    DEFINER = %s 
     SQL SECURITY DEFINER
 VIEW `vNomen` AS
     select 
@@ -333,7 +333,7 @@ VIEW `vNomen` AS
         left join `rlsDosage` ON ((`rlsDosage`.`id` = `rlsNomen`.`dosage_id`)))
         left join `rlsFilling` ON ((`rlsFilling`.`id` = `rlsNomen`.`filling_id`)))
         left join `rlsPacking` ON ((`rlsPacking`.`id` = `rlsNomen`.`packing_id`)))
-''' % (config['username'], config['host'])
+''' % config['definer']
     c.execute(sql)
    
 
