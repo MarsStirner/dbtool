@@ -23,6 +23,9 @@ sqls = [
     u"DROP VIEW vNomen",
     u"DROP TABLE rlsNomen",
     u"ALTER TABLE rlsFilling DROP COLUMN `disabledForPrescription`",
+    u"""ALTER TABLE `rbUnit`
+        CHANGE COLUMN `code` `code` VARCHAR(256),
+        CHANGE COLUMN `name` `name` VARCHAR(256)""",
     u"DROP TABLE rlsINPName",
     u"""CREATE TABLE rlsActMatters
         `id` INT(11) NOT NULL COMMENT 'Идентификатор вещества',
