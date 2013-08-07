@@ -4,11 +4,47 @@
 from __future__ import unicode_literals, print_function
 from _mysql import OperationalError
 
-__doc__ = '''\
-Деструктивное преобразование БД РЛС
+__doc__ = '''
+- Добавление таблиц для Листа Назначений
+- Деструктивное преобразование БД РЛС
 '''
 
 sqls = [
+    u"""ALTER TABLE `Action`
+        ADD COLUMN `uuid` BINARY(16) NULL DEFAULT NULL COMMENT 'UUID',
+        ADD INDEX `uuid_id` (`uuid_id`);""",
+    u"""CREATE TABLE `DrugChart` (
+        `id` INT(11) NOT NULL AUTO_INCREMENT,
+        `action_id` INT(11) NOT NULL,
+        `master_id` INT(11) NULL DEFAULT NULL,
+        `begDateTime` DATETIME NOT NULL,
+        `endDateTime` DATETIME NULL DEFAULT NULL,
+        `status` TINYINT(1) UNSIGNED NOT NULL,
+        `statusDateTime` INT(11) NULL DEFAULT NULL,
+        PRIMARY KEY (`id`),
+        INDEX `master_id` (`master_id`),
+        INDEX `action_uuid` (`action_id`),
+        CONSTRAINT `FK_DrugChart_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`),
+        CONSTRAINT `FK_DrugChart_DrugChart` FOREIGN KEY (`master_id`) REFERENCES `DrugChart` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+    )
+    COLLATE='utf8_general_ci'
+    ENGINE=InnoDB;""",
+    u"""CREATE TABLE `DrugComponent` (
+        `id` INT(11) NOT NULL AUTO_INCREMENT,
+        `action_id` INT(11) NOT NULL,
+        `nomen` INT(11) NULL DEFAULT NULL,
+        `name` VARCHAR(255) NULL DEFAULT NULL,
+        `dose` FLOAT NULL DEFAULT NULL,
+        `unit` INT(10) NULL DEFAULT NULL,
+        `createDateTime` DATETIME NOT NULL,
+        `cancelDateTime` DATETIME NULL DEFAULT NULL,
+        PRIMARY KEY (`id`),
+        INDEX `FK_DrugComponent_rlsNomen` (`nomen`),
+        INDEX `FK_DrugComponent_Action` (`action_id`),
+        CONSTRAINT `FK_DrugComponent_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`)
+    )
+    COLLATE='utf8_general_ci'
+    ENGINE=InnoDB;""",
     u"DROP TABLE rlsATCGroup;",
     u"DROP TABLE rlsATCGroupExt;",
     u"DROP TABLE rlsATCGroupToCode;",
