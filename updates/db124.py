@@ -5,7 +5,7 @@ from __future__ import unicode_literals, print_function
 from _mysql import OperationalError
 
 __doc__ = '''\
-Увеличение количества вводимых символов
+Деструктивное преобразование БД РЛС
 '''
 
 sqls = [
@@ -16,24 +16,27 @@ sqls = [
     u"DROP TABLE rlsINPNameToCode;",
     u"DROP TABLE rlsMKBToCode;",
     u"DROP TABLE rlsNomenRaw;",
-    u"DROP TABLE rlsPharmGroup;",
-    u"DROP TABLE rlsPharmGroupToCode;",
+    # Эти справочники понадобятся в будущем, а я не знаю, откуда их брать.
+    # u"DROP TABLE rlsPharmGroup;",
+    # u"DROP TABLE rlsPharmGroupToCode;",
     u"DROP TABLE rlsTradeNameToCode;",
     u"DROP VIEW vNomen",
     u"DROP TABLE rlsNomen",
     u"ALTER TABLE rlsFilling DROP COLUMN `disabledForPrescription`",
-    u"""ALTER TABLE rlsINPName
-        DROP COLUMN `rawName`,
-        CHANGE COLUMN `latName` `name` VARCHAR(255) NULL DEFAULT NULL AFTER `id`,
-        CHANGE COLUMN `name` `localName` VARCHAR(255) NULL DEFAULT NULL AFTER `name`;""",
+    u"DROP TABLE rlsINPName",
+    u"""CREATE TABLE rlsActMatters
+        `id` INT(11) NOT NULL COMMENT 'Идентификатор вещества',
+        `name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Международное наименование',
+        `localName` VARCHAR(255) NULL DEFAULT NULL 'Локальное наименование';""",
+    u"TRUNCATE `rlsTradeName`",
     u"""ALTER TABLE `rlsTradeName`
         CHANGE COLUMN `latName` `name` VARCHAR(255) NULL DEFAULT NULL AFTER `id`,
         CHANGE COLUMN `name` `localName` VARCHAR(255) NULL DEFAULT NULL AFTER `name`;""",
+    u"TRUNCATE `rlsNomen`",
     u"""CREATE TABLE `rlsNomen` (
         `id` INT(11) NOT NULL COMMENT 'РЛС-овский код',
         `version` INT(11) NOT NULL DEFAULT '0' COMMENT 'Версия',
         `tradeName_id` INT(11) NULL DEFAULT NULL COMMENT 'Торговое название {rlsTradeName}',
-        `inpName_id` INT(11) NULL DEFAULT NULL COMMENT 'МНН/НДВ {rlsINPName}',
         `form_id` INT(11) NULL DEFAULT NULL COMMENT 'Лекарственная форма {rlsForm}',
         `packing_id` INT(11) NULL DEFAULT NULL COMMENT 'Упаковка {rlsPacking}',
         `filling_id` INT(11) NULL DEFAULT NULL COMMENT 'Фасовка {rlsFilling}',
@@ -44,7 +47,6 @@ sqls = [
         `annDate` DATE NULL DEFAULT NULL COMMENT 'Дата отмены',
         PRIMARY KEY (`id`, `version`),
         INDEX `tradeName_id` (`tradeName_id`),
-        INDEX `inpName_id` (`inpName_id`),
         INDEX `FK_rlsNomen_rlsForm` (`form_id`),
         INDEX `FK_rlsNomen_rlsPacking` (`packing_id`),
         INDEX `FK_rlsNomen_rlsFilling` (`filling_id`),
@@ -54,12 +56,23 @@ sqls = [
         CONSTRAINT `FK_rlsNomen_rbUnit_2` FOREIGN KEY (`dosageUnit_id`) REFERENCES `rbUnit` (`id`),
         CONSTRAINT `FK_rlsNomen_rlsFilling` FOREIGN KEY (`filling_id`) REFERENCES `rlsFilling` (`id`),
         CONSTRAINT `FK_rlsNomen_rlsForm` FOREIGN KEY (`form_id`) REFERENCES `rlsForm` (`id`),
-        CONSTRAINT `FK_rlsNomen_rlsINPName` FOREIGN KEY (`inpName_id`) REFERENCES `rlsINPName` (`id`),
         CONSTRAINT `FK_rlsNomen_rlsPacking` FOREIGN KEY (`packing_id`) REFERENCES `rlsPacking` (`id`),
         CONSTRAINT `FK_rlsNomen_rlsTradeName` FOREIGN KEY (`tradeName_id`) REFERENCES `rlsTradeName` (`id`)
     )
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB;""",
+    u"""CREATE TABLE `rlsActMatters_Nomen` (
+        `nomen_id` INT(11) NOT NULL,
+        `actMatter_id` INT(11) NOT NULL,
+        PRIMARY KEY (`nomen_id`, `actMatter_id`),
+        INDEX `actMatter_id` (`actMatter_id`),
+        CONSTRAINT `FK_rlsActMatters_Nomen_rlsNomen` FOREIGN KEY (`nomen_id`) REFERENCES `rlsNomen` (`id`),
+        CONSTRAINT `FK_rlsActMatters_Nomen_rlsActMatters` FOREIGN KEY (`actMatter_id`) REFERENCES `rlsActMatters` (`id`)
+    )
+    COLLATE='utf8_general_ci'
+    ENGINE=InnoDB;""",
+    u"TRUNCATE `rlsPacking`",
+    u"TRUNCATE `rlsFilling`",
     u"ALTER TABLE rlsPacking DROP COLUMN `disabledForPrescription`",
     u"""CREATE TABLE `rlsBalanceOfGoods` (
         `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -75,20 +88,20 @@ sqls = [
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB;
     """,
-    u"""CREATE VIEW `vNomen` AS
+    u"""CREATE OR REPLACE VIEW `vNomen` AS
     SELECT
         `rlsNomen`.`id` as `id`,
         `rlsNomen`.`version` as `version`,
         `rlsTradeName`.`name` as `tradeName`,
-        `rlsTradeName`.`localName` as `tradeLocalname`,
-        `rlsINPName`.`name` as `inpName`,
-        `rlsINPName`.`localName` as `inpLocalName`,
+        `rlsTradeName`.`localName` as `tradeLocalName`,
         `rlsForm`.`name` as `form`,
         `rlsPacking`.`name` as `packing`,
         `rlsFilling`.`name` as `filling`,
+        `rlsNomen`.`unit_id` as `unit_id`,
         `rbUnit`.`code` as `unitCode`,
         `rbUnit`.`name` as `unitName`,
         `rlsNomen`.`dosageValue` as `dosageValue`,
+        `rlsNomen`.`dosageUnit_id` as `dosageUnit_id`,
         `rbUnit2`.`code` as `dosageUnitCode`,
         `rbUnit2`.`name` as `dosageUnitName`,
         `rlsNomen`.`regDate` as `regDate`,
@@ -96,7 +109,6 @@ sqls = [
     FROM
         `rlsNomen`
     LEFT JOIN `rlsTradeName` on `rlsTradeName`.`id` = `rlsNomen`.`tradeName_id`
-    LEFT JOIN `rlsINPName` on `rlsINPName`.`id` = `rlsNomen`.`inpName_id`
     LEFT JOIN `rlsForm` on `rlsForm`.`id` = `rlsNomen`.`form_id`
     LEFT JOIN `rlsPacking` on `rlsPacking`.`id` = `rlsNomen`.`packing_id`
     LEFT JOIN `rlsFilling` on `rlsFilling`.`id` = `rlsNomen`.`filling_id`
