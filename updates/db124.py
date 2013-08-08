@@ -9,37 +9,46 @@ __doc__ = '''\
 '''
 
 sqls = [
-    u"DROP TABLE rlsATCGroup;",
-    u"DROP TABLE rlsATCGroupExt;",
-    u"DROP TABLE rlsATCGroupToCode;",
-    u"DROP TABLE rlsDosage;",
-    u"DROP TABLE rlsINPNameToCode;",
-    u"DROP TABLE rlsMKBToCode;",
-    u"DROP TABLE rlsNomenRaw;",
+    u"DROP TABLE IF EXISTS rlsATCGroup;",
+    u"DROP TABLE IF EXISTS rlsATCGroupExt;",
+    u"DROP TABLE IF EXISTS rlsATCGroupToCode;",
+    u"DROP TABLE IF EXISTS rlsDosage;",
+    u"DROP TABLE IF EXISTS rlsINPNameToCode;",
+    u"DROP TABLE IF EXISTS rlsMKBToCode;",
+    u"DROP TABLE IF EXISTS rlsNomenRaw;",
     # Эти справочники понадобятся в будущем, а я не знаю, откуда их брать.
     # u"DROP TABLE rlsPharmGroup;",
     # u"DROP TABLE rlsPharmGroupToCode;",
-    u"DROP TABLE rlsTradeNameToCode;",
-    u"DROP VIEW vNomen",
-    u"DROP TABLE rlsNomen",
-    u"ALTER TABLE rlsFilling DROP COLUMN `disabledForPrescription`",
-    u"""ALTER TABLE `rbUnit`
+    u"DROP TABLE IF EXISTS rlsTradeNameToCode;",
+    u"DROP VIEW IF EXISTS vNomen",
+    u"DROP TABLE IF EXISTS rlsNomen",
+    u"ALTER IGNORE TABLE rlsFilling DROP COLUMN `disabledForPrescription`",
+    U"ALTER IGNORE TABLE `rlsFilling` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`);",
+    u"""ALTER IGNORE TABLE `rbUnit`
         CHANGE COLUMN `code` `code` VARCHAR(256),
         CHANGE COLUMN `name` `name` VARCHAR(256)""",
     u"DROP TABLE rlsINPName",
-    u"""CREATE TABLE rlsActMatters
+    u"""CREATE TABLE  IF NOT EXISTS `rlsActMatters` (
         `id` INT(11) NOT NULL COMMENT 'Идентификатор вещества',
-        `name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Международное наименование',
-        `localName` VARCHAR(255) NULL DEFAULT NULL 'Локальное наименование';""",
+        `name` VARCHAR(255) NOT NULL COMMENT 'Международное наименование',
+        `localName` VARCHAR(255) NOT NULL COMMENT 'Локальное наименование',
+        PRIMARY KEY (`id`), 
+        UNIQUE INDEX `name` (`name`),
+        UNIQUE INDEX `localName` (`localName`)        
+    )
+    COLLATE='utf8_general_ci'
+    ENGINE=InnoDB;""",
     u"TRUNCATE `rlsTradeName`",
-    u"""ALTER TABLE `rlsTradeName`
-        CHANGE COLUMN `latName` `name` VARCHAR(255) NULL DEFAULT NULL AFTER `id`,
-        CHANGE COLUMN `name` `localName` VARCHAR(255) NULL DEFAULT NULL AFTER `name`;""",
-    u"TRUNCATE `rlsNomen`",
-    u"""CREATE TABLE `rlsNomen` (
+    u"""ALTER IGNORE TABLE `rlsTradeName`
+        CHANGE COLUMN `latName` `name` VARCHAR(255) NOT NULL AFTER `id`,
+        CHANGE COLUMN `name` `localName` VARCHAR(255) NOT NULL AFTER `name`;""",
+    u"""ALTER IGNORE TABLE `rlsTradeName` 
+        DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`),
+        DROP INDEX `latName`, ADD UNIQUE INDEX `localName` (`localName`);""",
+    u"""CREATE TABLE  IF NOT EXISTS  `rlsNomen` (
         `id` INT(11) NOT NULL COMMENT 'РЛС-овский код',
         `version` INT(11) NOT NULL DEFAULT '0' COMMENT 'Версия',
-        `tradeName_id` INT(11) NULL DEFAULT NULL COMMENT 'Торговое название {rlsTradeName}',
+        `tradeName_id` INT(11) NOT NULL COMMENT 'Торговое название {rlsTradeName}',
         `form_id` INT(11) NULL DEFAULT NULL COMMENT 'Лекарственная форма {rlsForm}',
         `packing_id` INT(11) NULL DEFAULT NULL COMMENT 'Упаковка {rlsPacking}',
         `filling_id` INT(11) NULL DEFAULT NULL COMMENT 'Фасовка {rlsFilling}',
@@ -64,7 +73,7 @@ sqls = [
     )
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB;""",
-    u"""CREATE TABLE `rlsActMatters_Nomen` (
+    u"""CREATE TABLE  IF NOT EXISTS `rlsActMatters_Nomen` (
         `nomen_id` INT(11) NOT NULL,
         `actMatter_id` INT(11) NOT NULL,
         PRIMARY KEY (`nomen_id`, `actMatter_id`),
@@ -76,7 +85,9 @@ sqls = [
     ENGINE=InnoDB;""",
     u"TRUNCATE `rlsPacking`",
     u"TRUNCATE `rlsFilling`",
-    u"ALTER TABLE rlsPacking DROP COLUMN `disabledForPrescription`",
+    u"ALTER IGNORE TABLE `rlsPacking` DROP COLUMN `disabledForPrescription`",
+    u"ALTER IGNORE TABLE `rlsPacking` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`)",
+    u"ALTER IGNORE TABLE `rlsForm` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`);",
     u"""CREATE TABLE `rlsBalanceOfGoods` (
         `id` INT(11) NOT NULL AUTO_INCREMENT,
         `rlsNomen_id` INT(11) NOT NULL,
@@ -126,6 +137,7 @@ def upgrade(conn):
 
     for sql in sqls:
         try:
+            print(sql)
             c.execute(sql)
         except OperationalError, e:
             print(e)
