@@ -18,8 +18,7 @@ sqls = [
     u"DROP TABLE IF EXISTS rlsMKBToCode;",
     u"DROP TABLE IF EXISTS rlsNomenRaw;",
     u"""ALTER IGNORE TABLE `Action`
-        ADD COLUMN `uuid` BINARY(16) NULL DEFAULT NULL COMMENT 'UUID',
-        ADD INDEX `uuid_id` (`uuid_id`);""",
+        ADD COLUMN `uuid` BINARY(16) NULL DEFAULT NULL COMMENT 'UUID'""",
     u"""CREATE TABLE IF NOT EXISTS `DrugChart` (
         `id` INT(11) NOT NULL AUTO_INCREMENT,
         `action_id` INT(11) NOT NULL,
@@ -59,6 +58,8 @@ sqls = [
     u"DROP TABLE IF EXISTS rlsTradeNameToCode;",
     u"DROP VIEW IF EXISTS vNomen",
     u"DROP TABLE IF EXISTS rlsNomen",
+    u"TRUNCATE `rlsPacking`",
+    u"TRUNCATE `rlsFilling`",
     u"ALTER IGNORE TABLE rlsFilling DROP COLUMN `disabledForPrescription`",
     U"ALTER IGNORE TABLE `rlsFilling` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`);",
     u"""ALTER IGNORE TABLE `rbUnit`
@@ -120,8 +121,6 @@ sqls = [
     )
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB;""",
-    u"TRUNCATE `rlsPacking`",
-    u"TRUNCATE `rlsFilling`",
     u"ALTER IGNORE TABLE `rlsPacking` DROP COLUMN `disabledForPrescription`",
     u"ALTER IGNORE TABLE `rlsPacking` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`)",
     u"ALTER IGNORE TABLE `rlsForm` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`);",
@@ -174,7 +173,7 @@ def upgrade(conn):
 
     for sql in sqls:
         try:
-            #print(sql)
+            print(sql)
             c.execute(sql)
         except OperationalError, e:
             print(e)
