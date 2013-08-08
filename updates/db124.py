@@ -173,7 +173,7 @@ def upgrade(conn):
 
     for sql in sqls:
         try:
-            print(sql)
+            #print(sql)
             c.execute(sql)
         except OperationalError, e:
             print(e)
