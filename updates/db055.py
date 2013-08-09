@@ -93,7 +93,7 @@ ALTER TABLE `rbService` ADD COLUMN `adultUetDoctor` DOUBLE NULL DEFAULT '0'  ,
     ADD COLUMN `superviseComplexityFactor` DOUBLE NOT NULL DEFAULT '1'  AFTER `qualityLevel` , 
   ADD CONSTRAINT `rbService_medicalAidProfile`
   FOREIGN KEY (`medicalAidProfile_id` )
-  REFERENCES `ResBol_Gemchueva`.`rbMedicalAidProfile` (`id` )
+  REFERENCES `rbMedicalAidProfile` (`id` )
   ON DELETE SET NULL
   ON UPDATE RESTRICT;
 '''
