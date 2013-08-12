@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
+from utils import tools
 
 __doc__ = '''\
 Изменение кода полиса ОМС электронного образца для интеграции с УЭК.
@@ -20,15 +21,17 @@ def upgrade(conn):
     sql = u'''
 UPDATE `rbPolicyType` SET `code`='cmiCommonElectron' WHERE `name` like '%единого образца';
 '''
-    c.execute(sql)
-
-    c.execute(u'''SELECT * from `rbPolicyType` WHERE `code`='cmiCommonElectron';''')
-    result = c.fetchone()
-    if not result:
-        sql = u'''INSERT INTO `rbPolicyType`
-                    (`code`, `name`)
-                     VALUES ('cmiCommonElectron','ОМС Электронный полис единого образца');'''
-        c.execute(sql)
+    try:
+        tools.executeEx(c, sql, mode='safe_updates_off')
+        c.execute(u'''SELECT * from `rbPolicyType` WHERE `code`='cmiCommonElectron';''')
+        result = c.fetchone()
+        if not result:
+            sql = u'''INSERT INTO `rbPolicyType`
+                        (`code`, `name`)
+                         VALUES ('cmiCommonElectron','ОМС Электронный полис единого образца');'''
+            c.execute(sql)
+    except:
+        print(u'Не удалось установить код для Электронного полиса единого образца. Требуется ручное вмешательство.')
 
     sql = u'''ALTER TABLE `rbPost` ADD COLUMN `flatCode` VARCHAR(64) NOT NULL  AFTER `high`;
     '''
