@@ -27,6 +27,7 @@ sqls = [
         `endDateTime` DATETIME NULL DEFAULT NULL,
         `status` TINYINT(1) UNSIGNED NOT NULL,
         `statusDateTime` INT(11) NULL DEFAULT NULL,
+        `note` VARCHAR(256) NULL DEFAULT '',
         PRIMARY KEY (`id`),
         INDEX `master_id` (`master_id`),
         INDEX `action_uuid` (`action_id`),
