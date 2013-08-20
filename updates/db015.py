@@ -135,7 +135,7 @@ def upgrade(conn):
             sqlInsertActionPropertyType.format(
                 actionTypeId = atId,
                 name = statusActionPropertyName,
-		defaultStatus = defaultStatusId))
+                defaultStatus = defaultStatusId))
         at2apt[atId] = aptId
 
     # Выбираем действия с типами из списка ранее найденных
@@ -144,9 +144,9 @@ def upgrade(conn):
     apIds = []
     for r in rows:
         aId = r[0]
-        createPerson = r[1]
+        createPerson = r[1] if r[1] is not None else 'NULL'
         createDate = r[2]
-        modifyPerson = r[3]
+        modifyPerson = r[3] if r[3] is not None else 'NULL'
         modifyDate = r[4]
         atId = r[5]
         # Получаем id типа свойства по типу действия
