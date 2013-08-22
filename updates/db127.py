@@ -52,7 +52,7 @@ sqls = [
     )
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB;""",
-  
+
     # Эти справочники понадобятся в будущем, а я не знаю, откуда их брать.
     # u"DROP TABLE rlsPharmGroup;",
     # u"DROP TABLE rlsPharmGroupToCode;",
@@ -61,6 +61,7 @@ sqls = [
     u"DROP TABLE IF EXISTS rlsNomen",
     u"TRUNCATE `rlsPacking`",
     u"TRUNCATE `rlsFilling`",
+    u"TRUNCATE `rlsForm`",
     u"ALTER IGNORE TABLE rlsFilling DROP COLUMN `disabledForPrescription`",
     U"ALTER IGNORE TABLE `rlsFilling` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`);",
     u"""ALTER IGNORE TABLE `rbUnit`
@@ -68,37 +69,37 @@ sqls = [
         CHANGE COLUMN `name` `name` VARCHAR(256)""",
     u"DROP TABLE rlsINPName",
     u"""CREATE TABLE IF NOT EXISTS `rlsActMatters` (
-        `id` INT(11) NOT NULL COMMENT 'Идентификатор вещества',
-        `name` VARCHAR(255) NOT NULL COMMENT 'Международное наименование',
-        `localName` VARCHAR(255) NOT NULL COMMENT 'Локальное наименование',
+        `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор вещества',
+        `name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Международное наименование',
+        `localName` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Локальное наименование',
         PRIMARY KEY (`id`), 
-        UNIQUE INDEX `name` (`name`),
-        UNIQUE INDEX `localName` (`localName`)        
+        UNIQUE INDEX `name_localName` (`name`, `localName`)
     )
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB;""",
     u"TRUNCATE `rlsTradeName`",
     u"""ALTER IGNORE TABLE `rlsTradeName`
-        CHANGE COLUMN `latName` `name` VARCHAR(255) NOT NULL AFTER `id`,
-        CHANGE COLUMN `name` `localName` VARCHAR(255) NOT NULL AFTER `name`;""",
+        CHANGE COLUMN `latName` `name` VARCHAR(255) NULL DEFAULT NULL AFTER `id`,
+        CHANGE COLUMN `name` `localName` VARCHAR(255) NULL DEFAULT NULL AFTER `name`;""",
     u"""ALTER IGNORE TABLE `rlsTradeName` 
-        DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`),
-        DROP INDEX `latName`, ADD UNIQUE INDEX `localName` (`localName`);""",
+        DROP INDEX `name`,
+        DROP INDEX `latName`, ADD UNIQUE INDEX `name_localName` (`name`, `localName`);""",
     u"""CREATE TABLE  IF NOT EXISTS  `rlsNomen` (
         `id` INT(11) NOT NULL COMMENT 'РЛС-овский код',
-        `version` INT(11) NOT NULL DEFAULT '0' COMMENT 'Версия',
+        `actMatters_id` INT(11) NULL DEFAULT NULL COMMENT 'Действующие вещества {rlsActMatters}',
         `tradeName_id` INT(11) NOT NULL COMMENT 'Торговое название {rlsTradeName}',
         `form_id` INT(11) NULL DEFAULT NULL COMMENT 'Лекарственная форма {rlsForm}',
         `packing_id` INT(11) NULL DEFAULT NULL COMMENT 'Упаковка {rlsPacking}',
         `filling_id` INT(11) NULL DEFAULT NULL COMMENT 'Фасовка {rlsFilling}',
         `unit_id` INT(11) NULL DEFAULT NULL COMMENT 'Ед.Изм. препарата {rbUnit}',
-	`dosageValue` DOUBLE NULL DEFAULT NULL COMMENT 'Доза в единице лекарственной формы '
-        `dosageUnit_id`  NULL DEFAULT NULL COMMENT 'Ед.Изм. дозировки препарата {rbUnit}',
+        `dosageValue` DOUBLE NULL DEFAULT NULL COMMENT 'Доза в единице лекарственной формы ',
+        `dosageUnit_id` INT(11) NULL DEFAULT NULL COMMENT 'Ед.Изм. дозировки препарата {rbUnit}',
         `regDate` DATE NULL DEFAULT NULL COMMENT 'Дата регистрации',
         `annDate` DATE NULL DEFAULT NULL COMMENT 'Дата отмены',
-        PRIMARY KEY (`id`, `version`),
+        PRIMARY KEY (`id`),
         INDEX `tradeName_id` (`tradeName_id`),
         INDEX `FK_rlsNomen_rlsForm` (`form_id`),
+        INDEX `FK_rlsNomen_rlsActMatters` (`actMatters_id`),
         INDEX `FK_rlsNomen_rlsPacking` (`packing_id`),
         INDEX `FK_rlsNomen_rlsFilling` (`filling_id`),
         INDEX `FK_rlsNomen_rbUnit` (`unit_id`),
@@ -108,17 +109,8 @@ sqls = [
         CONSTRAINT `FK_rlsNomen_rlsFilling` FOREIGN KEY (`filling_id`) REFERENCES `rlsFilling` (`id`),
         CONSTRAINT `FK_rlsNomen_rlsForm` FOREIGN KEY (`form_id`) REFERENCES `rlsForm` (`id`),
         CONSTRAINT `FK_rlsNomen_rlsPacking` FOREIGN KEY (`packing_id`) REFERENCES `rlsPacking` (`id`),
+        CONSTRAINT `FK_rlsNomen_rlsActMatters` FOREIGN KEY (`actMatters_id`) REFERENCES `rlsActMatters` (`id`),
         CONSTRAINT `FK_rlsNomen_rlsTradeName` FOREIGN KEY (`tradeName_id`) REFERENCES `rlsTradeName` (`id`)
-    )
-    COLLATE='utf8_general_ci'
-    ENGINE=InnoDB;""",
-    u"""CREATE TABLE  IF NOT EXISTS `rlsActMatters_Nomen` (
-        `nomen_id` INT(11) NOT NULL,
-        `actMatter_id` INT(11) NOT NULL,
-        PRIMARY KEY (`nomen_id`, `actMatter_id`),
-        INDEX `actMatter_id` (`actMatter_id`),
-        CONSTRAINT `FK_rlsActMatters_Nomen_rlsNomen` FOREIGN KEY (`nomen_id`) REFERENCES `rlsNomen` (`id`),
-        CONSTRAINT `FK_rlsActMatters_Nomen_rlsActMatters` FOREIGN KEY (`actMatter_id`) REFERENCES `rlsActMatters` (`id`)
     )
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB;""",
@@ -128,13 +120,13 @@ sqls = [
     u"""CREATE TABLE `rlsBalanceOfGoods` (
         `id` INT(11) NOT NULL AUTO_INCREMENT,
         `rlsNomen_id` INT(11) NOT NULL,
-        `rlsNomen_version` INT(11) NOT NULL,
-        `store_id` INT(11) NULL,
+        `orgStructure_id` INT(11) NULL,
         `value` DOUBLE NOT NULL,
         `bestBefore` DATE NOT NULL,
         `disabled` TINYINT(4) NOT NULL DEFAULT '0',
         PRIMARY KEY (`id`),
-        CONSTRAINT `FK_rlsBalanceOfGoods_rlsNomen` FOREIGN KEY (`rlsNomen_id`, `rlsNomen_version`) REFERENCES `rlsNomen` (`id`, `version`)
+        CONSTRAINT `FK_rlsBalanceOfGoods_OrgStructure` FOREIGN KEY (`orgStructure_id`) REFERENCES `OrgStructure` (`id`),
+        CONSTRAINT `FK_rlsBalanceOfGoods_rlsNomen` FOREIGN KEY (`rlsNomen_id`) REFERENCES `rlsNomen` (`id`)
     )
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB;
@@ -142,9 +134,12 @@ sqls = [
     u"""CREATE OR REPLACE VIEW `vNomen` AS
     SELECT
         `rlsNomen`.`id` as `id`,
-        `rlsNomen`.`version` as `version`,
         `rlsTradeName`.`name` as `tradeName`,
         `rlsTradeName`.`localName` as `tradeLocalName`,
+        `rlsNomen`.`tradeName_id` as `tradeName_id`,
+        `rlsActMatters`.`name` as `actMattersName`,
+        `rlsActMatters`.`localName` as `actMattersLocalName`,
+        `rlsNomen`.`actMatters_id` as `actMatters_id`,
         `rlsForm`.`name` as `form`,
         `rlsPacking`.`name` as `packing`,
         `rlsFilling`.`name` as `filling`,
@@ -160,6 +155,7 @@ sqls = [
     FROM
         `rlsNomen`
     LEFT JOIN `rlsTradeName` on `rlsTradeName`.`id` = `rlsNomen`.`tradeName_id`
+    LEFT JOIN `rlsActMatters` on `rlsActMatters`.`id` = `rlsNomen`.`actMatters_id`
     LEFT JOIN `rlsForm` on `rlsForm`.`id` = `rlsNomen`.`form_id`
     LEFT JOIN `rlsPacking` on `rlsPacking`.`id` = `rlsNomen`.`packing_id`
     LEFT JOIN `rlsFilling` on `rlsFilling`.`id` = `rlsNomen`.`filling_id`
