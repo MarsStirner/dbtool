@@ -92,7 +92,7 @@ sqls = [
         `packing_id` INT(11) NULL DEFAULT NULL COMMENT 'Упаковка {rlsPacking}',
         `filling_id` INT(11) NULL DEFAULT NULL COMMENT 'Фасовка {rlsFilling}',
         `unit_id` INT(11) NULL DEFAULT NULL COMMENT 'Ед.Изм. препарата {rbUnit}',
-        `dosageValue` DOUBLE NULL DEFAULT NULL COMMENT 'Доза в единице лекарственной формы ',
+        `dosageValue` VARCHAR(128) NULL DEFAULT NULL COMMENT 'Доза в единице лекарственной формы ',
         `dosageUnit_id` INT(11) NULL DEFAULT NULL COMMENT 'Ед.Изм. дозировки препарата {rbUnit}',
         `regDate` DATE NULL DEFAULT NULL COMMENT 'Дата регистрации',
         `annDate` DATE NULL DEFAULT NULL COMMENT 'Дата отмены',
