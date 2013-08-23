@@ -94,6 +94,7 @@ sqls = [
         `unit_id` INT(11) NULL DEFAULT NULL COMMENT 'Ед.Изм. препарата {rbUnit}',
         `dosageValue` VARCHAR(128) NULL DEFAULT NULL COMMENT 'Доза в единице лекарственной формы ',
         `dosageUnit_id` INT(11) NULL DEFAULT NULL COMMENT 'Ед.Изм. дозировки препарата {rbUnit}',
+        `drugLifetime` INT(11) NULL DEFAULT NULL COMMENT 'Время жизни препарата в месяцах',
         `regDate` DATE NULL DEFAULT NULL COMMENT 'Дата регистрации',
         `annDate` DATE NULL DEFAULT NULL COMMENT 'Дата отмены',
         PRIMARY KEY (`id`),
@@ -151,7 +152,8 @@ sqls = [
         `rbUnit2`.`code` as `dosageUnitCode`,
         `rbUnit2`.`name` as `dosageUnitName`,
         `rlsNomen`.`regDate` as `regDate`,
-        `rlsNomen`.`annDate` as `annDate`
+        `rlsNomen`.`annDate` as `annDate`,
+        `rlsNomen`.`drugLifetime` as `drugLifetime`
     FROM
         `rlsNomen`
     LEFT JOIN `rlsTradeName` on `rlsTradeName`.`id` = `rlsNomen`.`tradeName_id`
