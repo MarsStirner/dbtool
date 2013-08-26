@@ -11,7 +11,7 @@ __doc__ = '''\
 def upgrade(conn):
 
     c = conn.cursor()
-    sql = u'''ALTER TABLE `Account_Item` ADD COLUMN `paymentConfirmationDate` DATE NOT NULL
+    sql = u'''ALTER TABLE `Account_Item` ADD COLUMN `paymentConfirmationDate` DATE DEFAULT NULL
     COMMENT 'Дата подтверждения платежа'  AFTER `service_id`;
     '''
     c.execute(sql)
