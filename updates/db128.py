@@ -32,16 +32,6 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 """,
 
-    u"""CREATE TABLE `rbBacLabDoctor` (
-    `id` INT(11) NOT NULL,
-    `fullName` VARCHAR(256) NOT NULL,
-    PRIMARY KEY (`id`)
-)
-COMMENT='Врач БАК Лаборатории'
-COLLATE='utf8_general_ci'
-ENGINE=InnoDB;
-""",
-
     u"""CREATE TABLE `rbMicroorganism` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `code` VARCHAR(128) NOT NULL,
@@ -66,7 +56,7 @@ ENGINE=InnoDB;
     UNIQUE INDEX `action_id_index` (`action_id`, `index`),
     INDEX `FK_bbtResponse_rbBacLabDoctor` (`doctor_id`),
     CONSTRAINT `FK_bbtResponse_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`),
-    CONSTRAINT `FK_bbtResponse_rbBacLabDoctor` FOREIGN KEY (`doctor_id`) REFERENCES `rbBacLabDoctor` (`id`)
+    CONSTRAINT `FK_bbtResponse_Person` FOREIGN KEY (`doctor_id`) REFERENCES `Person` (`id`)
 )
 COMMENT='Ответ БАК лаборатории с результатами бактериологического анализа крови'
 COLLATE='utf8_general_ci'
