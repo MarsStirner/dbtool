@@ -17,8 +17,6 @@ sqls = [
     u"DROP TABLE IF EXISTS rlsINPNameToCode;",
     u"DROP TABLE IF EXISTS rlsMKBToCode;",
     u"DROP TABLE IF EXISTS rlsNomenRaw;",
-    u"""ALTER IGNORE TABLE `Action`
-        ADD COLUMN `uuid` BINARY(16) NULL DEFAULT NULL COMMENT 'UUID'""",
     u"""CREATE TABLE IF NOT EXISTS `DrugChart` (
         `id` INT(11) NOT NULL AUTO_INCREMENT,
         `action_id` INT(11) NOT NULL,
