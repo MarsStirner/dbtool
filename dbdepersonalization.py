@@ -5,8 +5,10 @@
 Скрипт помагает деперсонализировать БД.
 '''
 
-import MySQLdb
 from itertools import product
+
+import MySQLdb
+
 
 # Настройки
 HOST = 'localhost'
@@ -29,7 +31,8 @@ for dataline in product(u'абвгде', repeat=8):
     new_data_list.append(''.join(dataline))
 
 for id in client_ids:
-    sql = u"UPDATE `Client` SET `lastName` = '%s', `firstName` = '%s', `patrName` = '%s' WHERE `id` = '%i';" % (new_data_list[id], new_data_list[id], new_data_list[id], id)
+    sql = u"UPDATE `Client` SET `lastName` = '%s', `firstName` = '%s', `patrName` = '%s' WHERE `id` = '%i';" % (
+    new_data_list[id], new_data_list[id], new_data_list[id], id)
     cursor = db.cursor()
     cursor.execute(sql)
 
@@ -49,7 +52,8 @@ for dataline in product(u'едгвба', repeat=8):
     new_data_list.append(''.join(dataline))
 
 for id in person_ids:
-    sql = u"UPDATE `Person` SET `lastName` = '%s', `firstName` = '%s', `patrName` = '%s' WHERE `id` = '%i';" % (new_data_list[id], new_data_list[id], new_data_list[id], id)
+    sql = u"UPDATE `Person` SET `lastName` = '%s', `firstName` = '%s', `patrName` = '%s' WHERE `id` = '%i';" % (
+    new_data_list[id], new_data_list[id], new_data_list[id], id)
     cursor = db.cursor()
     cursor.execute(sql)
 
