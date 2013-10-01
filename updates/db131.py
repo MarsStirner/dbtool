@@ -7,7 +7,7 @@ __doc__ = '''\
 '''
 
 def upgrade(conn):
-
+    global config
     c = conn.cursor()
     sql = u'''CREATE DEFINER=%s PROCEDURE `SendPrescriptionTo1C`(IN `action_id` INT, IN `master_id` INT)
               BEGIN
