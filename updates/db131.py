@@ -11,7 +11,7 @@ def upgrade(conn):
     c = conn.cursor()
     sql = u'''CREATE DEFINER=%s PROCEDURE `SendPrescriptionTo1C`(IN `action_id` INT, IN `master_id` INT)
               BEGIN
-                IF master_id IS NOT NULL THEN
+                IF master_id IS NULL THEN
                   INSERT IGNORE INTO PrescriptionsTo1C SET PrescriptionsTo1C.action_id = action_id; 
                 END IF;  
               END''' %config['definer']
