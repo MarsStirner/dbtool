@@ -63,10 +63,10 @@ ENGINE=InnoDB;
     u"""CREATE TABLE `bbtResult_Text` (
     `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор',
     `action_id` INT(11) NOT NULL COMMENT 'Ид. действия {Action.id}',
-    `index` INT(11) NOT NULL COMMENT 'Индекс',
+    `idx` INT(11) NOT NULL COMMENT 'Индекс',
     `valueText` TEXT NULL COMMENT 'Текстовое значение результата',
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `action_id_index` (`action_id`, `index`),
+    UNIQUE INDEX `action_id_index` (`action_id`, `idx`),
     CONSTRAINT `FK_bbtResult_Text_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`)
 )
 COMMENT='Результат бактериологического анализа крови (Текст)'
@@ -77,7 +77,7 @@ ENGINE=InnoDB;
     u"""CREATE TABLE `bbtResult_Table` (
     `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор',
     `action_id` INT(11) NOT NULL COMMENT 'Ид. действия {Action.id}',
-    `index` INT(11) NOT NULL COMMENT 'Индекс',
+    `idx` INT(11) NOT NULL COMMENT 'Индекс',
     `indicator_id` INT(11) NOT NULL COMMENT 'Ид. методики/показателя/микроорганизма',
     `normString` VARCHAR(256) NULL DEFAULT NULL COMMENT 'норма, диапазон допустимых значений',
     `normalityIndex` FLOAT NULL DEFAULT NULL COMMENT 'значение результата относительно нормы (число в диапазоне -1 до +1) ',
@@ -86,7 +86,7 @@ ENGINE=InnoDB;
     `status` TEXT NULL,
     `comment` TEXT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `action_id_index` (`action_id`, `index`),
+    UNIQUE INDEX `action_id_index` (`action_id`, `idx`),
     INDEX `indicator_id` (`indicator_id`),
     CONSTRAINT `FK_bbtResult_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`),
     CONSTRAINT `FK_bbtResult_rbBacIndicator` FOREIGN KEY (`indicator_id`) REFERENCES `rbBacIndicator` (`id`)
@@ -99,11 +99,11 @@ ENGINE=InnoDB;
     u"""CREATE TABLE `bbtResult_Organism` (
     `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор',
     `action_id` INT(11) NOT NULL COMMENT 'Ид. действия {Action.id}',
-    `index` INT(11) NOT NULL COMMENT 'Индекс',
+    `idx` INT(11) NOT NULL COMMENT 'Индекс',
     `organism_id` INT(11) NOT NULL COMMENT 'Ид. микроорганизма {rbMicroorganism.id}',
     `concentration` VARCHAR(256) NOT NULL COMMENT 'Концентрация',
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `action_id_index` (`action_id`, `index`),
+    UNIQUE INDEX `action_id_index` (`action_id`, `idx`),
     INDEX `organism_id` (`organism_id`),
     CONSTRAINT `FK_bbtMicroValues_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`),
     CONSTRAINT `FK_bbtMicroValues_rbMicroorganism` FOREIGN KEY (`organism_id`) REFERENCES `rbMicroorganism` (`id`)
@@ -116,12 +116,12 @@ ENGINE=InnoDB;
     u"""CREATE TABLE `bbtOrganism_SensValues` (
     `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор',
     `bbtResult_Organism_id` INT(11) NOT NULL COMMENT 'Ид. результата',
-    `index` INT(11) NULL DEFAULT NULL COMMENT 'Индекс',
+    `idx` INT(11) NULL DEFAULT NULL COMMENT 'Индекс',
     `antibiotic_id` INT(11) NULL DEFAULT NULL COMMENT 'Ид. Антибиотика {rbAntibiotic.id}',
     `MIC` VARCHAR(20) NOT NULL COMMENT 'Концентрация',
     `activity` VARCHAR(5) NOT NULL COMMENT 'описание чувствительности в произвольном виде: R,S,I',
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `bbtResult_Organism_id_index` (`bbtResult_Organism_id`, `index`),
+    UNIQUE INDEX `bbtResult_Organism_id_index` (`bbtResult_Organism_id`, `idx`),
     INDEX `FK_bbtSensValues_rbAntibiotic` (`antibiotic_id`),
     CONSTRAINT `FK_bbtOrganism_SensValues_bbtResult_Organism` FOREIGN KEY (`bbtResult_Organism_id`) REFERENCES `bbtResult_Organism` (`id`),
     CONSTRAINT `FK_bbtOrganism_SensValues_rbAntibiotic` FOREIGN KEY (`antibiotic_id`) REFERENCES `rbAntibiotic` (`id`)
@@ -134,11 +134,11 @@ ENGINE=InnoDB;
     u"""CREATE TABLE `bbtResult_Image` (
     `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор',
     `action_id` INT(11) NOT NULL COMMENT 'Ид. действия {Action.id}',
-    `index` INT(11) NOT NULL COMMENT 'Индекс',
+    `idx` INT(11) NOT NULL COMMENT 'Индекс',
     `description` VARCHAR(256) NULL DEFAULT NULL COMMENT 'Описание изображения',
     `image` LONGBLOB NOT NULL COMMENT 'Изображение',
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `action_id_index` (`action_id`, `index`),
+    UNIQUE INDEX `action_id_index` (`action_id`, `idx`),
     CONSTRAINT `FK_bbtResult_Image_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`)
 )
 COMMENT='Изображения'
