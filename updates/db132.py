@@ -65,7 +65,6 @@ ENGINE=InnoDB;
     `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор',
     `action_id` INT(11) NOT NULL COMMENT 'Ид. действия {Action.id}',
     `index` INT(11) NOT NULL COMMENT 'Индекс',
-    `device` VARCHAR(256) NULL DEFAULT NULL COMMENT 'Название прибора',
     `valueText` TEXT NULL COMMENT 'Текстовое значение результата',
     PRIMARY KEY (`id`),
     UNIQUE INDEX `action_id_index` (`action_id`, `index`),
