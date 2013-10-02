@@ -45,15 +45,14 @@ ENGINE=InnoDB;
 
     # Ответы БАК ЛИС
     u"""CREATE TABLE `bbtResponse` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор',
-    `action_id` INT(11) NOT NULL COMMENT 'Ид. действия {Action.id}',
+    `id` INT(11) NOT NULL COMMENT 'Ид. действия {Action.id}',
     `final` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Конечный вариант исследования',
     `defects` TEXT NULL COMMENT 'Дефекты биоматериала',
     `doctor_id` INT(11) NOT NULL COMMENT 'Идентификатор доктора в ЛИС',
     `codeLIS` VARCHAR(20) NOT NULL COMMENT 'Код ЛИС',
     PRIMARY KEY (`id`),
     INDEX `FK_bbtResponse_Person` (`doctor_id`),
-    CONSTRAINT `FK_bbtResponse_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`),
+    CONSTRAINT `FK_bbtResponse_Action` FOREIGN KEY (`id`) REFERENCES `Action` (`id`),
     CONSTRAINT `FK_bbtResponse_Person` FOREIGN KEY (`doctor_id`) REFERENCES `Person` (`id`)
 )
 COMMENT='Ответ БАК лаборатории с результатами бактериологического анализа крови'
