@@ -132,7 +132,7 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 """,
 
-    u"""CREATE TABLE `bbtImageValues` (
+    u"""CREATE TABLE `bbtResult_Image` (
     `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор',
     `action_id` INT(11) NOT NULL COMMENT 'Ид. действия {Action.id}',
     `index` INT(11) NOT NULL COMMENT 'Индекс',
@@ -140,7 +140,7 @@ ENGINE=InnoDB;
     `image` LONGBLOB NOT NULL COMMENT 'Изображение',
     PRIMARY KEY (`id`),
     UNIQUE INDEX `action_id_index` (`action_id`, `index`),
-    CONSTRAINT `FK_bbtImageValues_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`)
+    CONSTRAINT `FK_bbtResult_Image_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`)
 )
 COMMENT='Изображения'
 COLLATE='utf8_general_ci'
