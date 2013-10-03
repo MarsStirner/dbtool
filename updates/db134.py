@@ -74,7 +74,7 @@ SET valueDomain='%s', typeName='%s' WHERE actionType_id=%d AND code='%s'
         c.execute(sql)
 
     analgesia_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'analgesia\'')
-    if prescription_at_id:
+    if analgesia_at_id:
         vd = 'rbMethodOfAdministration; IV, PO, IM, SC, AP, IN, IT, IO, B, ID, IH, IA, IP, IS, NG, GU, TP, PR, OTHER'
         code = 'moa'
         sql = u'''UPDATE ActionPropertyType
@@ -83,7 +83,7 @@ SET valueDomain='%s', typeName='%s' WHERE actionType_id=%d AND code='%s'
         c.execute(sql)
 
     infusion_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'infusion\'')
-    if prescription_at_id:
+    if infusion_at_id:
         vd = 'rbMethodOfAdministration; IV, PO, IA, OTHER'
         code = 'moa'
         sql = u'''UPDATE ActionPropertyType
@@ -92,7 +92,7 @@ SET valueDomain='%s', typeName='%s' WHERE actionType_id=%d AND code='%s'
         c.execute(sql)
 
     chemotherapy_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'chemotherapy\'')
-    if prescription_at_id:
+    if chemotherapy_at_id:
         vd = 'rbMethodOfAdministration; IV, PO, IM, SC, IT, IA, IP, IS, NG, TP, PR, OTHER'
         code = 'moa'
         sql = u'''UPDATE ActionPropertyType
