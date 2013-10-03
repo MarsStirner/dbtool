@@ -9,25 +9,24 @@ __doc__ = '''\
 def upgrade(conn):
 
     c = conn.cursor()
-    sql = u'''CREATE DEFINER=%s PROCEDURE `SendPrescriptionTo1C`(IN `action_id` INT, IN `master_id` INT)
+    sql = u'''CREATE DEFINER=%s PROCEDURE `SendPrescriptionTo1C`(IN `id` INT, IN is_prescription INT, IN `old_status` INT, IN `new_status` INT)
               BEGIN
-                IF master_id IS NULL THEN
-                  INSERT IGNORE INTO PrescriptionsTo1C SET PrescriptionsTo1C.action_id = action_id; 
-                END IF;  
+                  INSERT IGNORE INTO PrescriptionsTo1C (PrescriptionsTo1C.interval_id, PrescriptionsTo1C.is_prescription, PrescriptionsTo1C.is_new, PrescriptionsTo1C.old_status, PrescriptionsTo1C.new_status) 
+                                VALUES  (id, is_prescription, old_status, new_status); 
               END''' %config['definer']
     c.execute(sql)
-    triggerEvents = ["Insert", "Update"]
-    tables = ["DrugChart"] 
-    sqlTemplate = u''' 
-          CREATE DEFINER=%s TRIGGER `on%s%s` AFTER %s ON `%s` FOR EACH ROW BEGIN
-             CALL SendPrescriptionTo1C(NEW.action_id, NEW.master_id);   
-          END'''
-    for triggerEvent in triggerEvents:
-        for table in tables:
-            c.execute(sqlTemplate % (config['definer'], triggerEvent, table, triggerEvent, table))
-
+    triggerEvents = [ ""]
+    sql = u''' 
+          CREATE DEFINER=%s TRIGGER `onInsertDrugChart` AFTER Insert ON `DrugChart` FOR EACH ROW BEGIN
+             CALL SendPrescriptionTo1C(NEW.action_id, IF(NEW.master_id IS NULL, 1, 0), NEW.status, NEW.status);   
+          END''' %config['definer']
+    c.execute(sql)
+    sql = u''' 
+          CREATE DEFINER=%s TRIGGER `onUpdateDrugChart` AFTER Update ON `DrugChart` FOR EACH ROW BEGIN
+             CALL SendPrescriptionTo1C(NEW.action_id, IF(NEW.master_id IS NULL, 1, 0), OLD.status, NEW.status);   
+          END'''%config['definer']
+    c.execute(sql)
     c.close()
-
 
 def downgrade(conn):
     pass
