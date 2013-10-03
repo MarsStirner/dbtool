@@ -9,10 +9,26 @@ __doc__ = '''\
 def upgrade(conn):
     global config
     c = conn.cursor()
+
+    alerts = (
+       u'''ALTER TABLE `rlsBalanceOfGoods` ALTER `orgStructure_id` DROP DEFAULT''',
+       u'''ALTER TABLE `rlsBalanceOfGoods` DROP FOREIGN KEY `FK_rlsBalanceOfGoods_OrgStructure`''',
+       u'''ALTER TABLE `rlsBalanceOfGoods` CHANGE COLUMN `orgStructure_id` `storage_uuid` VARCHAR(100) NOT NULL AFTER `rlsNomen_id`''', 
+       u'''ALTER TABLE `DrugChart`
+                       ADD COLUMN `uuid` VARCHAR(100) NULL DEFAULT NULL AFTER `note`,
+	               ADD COLUMN `version` INT(11) NULL DEFAULT NULL AFTER `uuid`''')
+
+    for sql in alerts:	
+       c.execute(sql)
+
     sql = u'''CREATE DEFINER=%s PROCEDURE `SendPrescriptionTo1C`(IN `id` INT, IN is_prescription INT, IN `old_status` INT, IN `new_status` INT)
               BEGIN
-                  INSERT IGNORE INTO PrescriptionsTo1C (PrescriptionsTo1C.interval_id, PrescriptionsTo1C.is_prescription, PrescriptionsTo1C.is_new, PrescriptionsTo1C.old_status, PrescriptionsTo1C.new_status) 
+                  DECLARE isPrescriptionsTo1C INT(1);   
+                  SELECT count(*) INTO @isPrescriptionsTo1C FROM information_schema.TABLES WHERE TABLE_NAME = 'PrescriptionsTo1C';
+                  IF isPrescriptionsTo1C = 1 THEN 
+	                  INSERT IGNORE INTO PrescriptionsTo1C (PrescriptionsTo1C.interval_id, PrescriptionsTo1C.is_prescription, PrescriptionsTo1C.is_new, PrescriptionsTo1C.old_status, PrescriptionsTo1C.new_status) 
                                 VALUES  (id, is_prescription, old_status, new_status); 
+                  END IF; 
               END''' %config['definer']
     c.execute(sql)
     triggerEvents = [ ""]
