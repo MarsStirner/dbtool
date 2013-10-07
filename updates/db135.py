@@ -43,7 +43,7 @@ ENGINE=InnoDB;
 FROM
     `rlsBalanceOfGoods`
 JOIN
-    `rbStorage`;
+    `rbStorage` on `rbStorage`.`id` = `rlsBalanceOfGoods`.`storage_id`;
 """ % config['definer']
     ,
 
