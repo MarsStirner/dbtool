@@ -16,7 +16,7 @@ sqls = [
     `name` VARCHAR(256) NULL,
     `orgStructure_id` INT(11) NULL,
     PRIMARY KEY (`id`),
-    INDEX `uuid` (`uuid`),
+    UNIQUE INDEX `uuid` (`uuid`),
     CONSTRAINT `FK__OrgStructure` FOREIGN KEY (`orgStructure_id`) REFERENCES `OrgStructure` (`id`)
 )
 COLLATE='utf8_general_ci'
