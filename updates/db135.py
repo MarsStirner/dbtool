@@ -31,7 +31,7 @@ ENGINE=InnoDB;
     ADD CONSTRAINT `FK_rlsBalanceOfGoods_rbStorage` FOREIGN KEY (`storage_id`) REFERENCES `rbStorage` (`id`);
 """,
 
-    u"""CREATE OR REPLACE DEFINER=%s VIEW `vNomen` AS
+    u"""CREATE OR REPLACE DEFINER=%s VIEW `vBalanceOfGoods` AS
     SELECT
     `rlsBalanceOfGoods`.`id`,
     `rlsBalanceOfGoods`.`rlsNomen_id`,
