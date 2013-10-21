@@ -9,12 +9,13 @@ __doc__ = '''\
 
 sqls = (
     u"""ALTER TABLE `bbtOrganism_SensValues`
-    DROP INDEX `bbtResult_Organism_id_idx`,
+    DROP INDEX `bbtResult_Organism_id_index`,
     DROP COLUMN `idx`,
+    CHANGE COLUMN `MIC` `MIC` VARCHAR(20) NULL COMMENT 'Концентрация' AFTER `antibiotic_id`
     ADD INDEX `FK_bbtResult_Organism_id` (`bbtResult_Organism_id`);
 """,
     u"""ALTER TABLE `bbtResult_Image`
-    DROP INDEX `action_id_idx`,
+    DROP INDEX `action_id_index`,
     DROP COLUMN `idx`,
     ADD INDEX `FK_action_id_idx` (`action_id`);
 """,
