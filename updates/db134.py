@@ -5,6 +5,7 @@ from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
 - Добавление справочника способов приема лекарственных средств
+- Корректировка кодов и флеткодов AT, APT, связанных с назначениями
 - Корректировка типов действий и типов свойств назначений для работы с новым справочником
 '''
 
@@ -61,43 +62,71 @@ COMMENT = 'Способы ввода лекарственных препарат
             ]
     c.executemany(sql, data)
 
+    # Исправление флеткодов для Анальгезия, Инфузионная терапия, Химиотерапии
+    sql = u'''UPDATE ActionType SET flatCode='%s' WHERE flatCode='%s' AND name='%s' ''' % ('analgesia', 'prescription', u'Анальгезия')
+    c.execute(sql)
+    sql = u'''UPDATE ActionType SET flatCode='%s' WHERE flatCode='%s' AND name='%s' ''' % ('infusion', 'prescription', u'Инфузионная терапия')
+    c.execute(sql)
+    sql = u'''UPDATE ActionType SET flatCode='%s' WHERE flatCode='%s' AND name='%s' ''' % ('chemotherapy', 'prescription', u'Химиотерапия')
+    c.execute(sql)
+
+    moa_code = 'moa'
+    voa_code = 'voa'
+    moa_name = u"Способ введения"
+    voa_name = u"Скорость введения"
+
     prescription_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'prescription\'')
     if prescription_at_id:
         sql = u'''UPDATE ActionType SET name='%s' WHERE id=%d''' % (u'Терапия', prescription_at_id)
         c.execute(sql)
+        sql = u'''UPDATE ActionPropertyType SET code='%s' WHERE actionType_id=%d AND name='%s' ''' % (moa_code, prescription_at_id, moa_name)
+        c.execute(sql)
+        sql = u'''UPDATE ActionPropertyType SET code='%s' WHERE actionType_id=%d AND name='%s' ''' % (voa_code, prescription_at_id, voa_name)
+        c.execute(sql)
 
         vd = 'rbMethodOfAdministration; IV, PO, IM, SC, AP, IN, IT, IO, B, ID, IH, IA, IP, IS, NG, GU, TP, PR, OTHER'
-        code = 'moa'
         sql = u'''UPDATE ActionPropertyType
 SET valueDomain='%s', typeName='%s' WHERE actionType_id=%d AND code='%s'
-''' % (vd, 'ReferenceRb', prescription_at_id, code)
+''' % (vd, 'ReferenceRb', prescription_at_id, moa_code)
         c.execute(sql)
 
     analgesia_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'analgesia\'')
     if analgesia_at_id:
+        sql = u'''UPDATE ActionPropertyType SET code='%s' WHERE actionType_id=%d AND name='%s' ''' % (moa_code, analgesia_at_id, moa_name)
+        c.execute(sql)
+        sql = u'''UPDATE ActionPropertyType SET code='%s' WHERE actionType_id=%d AND name='%s' ''' % (voa_code, analgesia_at_id, voa_name)
+        c.execute(sql)
+
         vd = 'rbMethodOfAdministration; IV, PO, IM, SC, AP, IN, IT, IO, B, ID, IH, IA, IP, IS, NG, GU, TP, PR, OTHER'
-        code = 'moa'
         sql = u'''UPDATE ActionPropertyType
 SET valueDomain='%s', typeName='%s' WHERE actionType_id=%d AND code='%s'
-''' % (vd, 'ReferenceRb', analgesia_at_id, code)
+''' % (vd, 'ReferenceRb', analgesia_at_id, moa_code)
         c.execute(sql)
 
     infusion_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'infusion\'')
     if infusion_at_id:
+        sql = u'''UPDATE ActionPropertyType SET code='%s' WHERE actionType_id=%d AND name='%s' ''' % (moa_code, infusion_at_id, moa_name)
+        c.execute(sql)
+        sql = u'''UPDATE ActionPropertyType SET code='%s' WHERE actionType_id=%d AND name='%s' ''' % (voa_code, infusion_at_id, voa_name)
+        c.execute(sql)
+
         vd = 'rbMethodOfAdministration; IV, PO, IA, OTHER'
-        code = 'moa'
         sql = u'''UPDATE ActionPropertyType
 SET valueDomain='%s', typeName='%s' WHERE actionType_id=%d AND code='%s'
-''' % (vd, 'ReferenceRb', infusion_at_id, code)
+''' % (vd, 'ReferenceRb', infusion_at_id, moa_code)
         c.execute(sql)
 
     chemotherapy_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'chemotherapy\'')
     if chemotherapy_at_id:
+        sql = u'''UPDATE ActionPropertyType SET code='%s' WHERE actionType_id=%d AND name='%s' ''' % (moa_code, chemotherapy_at_id, moa_name)
+        c.execute(sql)
+        sql = u'''UPDATE ActionPropertyType SET code='%s' WHERE actionType_id=%d AND name='%s' ''' % (voa_code, chemotherapy_at_id, voa_name)
+        c.execute(sql)
+
         vd = 'rbMethodOfAdministration; IV, PO, IM, SC, IT, IA, IP, IS, NG, TP, PR, OTHER'
-        code = 'moa'
         sql = u'''UPDATE ActionPropertyType
 SET valueDomain='%s', typeName='%s' WHERE actionType_id=%d AND code='%s'
-''' % (vd, 'ReferenceRb', chemotherapy_at_id, code)
+''' % (vd, 'ReferenceRb', chemotherapy_at_id, moa_code)
         c.execute(sql)
 
     c.close()
