@@ -11,7 +11,7 @@ sqls = (
     u"""ALTER TABLE `bbtOrganism_SensValues`
     DROP INDEX `bbtResult_Organism_id_index`,
     DROP COLUMN `idx`,
-    CHANGE COLUMN `MIC` `MIC` VARCHAR(20) NULL COMMENT 'Концентрация' AFTER `antibiotic_id`
+    CHANGE COLUMN `MIC` `MIC` VARCHAR(20) NULL COMMENT 'Концентрация' AFTER `antibiotic_id`,
     ADD INDEX `FK_bbtResult_Organism_id` (`bbtResult_Organism_id`);
 """,
     u"""ALTER TABLE `bbtResult_Image`
