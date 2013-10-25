@@ -19,7 +19,7 @@ def upgrade(conn):
     if rows:
         et_p_id = rows[0][0]
         sql0 = u'''
-    INSERT INTO rbResult (eventPurpose_id, code, name, continued) VALUES (%s, 15, "Отказ в госпитализации", 0)
+INSERT INTO rbResult (eventPurpose_id, code, name, continued, regionalCode) VALUES (%s, 15, "Отказ в госпитализации", 0, '')
     ''' % et_p_id
         c = conn.cursor()
         c.execute(sql0)

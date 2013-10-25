@@ -14,10 +14,10 @@ __doc__ = '''\
 def upgrade(conn):
     sql = [
         u"""delete from ActionProperty_String where id in
-           (select id from ActionProperty where type_id in ((select id from ActionPropertyType where name=\"Время приема\" and actionType_id=(select id from ActionType at where at.name=\"Назначения\")),
-           (select id from ActionPropertyType where name=\"Количество раз в день\" and actionType_id=(select id from ActionType at where at.name=\"Назначения\"))))""",
-        u"""delete from ActionPropertyType where name=\"Время приема\" and actionType_id=(select id from ActionType at where at.name=\"Назначения\")""",
-        u"""delete from ActionPropertyType where name=\"Количество раз в день\" and actionType_id=(select id from ActionType at where at.name=\"Назначения\")""",
+           (select id from ActionProperty where type_id in ((select id from ActionPropertyType where name=\"Время приема\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")),
+           (select id from ActionPropertyType where name=\"Количество раз в день\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\"))))""",
+        u"""delete from ActionPropertyType where name=\"Время приема\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")""",
+        u"""delete from ActionPropertyType where name=\"Количество раз в день\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")""",
         u"""CREATE TABLE if not exists `AssignmentHour` (
               `action_id` int(11) NOT NULL,
               `createDatetime` datetime NOT NULL,
@@ -26,19 +26,19 @@ def upgrade(conn):
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;""",]
     sqlsWithCheck = []
     sqlsWithCheck.append((u"""select id from ActionPropertyType
-            where actionType_id=(select id from ActionType at where at.name=\"Назначения\") and
+            where actionType_id IN (select id from ActionType at where at.name=\"Назначения\") and
             name = \"Скорость введения\" and
             typeName = \"String\" """,
             u"""insert into ActionPropertyType(actionType_id,idx,name,descr,typeName,valueDomain,defaultValue,norm,sex,age)
-           values((select id from ActionType at where at.name=\"Назначения\"),
+           values((select id from ActionType at where at.name=\"Назначения\" AND at.deleted=0 LIMIT 1),
            3,\"Скорость введения\", \"Скорость введения лекарственного препарата\", \"String\",\"\",\"\",\"\",0,\"\")"""
         ))
     sqlsWithCheck.append((u"""select id from ActionPropertyType
-            where actionType_id=(select id from ActionType at where at.name=\"Назначения\") and
+            where actionType_id IN (select id from ActionType at where at.name=\"Назначения\") and
             name = \"Примечания\" and
             typeName = \"String\" """,
             u"""insert into ActionPropertyType(actionType_id,idx,name,descr,typeName,valueDomain,defaultValue,norm,sex,age)
-           values((select id from ActionType at where at.name=\"Назначения\"),
+           values((select id from ActionType at where at.name=\"Назначения\" AND at.deleted=0 LIMIT 1),
            4,\"Примечания\", \"Дополнительный указания по применению препарата\", \"String\",\"\",\"\",\"\",0,\"\")"""
         ))
 
@@ -58,10 +58,10 @@ def downgrade(conn):
             drop table `AssignmentHour`
         """,
         u"""delete from ActionProperty_String where id in 
-           (select id from ActionProperty where type_id in ((select id from ActionPropertyType where name=\"Скорость введения\" and actionType_id=(select id from ActionType at where at.name=\"Назначения\")),
-           (select id from ActionPropertyType where name=\"Примечания\" and actionType_id=(select id from ActionType at where at.name=\"Назначения\"))))""",
-        u"""delete from ActionPropertyType where name=\"Скорость введения\" and actionType_id=(select id from ActionType at where at.name=\"Назначения\")""",
-        u"""delete from ActionPropertyType where name=\"Примечания\" and actionType_id=(select id from ActionType at where at.name=\"Назначения\")""",
+           (select id from ActionProperty where type_id in ((select id from ActionPropertyType where name=\"Скорость введения\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")),
+           (select id from ActionPropertyType where name=\"Примечания\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\"))))""",
+        u"""delete from ActionPropertyType where name=\"Скорость введения\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")""",
+        u"""delete from ActionPropertyType where name=\"Примечания\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")""",
     ]
     c = conn.cursor()
     for s in sql:
