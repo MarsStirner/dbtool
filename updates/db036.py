@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
-
+from MySQLdb import OperationalError
 
 __doc__ = '''\
-Добавление ряда пользователей с соответствующими профилями и ролями \
+- Добавление ряда пользователей с соответствующими профилями и ролями
+- Удаление столбца academicDegree из старых бах 6098, т.к. в нтк была введена
+новая структура степеней/званий врачей (по идее может привести к потере данных)
 '''
 
 def insert_one(c, sql):
@@ -19,7 +21,20 @@ def select_one(c, sql):
     result = c.fetchone()
     return result[0]
 
+
 def upgrade(conn):
+    c = conn.cursor()
+    sql = u'''
+ALTER TABLE `Person` DROP COLUMN `academicDegree` ;
+'''
+    try:
+        c.execute(sql)
+    except OperationalError:
+        pass
+    else:
+        print(u'column `Person`.`academicDegree` deleted')
+
+
     sqlCheck = ['''\
 SELECT EXISTS(SELECT id FROM Person where login = "Регистраторова")
 ''',
@@ -66,15 +81,14 @@ INSERT INTO Person_Profiles
 (person_id, userProfile_id) VALUES (%d,%d);
 '''
 
-    c = conn.cursor()
-
     for i in range(0,4):
         if (not select_one(c,sqlCheck[i])):
             p_id = insert_one(c, sqlPersonAdd[i])
             up_id = select_one(c, sqlProfiles[i])
             c.execute(sqlPersonProfiles % (p_id, up_id))
         else:
-            print('User already added, skipping...')   
+            print('User already added, skipping...')
+    c.close()
    
 def downgrade(conn):
     pass
