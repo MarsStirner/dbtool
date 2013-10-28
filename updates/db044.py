@@ -42,8 +42,8 @@ def upgrade(conn):
 
         c.execute(sqlWithCheck[0] % actionTypeId)
         if len(c.fetchall()) == 0 and sqlWithCheck[1] != u"":
-            tools.addNewActionProperty(c, actionType_id=actionTypeId, idx=100, name=u"Штрихкод",
-                                       descr=u"Штрихкод для печати на контейнере с биоматериалом", typeName="Image")
+            tools.addNewActionProperty(c, actionType_id=actionTypeId, idx=100, name=u"'Штрихкод'",
+                                       descr=u"'Штрихкод для печати на контейнере с биоматериалом'", typeName="'Image'")
 #             c.execute(sqlWithCheck[1] % actionTypeId)
         elif sqlWithCheck[2] != u"":
             c.execute(sqlWithCheck[2])
