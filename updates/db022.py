@@ -13,9 +13,12 @@ __doc__ = '''\
 
 def upgrade(conn):
     sql = [
-        u"""delete from ActionProperty_String where id in
-           (select id from ActionProperty where type_id in ((select id from ActionPropertyType where name=\"Время приема\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")),
-           (select id from ActionPropertyType where name=\"Количество раз в день\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\"))))""",
+        u"""
+delete from ActionProperty_String where id in (
+select id from ActionProperty
+where type_id in (select id from ActionPropertyType where (name="Время приема" OR name="Количество раз в день")
+and actionType_id IN (select id from ActionType at where at.name="Назначения"))
+)""",
         u"""delete from ActionPropertyType where name=\"Время приема\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")""",
         u"""delete from ActionPropertyType where name=\"Количество раз в день\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")""",
         u"""CREATE TABLE if not exists `AssignmentHour` (
