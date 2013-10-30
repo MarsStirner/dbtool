@@ -17,7 +17,6 @@ def query(conn, sql):
 
 
 def downgrade(conn):
-    global tools
     sqlSelectDiagATIds = u"""select id from ActionType
             where class=1 and
             deleted = 0"""
@@ -28,9 +27,11 @@ def downgrade(conn):
             typeName = \"Image\" and
             deleted = 0""",
 
-            u"""insert into ActionPropertyType(actionType_id,idx,name,descr,typeName)
-            values(%d,
-            100,\"Штрихкод\", \"Штрихкод для печати на контейнере с биоматериалом\", \"Image\")""",
+            u"""insert into ActionPropertyType 
+            (actionType_id, idx, name, descr, typeName, valueDomain, defaultValue, norm, sex, age)
+            values
+            (%d, 100, \"Штрихкод\", \"Штрихкод для печати на контейнере с биоматериалом\", \"Image\",
+            \"\", \"\", \"\", 0, \"\")""",
 
             u""
         )
@@ -41,9 +42,7 @@ def downgrade(conn):
 
         c.execute(sqlWithCheck[0] % actionTypeId)
         if len(c.fetchall()) == 0 and sqlWithCheck[1] != u"":
-            tools.addNewActionProperty(c, actionType_id=actionTypeId, idx=100, name=u"'Штрихкод'",
-                                       descr=u"'Штрихкод для печати на контейнере с биоматериалом'", typeName="'Image'")
-#             c.execute(sqlWithCheck[1] % actionTypeId)
+            c.execute(sqlWithCheck[1] % actionTypeId)
         elif sqlWithCheck[2] != u"":
             c.execute(sqlWithCheck[2])
 
