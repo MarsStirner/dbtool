@@ -49,8 +49,9 @@ and actionType_id IN (select id from ActionType at where at.name="Назначе
     for sqlWithCheck in sqlsWithCheck:
         c.execute(sqlWithCheck[0])
         if len(c.fetchall()) == 0: c.execute(sqlWithCheck[1])
-    for s in sql:
-        c.execute(s)
+    # Все-таки не стоит тупо удалять данные
+#     for s in sql:
+#         c.execute(s)
 
 
 def downgrade(conn):
