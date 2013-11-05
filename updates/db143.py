@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
+import traceback
 
 __doc__ = '''\
 Изменения для формы 007
@@ -15,7 +16,11 @@ def upgrade(conn):
     sql = u"""
     ALTER TABLE `rbHospitalBedProfile` DROP COLUMN `type` ;
     """
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except:
+        traceback.print_exc()
+
     # Добавление или обновление  свойства 'профиль койки' в Движении
     moving_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'moving\'')
 
@@ -25,7 +30,7 @@ def upgrade(conn):
         if hospitalBedProfileId:
             sql = u'''
                 UPDATE ActionPropertyType
-                SET mandatory=1
+                SET mandatory=1,
                 code='hospitalBedProfile'
                 WHERE id=%d
                 ''' % hospitalBedProfileId
