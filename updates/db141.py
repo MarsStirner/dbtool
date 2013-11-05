@@ -11,7 +11,7 @@ def upgrade(conn):
     c = conn.cursor()
 
     alerts = (
-       u'''DROP PROCEDURE `SendPrescriptionTo1C`''',
+       u'''DROP PROCEDURE IF EXISTS `SendPrescriptionTo1C`''',
        )
 
     for sql in alerts:	
