@@ -11,6 +11,7 @@ where = 'code="22" and name like "%Результат исследован%" and
 
 
 def upgrade(conn):
+    global tools
     # Добавляем новые права
     sql = [
     '''\
@@ -77,7 +78,7 @@ WHERE %s
     # Исполнение 
     c = conn.cursor()
     for s in sql:
-        c.execute(s)
+        tools.executeEx(c, s, mode='safe_updates_off')
 
 
 def downgrade(conn):

@@ -21,12 +21,13 @@ and actionType_id IN (select id from ActionType at where at.name="Назначе
 )""",
         u"""delete from ActionPropertyType where name=\"Время приема\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")""",
         u"""delete from ActionPropertyType where name=\"Количество раз в день\" and actionType_id IN (select id from ActionType at where at.name=\"Назначения\")""",
-        u"""CREATE TABLE if not exists `AssignmentHour` (
+        ]
+    sql_create = u"""CREATE TABLE if not exists `AssignmentHour` (
               `action_id` int(11) NOT NULL,
               `createDatetime` datetime NOT NULL,
               `hour` int(11) DEFAULT NULL,
               `complete` tinyint(1) DEFAULT '0'
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;""",]
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"""
     sqlsWithCheck = []
     sqlsWithCheck.append((u"""select id from ActionPropertyType
             where actionType_id IN (select id from ActionType at where at.name=\"Назначения\") and
@@ -46,6 +47,7 @@ and actionType_id IN (select id from ActionType at where at.name="Назначе
         ))
 
     c = conn.cursor()
+    c.execute(sql_create)
     for sqlWithCheck in sqlsWithCheck:
         c.execute(sqlWithCheck[0])
         if len(c.fetchall()) == 0: c.execute(sqlWithCheck[1])
