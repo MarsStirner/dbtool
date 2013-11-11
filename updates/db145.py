@@ -27,7 +27,7 @@ WHERE apt.code = '%s' AND at.flatCode = '%s'
     c.execute(sql)
 
     sql = u'''UPDATE ActionPropertyType SET deleted = 1 WHERE code = '%s'
-AND actionType_id = (SELECT id FROM ActionType WHERE flatCode = '%s' AND deleted = 0) ''' % ('hospOrgStruct', 'received')
+AND actionType_id IN (SELECT id FROM ActionType WHERE flatCode = '%s' AND deleted = 0) ''' % ('hospOrgStruct', 'received')
     c.execute(sql)
 
     c.close()
