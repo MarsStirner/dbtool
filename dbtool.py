@@ -219,31 +219,19 @@ def update_db(version):
                 if version > current:
                     versions = range(current + 1, version + 1)
                     for v in versions:
-                        info('upgrading to {0}...'.format(v),
-                             file=sys.stderr)
-                        upd = get_update_exc(all_updates, v)
-                        upgrade = upd['upgrade']
-                        upgrade(conn)
-                else:
-                    versions = reversed(range(version + 1, current + 1))
-                    for v in versions:
-                        info('downgrading to {0}...'.format(v),
-                             file=sys.stderr)
-                        upd = get_update_exc(all_updates, v)
                         try:
-                            downgrade = upd['downgrade']
-                        except KeyError:
-                            raise DBToolException(b'no "downgrade" function '
-                                                  b'for version '
-                                                  b'"{0}"'.format(v))
-                        downgrade(conn)
-                if version > 0:
-                    c = conn.cursor()
-                    c.execute('update `Meta` '
-                              'set `value` = %s '
-                              'where `name` = "schema_version"',
-                              version)
-                conn.commit()
+                            info('upgrading to {0}...'.format(v),
+                                 file=sys.stderr)
+                            upd = get_update_exc(all_updates, v)
+                            upgrade = upd['upgrade']
+                            upgrade(conn)
+                        except:
+                            raise
+                        else:
+                            # Записать номер версии базы в случае успешного апдейта
+                            c = conn.cursor()
+                            c.execute('update `Meta`  set `value` = %s where `name` = "schema_version"', v)
+                            conn.commit()
                 info('updated to {0}'.format(get_db_version(conn)))
             except:
                 conn.rollback()
