@@ -13,12 +13,12 @@ def upgrade(conn):
     c.execute(u'''INSERT INTO `rbCoreActionProperty` (`actionType_id`, `name`, `actionPropertyType_id`) 
 		SELECT `actionType_id`, `name`, `id` 
 		FROM `ActionPropertyType`
-		WHERE `actionType_id` = (SELECT `id` FROM `ActionType` WHERE `flatCode` = 'received')
+		WHERE `actionType_id` IN (SELECT `id` FROM `ActionType` WHERE `flatCode` = 'received')
 			AND `deleted` = 0
 			AND `id` NOT IN (
 				SELECT `actionPropertyType_id`
 				FROM `rbCoreActionProperty`
-				WHERE `actionType_id` = (SELECT `id` FROM `ActionType` WHERE `flatCode` = 'received'));''')
+				WHERE `actionType_id` IN (SELECT `id` FROM `ActionType` WHERE `flatCode` = 'received'));''')
     c.close()
 
 
