@@ -9,7 +9,7 @@ __doc__ = '''\
 Добавление нового обязательного свойства действия 'Профиль койки' в Движение
 '''
 
-
+# частично выпилено
 def upgrade(conn):
     global tools
     c = conn.cursor()
@@ -21,29 +21,29 @@ def upgrade(conn):
     except:
         traceback.print_exc()
 
-    # Добавление или обновление  свойства 'профиль койки' в Движении
-    moving_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'moving\'')
-
-    if moving_at_id:
-        hospitalBedProfileId = tools.checkRecordExists(c, 'ActionPropertyType',
-                                                       'name=\'Профиль койки\' and actionType_id = {0}'.format(moving_at_id))
-        if hospitalBedProfileId:
-            sql = u'''
-                UPDATE ActionPropertyType
-                SET mandatory=1,
-                code='hospitalBedProfile'
-                WHERE id=%d
-                ''' % hospitalBedProfileId
-            tools.executeEx(c, sql, modes=['safe_updates_off'])
-        else:
-            apt_d = dict(actionType_id=moving_at_id,
-                         name=u"'Профиль койки'",
-                         descr=u"'Профиль койки'",
-                         typeName=u"'HospitalBedProfile'",
-                         code="'hospitalBedProfile'",
-                         mandatory=1,
-                         )
-            tools.addNewActionProperty(c, **apt_d)
+#     # Добавление или обновление  свойства 'профиль койки' в Движении
+#     moving_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'moving\'')
+# 
+#     if moving_at_id:
+#         hospitalBedProfileId = tools.checkRecordExists(c, 'ActionPropertyType',
+#                                                        'name=\'Профиль койки\' and actionType_id = {0}'.format(moving_at_id))
+#         if hospitalBedProfileId:
+#             sql = u'''
+#                 UPDATE ActionPropertyType
+#                 SET mandatory=1,
+#                 code='hospitalBedProfile'
+#                 WHERE id=%d
+#                 ''' % hospitalBedProfileId
+#             tools.executeEx(c, sql, modes=['safe_updates_off'])
+#         else:
+#             apt_d = dict(actionType_id=moving_at_id,
+#                          name=u"'Профиль койки'",
+#                          descr=u"'Профиль койки'",
+#                          typeName=u"'HospitalBedProfile'",
+#                          code="'hospitalBedProfile'",
+#                          mandatory=1,
+#                          )
+#             tools.addNewActionProperty(c, **apt_d)
 
     c.close()
 
