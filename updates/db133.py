@@ -8,10 +8,10 @@ __doc__ = '''\
 с движениями пациента в МИС
 '''
 
-# выпилено
+# частично выпилено
 def upgrade(conn):
     global tools
-#     c = conn.cursor()
+    c = conn.cursor()
 #     # Обновление свойств в Поступлении
 #     received_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'received\'')
 #     if received_at_id:
@@ -34,24 +34,24 @@ def upgrade(conn):
 #                      )
 #         tools.addNewActionProperty(c, **apt_d)
 # 
-#     # Обновление свойств в Движении
-#     moving_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'moving\'')
-#     if moving_at_id:
+    # Обновление свойств в Движении
+    moving_at_id = tools.checkRecordExists(c, 'ActionType', 'flatCode=\'moving\'')
+    if moving_at_id:
 #         # Переведен из отделения
 #         sql = u'''
 # UPDATE ActionPropertyType SET mandatory=1
 # WHERE actionType_id=%d AND code='%s'
 # ''' % (moving_at_id, 'orgStructReceived')
 #         tools.executeEx(c, sql, modes=['safe_updates_off'])
-# 
-#         # Отделение пребывания
-#         sql = u'''
-# UPDATE ActionPropertyType SET code='%s'
-# WHERE actionType_id=%d AND (code='%s' OR name='Отделение пребывания')
-# ''' % ('orgStructStay', moving_at_id, 'hospOrgStruct')
-#         tools.executeEx(c, sql, modes=['safe_updates_off'])
-# 
-#     c.close()
+ 
+        # Отделение пребывания
+        sql = u'''
+UPDATE ActionPropertyType SET code='%s'
+WHERE actionType_id=%d AND (code='%s' OR name='Отделение пребывания')
+''' % ('orgStructStay', moving_at_id, 'hospOrgStruct')
+        tools.executeEx(c, sql, modes=['safe_updates_off'])
+ 
+    c.close()
 
 
 def downgrade(conn):
