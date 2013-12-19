@@ -1414,18 +1414,21 @@ inner join
     proc = u'''CREATE DEFINER=%s PROCEDURE `%s`(IN end_date VARCHAR(128), IN org_str VARCHAR(128) , IN profiles VARCHAR(128))
              BEGIN
                 SELECT rbSpecialVariablesPreferences.`query` INTO @tpl FROM rbSpecialVariablesPreferences WHERE rbSpecialVariablesPreferences.name = 'SpecialVar_%s';
-		SET @sqlPrepare = REPLACE(REPLACE(REPLACE(@tpl, "::@end_date", end_date),"::@org_str",org_str),"::@profile",profiles);
+		SET @sqlPrepare = REPLACE(REPLACE(REPLACE(@tpl, "::@end_date", end_date),"::@org_str",org_str),"::@%s",profiles);
 		PREPARE sqlQuery FROM  @sqlPrepare;
 		EXECUTE sqlQuery;
              END'''
 
-    names = ( u'''form007front''', u'''FIOinput007''', u'''FIOinpuFrom12''', u'''FIOoutTotal''', u'''FIOoutToOtherUnit''', u'''FIOoutToOtherHospital''' )
+    names =    ( u'''form007front''', u'''FIOinput007''', u'''FIOinpuFrom12''', u'''FIOoutTotal''', u'''FIOoutToOtherUnit''', u'''FIOoutToOtherHospital''')
+    profiles = (     u'''profiles''',     u'''profile''',       u'''profile''',     u'''profile''',           u'''profile''',               u'''profile''')
 
+    c.execute(u'''ALTER TABLE `rbSpecialVariablesPreferences` ADD UNIQUE INDEX `name` (`name`)''')
     for name in names:	
        c.execute(u'''DROP PROCEDURE IF EXISTS %s'''%name) 
-       c.execute(proc%(config['definer'],name,name)) 
-#       c.execute(u'''INSERT IGNORE INTO `rbSpecialVariablesPreferences` (`name`,`query`) VALUES ("SpecialVar_%s", "%s")'''%(name, queries[names.index(name)]) )
-
+       index = names.index(name)
+       c.execute(proc%(config['definer'],name,name,profiles[index])) 
+       c.execute(u'''INSERT IGNORE INTO `rbSpecialVariablesPreferences` (`name`,`query`) VALUES ("SpecialVar_%s", "%s")'''%(name, queries[index]) )
+                     
     c.close()
 
 
