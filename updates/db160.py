@@ -1424,7 +1424,7 @@ inner join
     for name in names:	
        c.execute(u'''DROP PROCEDURE IF EXISTS %s'''%name) 
        c.execute(proc%(config['definer'],name,name)) 
-       c.execute(u'''INSERT IGNORE INTO `rbSpecialVariablesPreferences` (`name`,`query`) VALUES ("SpecialVar_%s", "%s")'''%(name, queries[names.index(name)]) )
+#       c.execute(u'''INSERT IGNORE INTO `rbSpecialVariablesPreferences` (`name`,`query`) VALUES ("SpecialVar_%s", "%s")'''%(name, queries[names.index(name)]) )
 
     c.close()
 
