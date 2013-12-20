@@ -50,7 +50,7 @@ def main():
                 deathProtocol_at_id = checkRecordExists(cursor, 'ActionType', 'flatCode=\'deadMan\'')
                 deathProtocol_aptDate_id = checkRecordExists(cursor, 'ActionPropertyType', 'code=\'deathDate\'')
                 deathProtocol_aptTime_id = checkRecordExists(cursor, 'ActionPropertyType', 'code=\'deathTime\'')
-                
+
                 if deathProtocol_at_id and deathProtocol_aptDate_id and deathProtocol_aptTime_id:
                     # через выписку
                     query = u'''SELECT Action.event_id, Action.directionDate, Action.begDate, Action.endDate
@@ -78,49 +78,57 @@ def main():
                                     and ActionProperty_String.value like '%умер%');'''
 
                     cursor.execute(query)
-                    addition = cursor.fetchall()
-                    rows += addition
-                    if len(rows) > 0:
-                        for row in rows:
-                            # протокол
-                            if row[0] and row[1] and row[2] and row[3]:
+                    rows += cursor.fetchall()
+                    for row in rows:
+                        # протокол
+                        if row[0] and row[1] and row[2] and row[3]:
+                            death_protocol = checkRecordExists(cursor, 'Action',
+                                                               'actionType_id={0} and event_id = {1}'.format(deathProtocol_at_id, row[0]))
+                            if death_protocol:
+                                print("Для обращения {0} 'Протокол установления смерти уже создан'".format(row[0]))
+                            else:
                                 query = u'''
                                 INSERT INTO Action
-                                    (createDatetime, modifyDatetime, deleted, actionType_id, event_id, directionDate,
-                                    status, isUrgent, begDate, endDate)
+                                    (createDatetime, modifyDatetime, deleted, actionType_id, event_id,
+                                    directionDate, status, isUrgent, begDate, endDate, note, coordText)
                                 VALUES
-                                    (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, {0}, {1}, "{2}", 2, 0, "{3}", "{4}")
+                                    (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, {0}, {1}, "{2}", 2, 0, "{3}", "{4}", "",
+                                    "")
                                 '''.format(deathProtocol_at_id, row[0], row[1], row[2], row[3])
                                 cursor.execute(query)
                                 new_a_id = cursor.lastrowid
 
                                 # дата смерти
                                 sql = u'''INSERT INTO `ActionProperty`
-                                            (`createDatetime`, `modifyDatetime`, `deleted`, `action_id`, `type_id`, `norm`)
+                                            (`createDatetime`, `modifyDatetime`, `deleted`, `action_id`, `type_id`,
+                                            `norm`)
                                             VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, {0}, {1}, '');
                                             '''.format(new_a_id, deathProtocol_aptDate_id)
                                 cursor.execute(sql)
                                 new_ap_id = cursor.lastrowid
                                 sql = u'''INSERT INTO `ActionProperty_Date`
                                             (`id`, `index`, `value`)
-                                            VALUES ({0}, '0', "{1}"); '''.format(new_ap_id, row[3].strftime("%Y-%m-%d"))
+                                            VALUES ({0}, '0', "{1}");
+                                            '''.format(new_ap_id, row[3].strftime("%Y-%m-%d"))
                                 cursor.execute(sql)
 
                                 # время смерти
                                 sql = u'''INSERT INTO `ActionProperty`
-                                            (`createDatetime`, `modifyDatetime`, `deleted`, `action_id`, `type_id`, `norm`)
+                                            (`createDatetime`, `modifyDatetime`, `deleted`, `action_id`, `type_id`,
+                                            `norm`)
                                             VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 0, {0}, {1}, '');
                                             '''.format(new_a_id, deathProtocol_aptTime_id)
                                 cursor.execute(sql)
                                 new_ap_id = cursor.lastrowid
                                 sql = u'''INSERT INTO `ActionProperty_Time`
                                             (`id`, `index`, `value`)
-                                            VALUES ({0}, '0', "{1}"); '''.format(new_ap_id, row[3].strftime("%H:%M:%S"))
+                                            VALUES ({0}, '0', "{1}");
+                                            '''.format(new_ap_id, row[3].strftime("%H:%M:%S"))
                                 cursor.execute(sql)
-                            else:
-                                if row[0]:
-                                    print(u'''Необходимо проверить обращение {0} и, при необходимости, создать
-                                          "протокол установления смерти" вручную'''.format(row[0]))
+                        else:
+                            if row[0]:
+                                print(u'''Необходимо проверить обращение {0} и, при необходимости, создать
+                                      "протокол установления смерти" вручную'''.format(row[0]))
                 else:
                     print(u'Тип действия "Протокол установления смерти" не создан или создан некорректно')
 #                 raise RuntimeError('Stopped commit intentionally')
