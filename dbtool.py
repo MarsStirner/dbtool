@@ -230,7 +230,7 @@ def update_db(version):
                         else:
                             # Записать номер версии базы в случае успешного апдейта
                             c = conn.cursor()
-                            c.execute('update `Meta`  set `value` = %s where `name` = "schema_version"', v)
+#                             c.execute('update `Meta`  set `value` = %s where `name` = "schema_version"', v)
                             conn.commit()
                 info('updated to {0}'.format(get_db_version(conn)))
             except:
