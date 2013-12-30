@@ -59,7 +59,7 @@ def safeToDouble(v):
 sqlInsertActionProperty = '''\
     INSERT INTO `ActionProperty`
     (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, action_id, type_id, unit_id, norm)
-    VALUES (NOW(), %d, NOW(), %d, %d, %d, 62, '')
+    VALUES (NOW(), %s, NOW(), %s, %d, %d, 62, '')
 '''
 
 sqlInsertActionPropertyDouble = '''\
@@ -202,7 +202,7 @@ def convertStringToDouble(conn, actionId, actionPropertyId, value, actionTypeId,
     newActionPropertyTypeId = tMap[actionTypeId]
 
     # Вставляем новый ActionProperty
-    qHigh = sqlInsertActionProperty % (personId, personId, actionId, newActionPropertyTypeId)
+    qHigh = sqlInsertActionProperty % (personId or 'null', personId or 'null', actionId, newActionPropertyTypeId)
     propIdnew = insert(conn, qHigh)
 
 
@@ -235,7 +235,7 @@ def convertIntegerToDouble(conn, actionId, actionPropertyId, value, actionTypeId
     newActionPropertyTypeId = tMap[actionTypeId]
 
     # Вставляем новый ActionProperty
-    qHigh = sqlInsertActionProperty % (personId, personId, actionId, newActionPropertyTypeId)
+    qHigh = sqlInsertActionProperty % (personId or 'null', personId or 'null', actionId, newActionPropertyTypeId)
     propIdnew = insert(conn, qHigh)
 
 

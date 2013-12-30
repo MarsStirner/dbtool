@@ -58,7 +58,7 @@ def toPair(v):
 sqlInsertActionProperty = '''\
     INSERT INTO `ActionProperty`
     (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, action_id, type_id, unit_id, norm)
-    VALUES (NOW(), %d, NOW(), %d, %d, %d, 17, '')
+    VALUES (NOW(), %s, NOW(), %s, %d, %d, 17, '')
 '''
 
 sqlInsertActionPropertyDouble = '''\
@@ -195,9 +195,9 @@ def convertStringToDouble(conn, actionId, actionPropertyId, value, actionTypeId,
     actionProperyTypeIdLow = lowMap[actionTypeId]
 
     # Вставляем два новых ActionProperty
-    qHigh = sqlInsertActionProperty % (personId, personId, actionId, actionProperyTypeIdHigh)
+    qHigh = sqlInsertActionProperty % (personId or 'null', personId or 'null', actionId, actionProperyTypeIdHigh)
     propIdHigh = insert(conn, qHigh)
-    qLow = sqlInsertActionProperty % (personId, personId, actionId, actionProperyTypeIdLow)
+    qLow = sqlInsertActionProperty % (personId or 'null', personId or 'null', actionId, actionProperyTypeIdLow)
     propIdLow = insert(conn, qLow)
 
     # Вставляем значения для новых свойств
