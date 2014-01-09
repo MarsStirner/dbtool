@@ -61,12 +61,14 @@ def main():
                         join ActionProperty_String on ActionProperty_String.id = ActionProperty.id
                         where ActionType.flatCode = 'leaved'
                         and ActionPropertyType.code = 'hospOutcome'
-                        and ActionProperty_String.value like '%умер%';'''
+                        and ActionProperty_String.value like '%умер%'
+                        and Action.deleted = 0;'''
                     cursor.execute(query)
                     rows = cursor.fetchall()
                     # через закрытые обращения
                     query = u'''SELECT Event.id, setDate, setDate, execDate from Event
                                     join rbResult on Event.result_id = rbResult.id
+                                    and Event.deleted = 0
                                     where rbResult.name like '%умер%'
                                     and Event.id not in (SELECT Action.event_id from Action
                                     join ActionType on Action.actionType_id = ActionType.id
@@ -75,7 +77,8 @@ def main():
                                     join ActionProperty_String on ActionProperty_String.id = ActionProperty.id
                                     where ActionType.flatCode = 'leaved'
                                     and ActionPropertyType.code = 'hospOutcome'
-                                    and ActionProperty_String.value like '%умер%');'''
+                                    and ActionProperty_String.value like '%умер%'
+                                    and Action.deleted = 0);'''
 
                     cursor.execute(query)
                     rows += cursor.fetchall()
