@@ -148,7 +148,7 @@ class DBTool(object):
                         else:
                             # Записать номер версии базы в случае успешного апдейта
                             with conn as cursor:
-#                                 cursor.execute('update `Meta` set `value` = %s where `name` = %s ', (v, table_attr))
+                                cursor.execute('update `Meta` set `value` = %s where `name` = %s ', (v, table_attr))
                                 conn.commit()
                 else:
                     versions = reversed(range(version + 1, current_version + 1))
@@ -278,6 +278,10 @@ class UpdateModulesList(dict):
             context = {'config': self._conf, 'tools': tools}
             try:
                 exec open(filename, 'rb') in context
+            except ImportError:
+                def _f():
+                    raise DBToolException('Can\'t update without PyQt4. Install Qt4 and PyQt4 first.')
+                context['upgrade'] = _f
             except Exception, e:
                 raise DBToolException(b'file "{0}": {1}'.format(filename, e))
             try:
