@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals, print_function
-from _mysql import OperationalError
+import MySQLdb as db
 
 __doc__ = '''
 - Добавление таблиц для Листа Назначений
@@ -95,7 +95,13 @@ ENGINE=InnoDB;"""
     c.execute(sql)
 
     sql = u"ALTER IGNORE TABLE rlsFilling DROP COLUMN `disabledForPrescription`"
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except db.OperationalError as e:
+        if '1091' in unicode(e):
+            print(e)
+        else:
+            raise
 
     sql = u"ALTER IGNORE TABLE `rlsFilling` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`);"
     c.execute(sql)
