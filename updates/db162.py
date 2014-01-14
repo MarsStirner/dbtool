@@ -33,7 +33,7 @@ def upgrade(conn):
 						AND 
 						 (a.hospitalUidFrom <> '' AND a.hospitalUidFrom <> '0');
 						 """)
-		c.execute(u"""UPDATE Action a 
+	c.execute(u"""UPDATE Action a 
 						INNER JOIN ActionType atype ON a.actionType_id = atype.id
 						INNER JOIN Event e ON e.id = a.event_id
 						INNER JOIN EventType etype ON etype.id = e.eventType_id
