@@ -146,83 +146,85 @@ def perform_hosp_app_upgrade(c):
                         mode = ['safe_updates_off',])
 
 def perform_received_upgrade(c):
+    # Поступлений в данный момент может быть несколько с одним флеткодом
+    # (в некоторых бд существует Поступление в роддом)
     global tools
-    rec_id = tools.checkRecordExists(c, 'ActionType', 'flatCode = "received" AND deleted = 0')
-    if rec_id is None:
+    c.execute('SELECT id FROM ActionType WHERE flatCode = "received" AND deleted = 0')
+    records = c.fetchall()
+    if not records:
         raise Exception('В бд не найден тип действия Поступление.')
-#     if c.rowcount > 1:
-#         raise Exception('В бд найдено несколько версий типа действия Поступление. '
-#                         'Необходимо разбираться в этой ситуации.')
 
+    records = [int(row[0]) for row in records]
     # настройка свойств
-    # Направившее ЛПУ
-    lpu_from_id = tools.checkRecordExists(c, 'ActionPropertyType',
-        'actionType_id = %d AND typeName = "Organisation" AND name LIKE "Направившее ЛПУ" AND deleted = 0' % rec_id)
-    if lpu_from_id is None:
-        tools.addNewActionProperty(c, actionType_id=rec_id,
-                                   name="'Направившее ЛПУ'",
-                                   descr="'Наименование ЛПУ, откуда был направлен пациент'",
-                                   typeName="'Organisation'",
-                                   code="'lpu_from'",
-                                   mandatory=1)
-    else:
-        tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('lpu_from', lpu_from_id),
-                        mode = ['safe_updates_off',])
+    for rec_id in records:
+        # Направившее ЛПУ
+        lpu_from_id = tools.checkRecordExists(c, 'ActionPropertyType',
+            'actionType_id = %d AND typeName = "Organisation" AND name LIKE "Направившее ЛПУ" AND deleted = 0' % rec_id)
+        if lpu_from_id is None:
+            tools.addNewActionProperty(c, actionType_id=rec_id,
+                                       name="'Направившее ЛПУ'",
+                                       descr="'Наименование ЛПУ, откуда был направлен пациент'",
+                                       typeName="'Organisation'",
+                                       code="'lpu_from'",
+                                       mandatory=1)
+        else:
+            tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('lpu_from', lpu_from_id),
+                            mode = ['safe_updates_off',])
 
-    # Профиль койки
-    hbp_id = tools.checkRecordExists(c, 'ActionPropertyType',
-        'actionType_id = %d AND typeName = "HospitalBedProfile" AND name LIKE "Профиль койки" AND deleted = 0' % rec_id)
-    if hbp_id is None:
-        tools.addNewActionProperty(c, actionType_id=rec_id,
-                                   name="'Профиль койки'",
-                                   descr="'Профиль койки'",
-                                   typeName="'HospitalBedProfile'",
-                                   code="'hosp_bed_profile'",
-                                   mandatory=1)
-    else:
-        tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('hosp_bed_profile', hbp_id),
-                        mode = ['safe_updates_off',])
+        # Профиль койки
+        hbp_id = tools.checkRecordExists(c, 'ActionPropertyType',
+            'actionType_id = %d AND typeName = "HospitalBedProfile" AND name LIKE "Профиль койки" AND deleted = 0' % rec_id)
+        if hbp_id is None:
+            tools.addNewActionProperty(c, actionType_id=rec_id,
+                                       name="'Профиль койки'",
+                                       descr="'Профиль койки'",
+                                       typeName="'HospitalBedProfile'",
+                                       code="'hosp_bed_profile'",
+                                       mandatory=1)
+        else:
+            tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('hosp_bed_profile', hbp_id),
+                            mode = ['safe_updates_off',])
 
-    # Причина отказа от госпитализации
-    ref_reason_id = tools.checkRecordExists(c, 'ActionPropertyType',
-        'actionType_id = %d AND typeName = "ReferenceRb" AND name LIKE "Причина отказа от госпитализации" AND deleted = 0' % rec_id)
-    if ref_reason_id is None:
-        tools.addNewActionProperty(c, actionType_id=rec_id,
-                                   name="'Причина отказа от госпитализации'",
-                                   descr="'Причина отказа от госпитализации'",
-                                   typeName="'ReferenceRb'",
-                                   valueDomain="'rbRefusalReason;'",
-                                   code="'refusal_reason'")
-    else:
-        tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('refusal_reason', ref_reason_id),
-                        mode = ['safe_updates_off',])
+        # Причина отказа от госпитализации
+        ref_reason_id = tools.checkRecordExists(c, 'ActionPropertyType',
+            'actionType_id = %d AND typeName = "ReferenceRb" AND name LIKE "Причина отказа от госпитализации" AND deleted = 0' % rec_id)
+        if ref_reason_id is None:
+            tools.addNewActionProperty(c, actionType_id=rec_id,
+                                       name="'Причина отказа от госпитализации'",
+                                       descr="'Причина отказа от госпитализации'",
+                                       typeName="'ReferenceRb'",
+                                       valueDomain="'rbRefusalReason;'",
+                                       code="'refusal_reason'")
+        else:
+            tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('refusal_reason', ref_reason_id),
+                            mode = ['safe_updates_off',])
 
-    # Порядок госпитализации
-    hosp_order_id = tools.checkRecordExists(c, 'ActionPropertyType',
-        'actionType_id = %d AND typeName = "ReferenceRb" AND name LIKE "Порядок госпитализации" AND deleted = 0' % rec_id)
-    if hosp_order_id is None:
-        tools.addNewActionProperty(c, actionType_id=rec_id,
-                                   name="'Порядок госпитализации'",
-                                   descr="'Порядок госпитализации'",
-                                   typeName="'ReferenceRb'",
-                                   valueDomain="'rbAppointmentOrder;'",
-                                   code="'hosp_order'")
-    else:
-        tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('hosp_order', hosp_order_id),
-                        mode = ['safe_updates_off',])
+        # Порядок госпитализации
+        hosp_order_id = tools.checkRecordExists(c, 'ActionPropertyType',
+            'actionType_id = %d AND typeName = "ReferenceRb" AND name LIKE "Порядок госпитализации" AND deleted = 0' % rec_id)
+        if hosp_order_id is None:
+            tools.addNewActionProperty(c, actionType_id=rec_id,
+                                       name="'Порядок госпитализации'",
+                                       descr="'Порядок госпитализации'",
+                                       typeName="'ReferenceRb'",
+                                       valueDomain="'rbAppointmentOrder;'",
+                                       code="'hosp_order'")
+        else:
+            tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('hosp_order', hosp_order_id),
+                            mode = ['safe_updates_off',])
 
-    # Диагноз приемного отделения
-    diag_rec_mkb_id = tools.checkRecordExists(c, 'ActionPropertyType',
-        'actionType_id = %d AND typeName = "MKB" AND name LIKE "Диагноз приемного отделения" AND deleted = 0' % rec_id)
-    if diag_rec_mkb_id is None:
-        tools.addNewActionProperty(c, actionType_id=rec_id,
-                                   name="'Диагноз приемного отделения'",
-                                   descr="'Диагноз приемного отделения'",
-                                   typeName="'MKB'",
-                                   code="'received_diag_mkb'")
-    else:
-        tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('received_diag_mkb', diag_rec_mkb_id),
-                        mode = ['safe_updates_off',])
+        # Диагноз приемного отделения
+        diag_rec_mkb_id = tools.checkRecordExists(c, 'ActionPropertyType',
+            'actionType_id = %d AND typeName = "MKB" AND name LIKE "Диагноз приемного отделения" AND deleted = 0' % rec_id)
+        if diag_rec_mkb_id is None:
+            tools.addNewActionProperty(c, actionType_id=rec_id,
+                                       name="'Диагноз приемного отделения'",
+                                       descr="'Диагноз приемного отделения'",
+                                       typeName="'MKB'",
+                                       code="'received_diag_mkb'")
+        else:
+            tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('received_diag_mkb', diag_rec_mkb_id),
+                            mode = ['safe_updates_off',])
 
 def perform_moving_upgrade(c):
     global tools
@@ -248,13 +250,13 @@ def perform_moving_upgrade(c):
         tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('hosp_bed_profile', hbp_id),
                         mode = ['safe_updates_off',])
 
-    # Порядок госпитализации
+    # Порядок госпитализации в др.отделение/ЛПУ
     hosp_order_id = tools.checkRecordExists(c, 'ActionPropertyType',
-        'actionType_id = %d AND typeName = "ReferenceRb" AND name LIKE "Порядок госпитализации" AND deleted = 0' % mov_id)
+        'actionType_id = %d AND typeName = "ReferenceRb" AND name LIKE "Порядок госпитализации%%" AND deleted = 0' % mov_id)
     if hosp_order_id is None:
         tools.addNewActionProperty(c, actionType_id=mov_id,
-                                   name="'Порядок госпитализации'",
-                                   descr="'Порядок госпитализации'",
+                                   name="'Порядок госпитализации в др.отделение/ЛПУ'",
+                                   descr="'Порядок госпитализации в др.отделение/ЛПУ'",
                                    typeName="'ReferenceRb'",
                                    valueDomain="'rbAppointmentOrder;'",
                                    code="'hosp_order'")
