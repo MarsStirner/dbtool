@@ -54,6 +54,59 @@ def checkRecordExists(cursor, table, cond):
         id_ = None
     return id_
 
+def addNewActionType(cursor, **kwargs):
+    name = kwargs.get('name')
+    class_ = kwargs.get('class_')
+    if name is None or class_ is None:
+        raise AttributeError('name and class_ cannot be empty')
+
+    musthave_fields = (('createDatetime', 'CURRENT_TIMESTAMP'),
+                       ('modifyDatetime', 'CURRENT_TIMESTAMP'),
+                       ('class', class_), # class_ in kwargs
+                       ('code', "''"),
+                       ('name', name),
+                       ('title', "''"),
+                       ('flatCode', "''"),
+                       ('sex', 0),
+                       ('office', "''"),
+                       ('showInForm', 0),
+                       ('genTimetable', 0),
+                       ('context', "''"),
+                       ('defaultPlannedEndDate', "'0'"),
+                       )
+    other_fields = ('createPerson_id', 'modifyPerson_id', 'deleted', 'hidden', 'group_id',
+                    'age_bu', 'age_bc', 'age_eu', 'age_ec', 'service_id', 'quotaType_id',
+                    'amount', 'amountEvaluation', 'defaultStatus', 'defaultDirectionDate',
+                    'defaultEndDate', 'defaultExecPerson_id', 'defaultPersonInEvent', 'defaultPersonInEditor',
+                    'maxOccursInEvent', 'showTime', 'isMES', 'nomenclativeService_id',
+                    'isPreferable', 'prescribedType_id', 'shedule_id', 'isRequiredCoordination',
+                    'jobType_id', 'mnem', 'isRequiredTissue', 'testTubeType_id',)
+
+    fields_to_sql = []
+    values_to_sql = []
+    for mh_field, default_val in musthave_fields:
+        fields_to_sql.append(mh_field)
+        if mh_field == 'class':
+            mh_field += '_'
+        val = kwargs.get(mh_field)
+        if val is not None:
+            val = val
+        else:
+            val = default_val
+        values_to_sql.append(val)
+    for o_field in other_fields:
+        val = kwargs.get(o_field)
+        if val is not None:
+            fields_to_sql.append(o_field)
+            values_to_sql.append(val)
+
+    sql = u'''
+INSERT INTO `ActionType` (%s) VALUES (%s)
+''' % (','.join(map(unicode, fields_to_sql)), ','.join(map(unicode, values_to_sql)))
+    print(sql)
+#     cursor.execute(sql)
+    return cursor.lastrowid
+
 def addNewActionProperty(cursor, **kwargs):
     at_id = kwargs.get('actionType_id')
     typeName = kwargs.get('typeName')
@@ -99,6 +152,7 @@ INSERT INTO `ActionPropertyType` (%s) VALUES (%s)
 ''' % (','.join(map(unicode, fields_to_sql)), ','.join(map(unicode, values_to_sql)))
 #     print(sql)
     cursor.execute(sql)
+    return cursor.lastrowid
 
 def _countAPT(cursor, at_id):
     cursor.execute('SELECT count(*) FROM ActionPropertyType WHERE actionType_id=%d AND deleted=0' % at_id)
