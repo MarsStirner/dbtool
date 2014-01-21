@@ -111,7 +111,7 @@ ENGINE=InnoDB;"""
     CHANGE COLUMN `name` `name` VARCHAR(256)"""
     c.execute(sql)
 
-    sql = u"DROP TABLE rlsINPName"
+    sql = u"DROP TABLE IF EXISTS rlsINPName"
     c.execute(sql)
 
     sql = u"""CREATE TABLE IF NOT EXISTS `rlsActMatters` (
