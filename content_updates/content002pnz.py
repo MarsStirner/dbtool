@@ -18,10 +18,10 @@ def upgrade(conn):
 (`code`,`name`, `TFOMScode_hosp`, `TFOMScode_account`)
 VALUES (%s, %s, %s, %s);'''
     data = [(1, 'Плановый', 1, 1),
-            (2, 'Экстренный', 3, 2),
-            (3, 'Самотёком', '', ''),
-            (4, 'Принудительный', '', ''),
-            (5, 'Неотложный', 2, 3),
+            (3, 'Экстренный', 3, 2),
+            (4, 'Самотёком', '', ''),
+            (5, 'Принудительный', '', ''),
+            (2, 'Неотложный', 2, 3),
             ]
     c.executemany(sql, data)
 
@@ -40,6 +40,8 @@ VALUES (%s, %s, %s, %s);'''
             ]
     c.executemany(sql, data)
 
+    c.execute('''INSERT INTO rbHospitalBedType (`code`, `name`) VALUES ('9', 'платная')''')
+
     perform_hosp_app_upgrade(c)
     perform_received_upgrade(c)
     perform_moving_upgrade(c)
@@ -49,7 +51,7 @@ VALUES (%s, %s, %s, %s);'''
 
 def perform_hosp_app_upgrade(c):
     global tools
-    # установка флеткода для направления на госпитализацию
+    # установка флеткода (и showTime) для направления на госпитализацию
     hosp_app_id = tools.checkRecordExists(c, 'ActionType',
         'name LIKE "Направление на госпитализацию%" AND deleted = 0')
     if hosp_app_id is None:
@@ -57,7 +59,7 @@ def perform_hosp_app_upgrade(c):
     if c.rowcount > 1:
         raise Exception('В бд найдено несколько версий типа действия Направление на госпитализацию. '
                         'Выберете один актуальный, остальные пометьте удаленными.')
-    c.execute('UPDATE ActionType SET flatCode = "%s" WHERE id = %d' % ('hosp_appointment', hosp_app_id))
+    c.execute('UPDATE ActionType SET flatCode = "%s", showTime = 1 WHERE id = %d' % ('hosp_appointment', hosp_app_id))
 
     # настройка свойств
     # Куда направлен
@@ -97,7 +99,7 @@ def perform_hosp_app_upgrade(c):
                                    name="'Порядок направления'",
                                    descr="'Порядок направления'",
                                    typeName="'ReferenceRb'",
-                                   valueDomain="'rbAppointmentOrder;'",
+                                   valueDomain="'rbAppointmentOrder; 1, 2, 3'",
                                    code="'hosp_order'",
                                    mandatory=1)
     else:
@@ -145,6 +147,9 @@ def perform_hosp_app_upgrade(c):
         tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('diag_mkb', diag_mkb_id),
                         mode = ['safe_updates_off',])
 
+    print('Проверьте настройки типов свойств для типа действия \'Направление на госпитализацию\'. '
+          'При необходимости вручную пометьте удаленными дублирующиеся свойства (те, для которых не установлены коды).')
+
 def perform_received_upgrade(c):
     # Поступлений в данный момент может быть несколько с одним флеткодом
     # (в некоторых бд существует Поступление в роддом)
@@ -165,6 +170,7 @@ def perform_received_upgrade(c):
                                        name="'Направившее ЛПУ'",
                                        descr="'Наименование ЛПУ, откуда был направлен пациент'",
                                        typeName="'Organisation'",
+                                       valueDomain="'ЛПУ'",
                                        code="'lpu_from'",
                                        mandatory=1)
         else:
@@ -207,7 +213,7 @@ def perform_received_upgrade(c):
                                        name="'Порядок госпитализации'",
                                        descr="'Порядок госпитализации'",
                                        typeName="'ReferenceRb'",
-                                       valueDomain="'rbAppointmentOrder;'",
+                                       valueDomain="'rbAppointmentOrder; 1, 2, 3'",
                                        code="'hosp_order'")
         else:
             tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('hosp_order', hosp_order_id),
@@ -225,6 +231,32 @@ def perform_received_upgrade(c):
         else:
             tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('received_diag_mkb', diag_rec_mkb_id),
                             mode = ['safe_updates_off',])
+
+        # Номер ИБ
+        ext_id = tools.checkRecordExists(c, 'ActionPropertyType',
+            'actionType_id = %d AND typeName = "String" AND name LIKE "Номер ИБ" AND deleted = 0' % rec_id)
+        if ext_id is None:
+            print('В поступлении не найдено свойство \'Номер ИБ\', но добавлено оно не будет. '
+                  'Уточните действительно ли оно необходимо. В текущем обновлении устанавливается код только для существующего свойства.')
+        else:
+            tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('externalId', ext_id),
+                            mode = ['safe_updates_off',])
+
+        # № направления
+        direction_num_id = tools.checkRecordExists(c, 'ActionPropertyType',
+            'actionType_id = %d AND typeName = "String" AND name LIKE "№ направления" AND deleted = 0' % rec_id)
+        if direction_num_id is None:
+            tools.addNewActionProperty(c, actionType_id=rec_id,
+                                       name="'№ направления'",
+                                       descr="'№ направления'",
+                                       typeName="'String'",
+                                       code="'direction_num'")
+        else:
+            tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('direction_num', direction_num_id),
+                            mode = ['safe_updates_off',])
+
+    print('Проверьте настройки типов свойств для типа действия \'Поступление\'. '
+          'При необходимости вручную пометьте удаленными дублирующиеся свойства (те, для которых не установлены коды).')
 
 def perform_moving_upgrade(c):
     global tools
@@ -258,11 +290,14 @@ def perform_moving_upgrade(c):
                                    name="'Порядок госпитализации в др.отделение/ЛПУ'",
                                    descr="'Порядок госпитализации в др.отделение/ЛПУ'",
                                    typeName="'ReferenceRb'",
-                                   valueDomain="'rbAppointmentOrder;'",
+                                   valueDomain="'rbAppointmentOrder; 1, 2, 3'",
                                    code="'hosp_order'")
     else:
         tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('hosp_order', hosp_order_id),
                         mode = ['safe_updates_off',])
+
+    print('Проверьте настройки типов свойств для типа действия \'Движение\'. '
+          'При необходимости вручную пометьте удаленными дублирующиеся свойства (те, для которых не установлены коды).')
 
 def perform_leaved_upgrade(c):
     global tools
@@ -282,6 +317,7 @@ def perform_leaved_upgrade(c):
                                    name="'ЛПУ, куда переводится пациент'",
                                    descr="'ЛПУ, куда переводится пациент'",
                                    typeName="'Organisation'",
+                                   valueDomain="'ЛПУ'",
                                    code="'lpu_direct_to'")
     else:
         tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('lpu_direct_to', hbp_id),
@@ -301,28 +337,5 @@ def perform_leaved_upgrade(c):
         tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('planned_hosp_bed_profile', hbp_id),
                         mode = ['safe_updates_off',])
 
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    print('Проверьте настройки типов свойств для типа действия \'Выписка\'. '
+          'При необходимости вручную пометьте удаленными дублирующиеся свойства (те, для которых не установлены коды).')
