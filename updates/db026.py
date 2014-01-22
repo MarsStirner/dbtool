@@ -15,7 +15,7 @@ ALTER TABLE `ActionType` ADD COLUMN `isRequiredTissue` TINYINT(1) NOT NULL DEFAU
     c = conn.cursor()
     global tools
     for s in sql0:
-        tools.executeEx(c, s, mode=['ignore_dublicates'])
+        tools.executeEx(c, s, mode=['ignore_duplicates'])
         
 def downgrade(conn):
     sql0 = [

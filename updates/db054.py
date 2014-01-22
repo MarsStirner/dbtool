@@ -212,72 +212,72 @@ ALTER TABLE `ClientFDProperty` ADD CONSTRAINT `FK_ClientFDProperty_FlatDirectory
     sql = u'''
 ALTER TABLE `Client` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientAddress` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientAllergy` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientContact` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientDocument` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientFDProperty` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientFlatDirectory` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientIdentification` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientIntoleranceMedicament` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientPolicy` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientRelation` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientSocStatus` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';    
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientWork` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';   
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `Diagnostic` ADD COLUMN `version` INTEGER UNSIGNED NOT NULL COMMENT 'Версия данных';   
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 CREATE TABLE `rbCoreActionProperty` (
@@ -294,38 +294,38 @@ CREATE TABLE `rbCoreActionProperty` (
 ALTER TABLE `Client` ADD COLUMN `birthPlace` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_general_ci
 NOT NULL DEFAULT '' COMMENT 'Место рождения';
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientDocument` ADD COLUMN `endDate` DATE NOT NULL COMMENT 'Срок окончания действия документа';
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientSocStatus` ADD COLUMN `note` VARCHAR(256) CHARACTER SET utf8 COLLATE utf8_general_ci
 NOT NULL DEFAULT '' COMMENT 'Примечание';
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientSocStatus` ADD COLUMN `benefitCategory_id` INTEGER UNSIGNED COMMENT 'Заполняется только для инвалидности (socStatusClass_id=2) Категория льгот, берется из справочников FDirectory с id 10 и 11';
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientAddress` ADD COLUMN `localityType` INTEGER UNSIGNED NOT NULL COMMENT 'Тип населенного пункута 0 - село, 1 - город';
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientWork` ADD COLUMN `rank_id` INTEGER UNSIGNED NOT NULL COMMENT 'Звание военнослужащего. FlatDirectory№7';
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ClientWork` ADD COLUMN `arm_id` INTEGER UNSIGNED NOT NULL COMMENT 'Род войск. FlatDirectory №6';
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 INSERT INTO `FlatDirectory` VALUES

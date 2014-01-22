@@ -56,7 +56,7 @@ def upgrade(conn):
     for t in tables:
         # Создаем поле версии  для таблицы t
         sql = sqlAddVersionColumn.format(tableName = t)
-        tools.executeEx(c, sql, mode=['ignore_dublicates'])
+        tools.executeEx(c, sql, mode=['ignore_duplicates'])
         # Удаляем триггер
         sql = sqlDropTrigger.format(triggerName=createTriggerName(t))
         execute(conn, sql)

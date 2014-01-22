@@ -28,7 +28,7 @@ CREATE TABLE `rbAcademicTitle` (
     sql = '''
 ALTER TABLE `Person` 
     ADD COLUMN `academicTitle_id` INT(11) NULL DEFAULT NULL COMMENT 'Научное звание {rbAcademicTitle}' AFTER `academicdegree_id`;'''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
 
     sql = '''
 ALTER TABLE `EventType_Action`

@@ -6,12 +6,12 @@ import MySQLdb as db
 def execute(cursor, sql):
     cursor.execute(sql)
 
-def ignore_column_dublicates(func):
+def ignore_duplicates(func):
     def wrap(cursor, sql):
         try:
             func(cursor, sql)
         except db.OperationalError as e:
-            if 'Duplicate column name' in unicode(e):
+            if 'Duplicate' in unicode(e):
                 print(e)
                 pass
             else:
@@ -36,8 +36,8 @@ def executeEx(*args, **kwargs):
     func = lambda *args: execute(*args)
     modes = kwargs.get('mode')
     if modes:
-        if 'ignore_dublicates' in modes:
-            func = ignore_column_dublicates(func)
+        if 'ignore_duplicates' in modes:
+            func = ignore_duplicates(func)
         if 'safe_updates_off' in modes:
             func = with_safe_updates_off(func)
         if 'tests' in modes:

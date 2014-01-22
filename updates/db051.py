@@ -24,7 +24,7 @@ CREATE TABLE rbRequestType ( id INT(11) NOT NULL AUTO_INCREMENT,
     sql = '''
 ALTER TABLE EventType ADD COLUMN requestType_id INT(11) NULL DEFAULT NULL COMMENT 'тип обращения {rbRequestType}' AFTER age_ec;
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
 
 def downgrade(conn):
     pass

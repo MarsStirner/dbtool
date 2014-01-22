@@ -13,7 +13,7 @@ def upgrade(conn):
         '''ALTER TABLE `AssignmentHour` ADD `comments` VARCHAR(120);''',]
     c = conn.cursor()
     for s in sql:
-        tools.executeEx(c, s, mode=['ignore_dublicates'])
+        tools.executeEx(c, s, mode=['ignore_duplicates'])
 
 
 def downgrade(conn):

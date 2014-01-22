@@ -12,13 +12,14 @@ __doc__ = '''\
 '''
 
 def upgrade(conn):
-    global config        
+    global config
+    global tools       
     c = conn.cursor()
     
     sql = u'''
 ALTER TABLE `ActionPropertyType` ADD INDEX `code` (`code` ASC) ;
 '''
-    c.execute(sql)
+    tools.executeEx(c, sql, mode=['ignore_duplicates',])
     
     sql = u'''
 UPDATE `ActionPropertyType` SET `typeName`="String", `valueDomain` = "'Плановая','Экстренная'"  WHERE  `code` = 'trfuReqBloodCompType';

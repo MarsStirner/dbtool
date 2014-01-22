@@ -162,8 +162,8 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vHospitalBed` AS
 
     c = conn.cursor()
     for tblName in upgradeTables:
-        tools.executeEx(c, sqlAddAgeColumns.format(tableName=tblName), mode=['ignore_dublicates'])
-        tools.executeEx(c, sqlCommentAgeColumns.format(tableName=tblName), mode=['ignore_dublicates'])
+        tools.executeEx(c, sqlAddAgeColumns.format(tableName=tblName), mode=['ignore_duplicates'])
+        tools.executeEx(c, sqlCommentAgeColumns.format(tableName=tblName), mode=['ignore_duplicates'])
 
     for tblName in upgradeTables:
         copyAgeFromString(c, tblName)

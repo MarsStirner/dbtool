@@ -17,7 +17,7 @@ Alter table `Event` add urgent tinyint(1) default 0
     global tools
     c = conn.cursor()
     for s in sql0:
-        tools.executeEx(c, s, mode=['ignore_dublicates'])
+        tools.executeEx(c, s, mode=['ignore_duplicates'])
         
 def downgrade(conn):
     sql0 = [

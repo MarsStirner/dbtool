@@ -29,7 +29,7 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 '''
 
     c = conn.cursor()
-    tools.executeEx(c, sqlAddColumns.format(tableName=tblActionType), mode=['ignore_dublicates'])
+    tools.executeEx(c, sqlAddColumns.format(tableName=tblActionType), mode=['ignore_duplicates'])
     c.execute(sqlAddConstraints.format(tableName=tblActionType))
 
 

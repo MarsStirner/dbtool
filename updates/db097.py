@@ -101,7 +101,7 @@ ALTER TABLE `Organisation` ADD COLUMN `uuid_id` INT(11) NOT NULL DEFAULT 0  AFTE
                 sys.stdout.flush()
             
         except IntegrityError:
-            print('Opa, uuid dublicate!', end='')
+            print('Opa, uuid duplicate!', end='')
         
     print('\n')
     c.close()

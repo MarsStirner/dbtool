@@ -20,7 +20,7 @@ def upgrade(conn):
 ALTER TABLE {tableName}
     ADD COLUMN academicdegree_id INT(11) NULL DEFAULT NULL COMMENT 'Научная степень' AFTER typeTimeLinePerson;
 '''
-    tools.executeEx(c, sqlAddColumns.format(tableName=tbl), mode=['ignore_dublicates'])
+    tools.executeEx(c, sqlAddColumns.format(tableName=tbl), mode=['ignore_duplicates'])
 
     sql = '''
 CREATE TABLE rbAcademicDegree (id INT(11) NOT NULL AUTO_INCREMENT, 

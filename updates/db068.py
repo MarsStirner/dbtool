@@ -132,7 +132,7 @@ def updateExistingRecords(conn):
                 sys.stdout.flush()
             
         except IntegrityError:
-            print('Opa, uuid dublicate!', end='')
+            print('Opa, uuid duplicate!', end='')
         
     print('\n')
     

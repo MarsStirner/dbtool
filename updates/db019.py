@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `ActionProperty_CureEpicrisis` (
     c = conn.cursor()
     global tools
     
-    tools.executeEx(c, sqlAddEpicrisisColumn, mode=['ignore_dublicates'])
+    tools.executeEx(c, sqlAddEpicrisisColumn, mode=['ignore_duplicates'])
     c.execute(sqlCommentEpicrisisColumn)
     c.execute(sqlCreateDiagnosticActionProperty_Type)
     c.execute(sqlCreateCureActionProperty_Type)

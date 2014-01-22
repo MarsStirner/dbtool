@@ -56,7 +56,7 @@ ALTER TABLE `Client_Quoting` ADD `treatment_id`    INT(11)  NOT NULL COMMENT 're
     sql = u'''
 ALTER TABLE `QuotaType` ADD COLUMN `MKB` VARCHAR(8) NOT NULL AFTER `name`;
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 CREATE TABLE IF NOT EXISTS `LastChanges` (
@@ -75,13 +75,13 @@ ENGINE=InnoDB;
     sql = u'''
 ALTER TABLE `QuotaType` ADD COLUMN `teenOlder` TINYINT(1) NOT NULL COMMENT "Для пациентов старше 18 лет" AFTER `MKB`;
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `Client_Quoting`
 ADD COLUMN `event_id` INT(11) NULL DEFAULT NULL COMMENT 'ref to {Event}' AFTER `treatment_id`;
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
         
     # Исправление некоторых косяков
     sql = u'''
@@ -97,7 +97,7 @@ ALTER TABLE `rbService` ADD COLUMN `adultUetDoctor` DOUBLE NULL DEFAULT '0'  ,
   ON DELETE SET NULL
   ON UPDATE RESTRICT;
 '''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
     
     sql = u'''
 ALTER TABLE `ActionType` CHANGE COLUMN `code` `code` VARCHAR(25) NOT NULL COMMENT 'Код'  ;

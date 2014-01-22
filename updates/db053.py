@@ -11,7 +11,7 @@ def upgrade(conn):
     c = conn.cursor()
     sql = u'''
 ALTER TABLE `rbPrintTemplate` ADD COLUMN `render` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Шаблонизатор' AFTER `dpdAgreement`;'''
-    tools.executeEx(c, sql, mode=['ignore_dublicates'])
+    tools.executeEx(c, sql, mode=['ignore_duplicates'])
 
 def downgrade(conn):
     pass
