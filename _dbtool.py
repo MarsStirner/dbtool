@@ -143,8 +143,8 @@ class DBTool(object):
                             upgrade = upd['upgrade']
                             print(upd['title'])
                             upgrade(conn)
-                        except:
-                            raise
+                        except Exception, e:
+                            raise DBToolException(e)
                         else:
                             # Записать номер версии базы в случае успешного апдейта
                             with conn as cursor:
@@ -162,8 +162,8 @@ class DBTool(object):
                                                       'not found'.format(v))
                             downgrade = upd['downgrade']
                             downgrade(conn)
-                        except:
-                            raise
+                        except Exception, e:
+                            raise DBToolException(e)
                         else:
                             v -= 1
                             with conn as cursor:
