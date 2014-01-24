@@ -234,9 +234,9 @@ def perform_received_upgrade(c):
 
         # Номер ИБ
         ext_id = tools.checkRecordExists(c, 'ActionPropertyType',
-            'actionType_id = %d AND typeName = "String" AND name LIKE "Номер ИБ" AND deleted = 0' % rec_id)
+            'actionType_id = %d AND typeName = "String" AND (name LIKE "Номер ИБ" OR name LIKE "Номер ИР") AND deleted = 0' % rec_id)
         if ext_id is None:
-            print('В поступлении не найдено свойство \'Номер ИБ\', но добавлено оно не будет. '
+            print('В поступлении не найдено свойство \'Номер ИБ (ИР)\', но добавлено оно не будет. '
                   'Уточните действительно ли оно необходимо. В текущем обновлении устанавливается код только для существующего свойства.')
         else:
             tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('externalId', ext_id),
@@ -300,42 +300,44 @@ def perform_moving_upgrade(c):
           'При необходимости вручную пометьте удаленными дублирующиеся свойства (те, для которых не установлены коды).')
 
 def perform_leaved_upgrade(c):
+    # И Выписок тоже может быть несколько с одним флеткодом
+    # (в некоторых бд существует Выписка из травматологии)
     global tools
-    leaved_id = tools.checkRecordExists(c, 'ActionType', 'flatCode = "leaved" AND deleted = 0')
-    if leaved_id is None:
+    c.execute('SELECT id FROM ActionType WHERE flatCode = "leaved" AND deleted = 0')
+    records = c.fetchall()
+    if not records:
         raise Exception('В бд не найден тип действия Выписка.')
-    if c.rowcount > 1:
-        raise Exception('В бд найдено несколько версий типа действия Выписка. '
-                        'Необходимо разбираться в этой ситуации.')
 
+    records = [int(row[0]) for row in records]
     # настройка свойств
-    # ЛПУ, куда переводится пациент
-    hbp_id = tools.checkRecordExists(c, 'ActionPropertyType',
-        'actionType_id = %d AND typeName = "Organisation" AND name LIKE "ЛПУ, куда переводится пациент" AND deleted = 0' % leaved_id)
-    if hbp_id is None:
-        tools.addNewActionProperty(c, actionType_id=leaved_id,
-                                   name="'ЛПУ, куда переводится пациент'",
-                                   descr="'ЛПУ, куда переводится пациент'",
-                                   typeName="'Organisation'",
-                                   valueDomain="'ЛПУ'",
-                                   code="'lpu_direct_to'")
-    else:
-        tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('lpu_direct_to', hbp_id),
-                        mode = ['safe_updates_off',])
+    for leaved_id in records:
+        # ЛПУ, куда переводится пациент
+        hbp_id = tools.checkRecordExists(c, 'ActionPropertyType',
+            'actionType_id = %d AND typeName = "Organisation" AND name LIKE "ЛПУ, куда переводится пациент" AND deleted = 0' % leaved_id)
+        if hbp_id is None:
+            tools.addNewActionProperty(c, actionType_id=leaved_id,
+                                       name="'ЛПУ, куда переводится пациент'",
+                                       descr="'ЛПУ, куда переводится пациент'",
+                                       typeName="'Organisation'",
+                                       valueDomain="'ЛПУ'",
+                                       code="'lpu_direct_to'")
+        else:
+            tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('lpu_direct_to', hbp_id),
+                            mode = ['safe_updates_off',])
 
-    # Рекомендуемый профиль койки при переводе в другое ЛПУ
-    hbp_id = tools.checkRecordExists(c, 'ActionPropertyType',
-        'actionType_id = %d AND typeName = "HospitalBedProfile" AND name LIKE '
-        '"Рекомендуемый профиль койки при переводе в другое ЛПУ" AND deleted = 0' % leaved_id)
-    if hbp_id is None:
-        tools.addNewActionProperty(c, actionType_id=leaved_id,
-                                   name="'Рекомендуемый профиль койки при переводе в другое ЛПУ'",
-                                   descr="'Рекомендуемый профиль койки при переводе в другое ЛПУ'",
-                                   typeName="'HospitalBedProfile'",
-                                   code="'planned_hosp_bed_profile'")
-    else:
-        tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('planned_hosp_bed_profile', hbp_id),
-                        mode = ['safe_updates_off',])
+        # Рекомендуемый профиль койки при переводе в другое ЛПУ
+        hbp_id = tools.checkRecordExists(c, 'ActionPropertyType',
+            'actionType_id = %d AND typeName = "HospitalBedProfile" AND name LIKE '
+            '"Рекомендуемый профиль койки при переводе в другое ЛПУ" AND deleted = 0' % leaved_id)
+        if hbp_id is None:
+            tools.addNewActionProperty(c, actionType_id=leaved_id,
+                                       name="'Рекомендуемый профиль койки при переводе в другое ЛПУ'",
+                                       descr="'Рекомендуемый профиль койки при переводе в другое ЛПУ'",
+                                       typeName="'HospitalBedProfile'",
+                                       code="'planned_hosp_bed_profile'")
+        else:
+            tools.executeEx(c, 'UPDATE ActionPropertyType SET code = "%s" WHERE id = %d' % ('planned_hosp_bed_profile', hbp_id),
+                            mode = ['safe_updates_off',])
 
     print('Проверьте настройки типов свойств для типа действия \'Выписка\'. '
           'При необходимости вручную пометьте удаленными дублирующиеся свойства (те, для которых не установлены коды).')
