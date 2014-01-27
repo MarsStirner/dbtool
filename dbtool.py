@@ -5,6 +5,7 @@ from __future__ import unicode_literals, print_function
 
 import sys
 import os
+import traceback
 from getopt import getopt, GetoptError
 from _dbtool import DBTool, DBToolException
 
@@ -82,13 +83,11 @@ def main(argv):
     except (GetoptError, DBToolException), e:
         error(e)
         sys.exit(1)
-    except:
-        raise
+    except Exception, e:
+        error(e)
+        traceback.print_exc()
         sys.exit(1)
     sys.exit(0)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
-    
-#     main(['--update-content=2'])
-#     main(['-l'])
