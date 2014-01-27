@@ -1422,8 +1422,7 @@ inner join
     names =    ( u'''form007front''', u'''FIOinput007''', u'''FIOinpuFrom12''', u'''FIOoutTotal''', u'''FIOoutToOtherUnit''', u'''FIOoutToOtherHospital''')
     profiles = (     u'''profiles''',     u'''profile''',       u'''profile''',     u'''profile''',           u'''profile''',               u'''profile''')
 
-    global tools
-    tools.executeEx(c, u'''ALTER TABLE `rbSpecialVariablesPreferences` ADD UNIQUE INDEX `name` (`name`)''', mode=['ignore_duplicates',])
+    c.execute(u'''ALTER TABLE `rbSpecialVariablesPreferences` ADD UNIQUE INDEX `name` (`name`)''')
     for name in names:	
         c.execute(u'''DROP PROCEDURE IF EXISTS %s'''%name) 
         index = names.index(name)
