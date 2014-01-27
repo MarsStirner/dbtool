@@ -1424,10 +1424,10 @@ inner join
 
     c.execute(u'''ALTER TABLE `rbSpecialVariablesPreferences` ADD UNIQUE INDEX `name` (`name`)''')
     for name in names:	
-       c.execute(u'''DROP PROCEDURE IF EXISTS %s'''%name) 
-       index = names.index(name)
-       c.execute(proc%(config['definer'],name,name,profiles[index])) 
-       c.execute(u'''INSERT IGNORE INTO `rbSpecialVariablesPreferences` (`name`,`query`) VALUES ("SpecialVar_%s", "%s")'''%(name, queries[index]) )
+        c.execute(u'''DROP PROCEDURE IF EXISTS %s'''%name) 
+        index = names.index(name)
+        c.execute(proc%(config['definer'],name,name,profiles[index])) 
+        c.execute(u'''INSERT IGNORE INTO `rbSpecialVariablesPreferences` (`name`,`query`) VALUES ("SpecialVar_%s", "%s")'''%(name, queries[index]) )
                      
     c.close()
 
