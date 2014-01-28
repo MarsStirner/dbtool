@@ -41,8 +41,10 @@ AND actionType_id IN (SELECT at.id FROM ActionType at WHERE at.class = 1)
 '''
 
 def upgrade(conn):
+    global tools
+    c = conn.cursor()
     for sql in [sqlInsertRbTest, sqlUpdateApt]:
-	execute(conn, sql)
+        tools.executeEx(c, sql, mode=['safe_updates_off',])
 
 def downgrade(conn):
     pass

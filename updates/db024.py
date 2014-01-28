@@ -57,13 +57,15 @@ def insert(conn, sql):
     return result[0]
 
 def upgrade(conn):
-    execute(conn, sqlRLSMedicalPresciption);
+    global tools
+    c = conn.cursor()
+    tools.executeEx(c, sqlRLSMedicalPresciption, mode=['safe_updates_off',])
     
     codes = []
     rows = query(conn, sqlRLSCodes)
     for r in rows:
         codes.append(r[0])
-	
+
     cnt = 0
     rows = query(conn, sqlMedicalPrescriptionAPS)
     for row in rows:

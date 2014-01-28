@@ -268,11 +268,12 @@ def upgrade(conn):
 <b>Медсестра:</b>___________________<b>/</b>________________<b>/</b>
 </body>
 </html>''',]
+    global tools
     c = conn.cursor()
     stmt = u"""UPDATE rbPrintTemplate SET `default`=\"%s\" where name=\"Лист назначений\"""" % templates[0]
-    c.execute(stmt)
+    tools.executeEx(c, stmt, mode=['safe_updates_off',])
     stmt = u"""UPDATE rbPrintTemplate SET `default`=\"%s\" where name=\"Лист назначений_реанимация\"""" % templates[1]
-    c.execute(stmt)
+    tools.executeEx(c, stmt, mode=['safe_updates_off',])
 
 
 def downgrade(conn):

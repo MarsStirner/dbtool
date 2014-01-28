@@ -259,7 +259,8 @@ class DBTool(object):
 usage: dbtool [ -u <version> | -l | -h ]
 
 options:
-  -u, --update <version>   upgrade database to <version>
+  -u, --update <version>   upgrade database schema to <version>
+  --update--content        upgrade database content to <version>
   -l, --list               list database versions
   -h, --help               show help message
 '''

@@ -104,7 +104,7 @@ ENGINE=InnoDB;"""
             raise
 
     sql = u"ALTER IGNORE TABLE `rlsFilling` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`);"
-    c.execute(sql)
+    c.execute(sql) # TODO: ...
 
     sql = u"""ALTER IGNORE TABLE `rbUnit`
     CHANGE COLUMN `code` `code` VARCHAR(256),
