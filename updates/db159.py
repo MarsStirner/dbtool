@@ -8,11 +8,13 @@ __doc__ = '''\
 
 def upgrade(conn):
     global config
+    global tools
     c = conn.cursor()
-
-    c.execute(u"""ALTER TABLE `Client_Quoting`
-    ADD INDEX `event_id` (`event_id`),
-    ADD INDEX `deleted_prevTalon_event_id` (`deleted`, `prevTalon_event_id`);""")
+    tools.executeEx(c,
+                    u"""ALTER TABLE `Client_Quoting`
+ADD INDEX `event_id` (`event_id`),
+ADD INDEX `deleted_prevTalon_event_id` (`deleted`, `prevTalon_event_id`);""",
+                    mode=['ignore_duplicates',])
     c.close()
 
 def downgrade(conn):

@@ -33,8 +33,10 @@ WHERE a.plannedEndDate IS NULL
 '''
 
 def upgrade(conn):
+    global tools
+    c = conn.cursor()
     for sql in [sqlUpdatePlannedEndDate]:
-	execute(conn, sql)
+        tools.executeEx(c, sql, mode=['safe_updates_off',])
 
 def downgrade(conn):
     pass
