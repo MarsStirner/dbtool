@@ -46,14 +46,14 @@ def upgrade(conn):
         ))
 
 
-
+    global tools
     c = conn.cursor()
     for sqlWithCheck in sqlsWithCheck:
         c.execute(sqlWithCheck[0])
         if len(c.fetchall()) == 0 and sqlWithCheck[1] != u"":
             c.execute(sqlWithCheck[1])
         elif sqlWithCheck[2] != u"":
-            c.execute(sqlWithCheck[2])
+            tools.executeEx(c, sqlWithCheck[2], mode=['safe_updates_off',])
 
 
 def downgrade(conn):
