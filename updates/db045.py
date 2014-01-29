@@ -48,6 +48,7 @@ def downgrade(conn):
 
 
 def upgrade(conn):
+    global tools
     sql = [
         # Удаляем свойства типа действия Штрихкод для всех диагностик
         u"""delete from ActionPropertyType
@@ -57,4 +58,4 @@ def upgrade(conn):
     ]
     c = conn.cursor()
     for s in sql:
-        c.execute(s)
+        tools.executeEx(c, s, mode=['safe_updates_off',])
