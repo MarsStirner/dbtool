@@ -94,7 +94,7 @@ ENGINE=InnoDB;"""
     sql = u"TRUNCATE `rlsForm`"
     c.execute(sql)
 
-    sql = u"ALTER IGNORE TABLE rlsFilling DROP COLUMN `disabledForPrescription`"
+    sql = u"ALTER TABLE rlsFilling DROP COLUMN `disabledForPrescription`"
     try:
         c.execute(sql)
     except db.OperationalError as e:
@@ -103,10 +103,13 @@ ENGINE=InnoDB;"""
         else:
             raise
 
-    sql = u"ALTER IGNORE TABLE `rlsFilling` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`);"
-    c.execute(sql) # TODO: ...
+    sql = u"ALTER TABLE `rlsFilling` DROP INDEX `name`;"
+    c.execute(sql)
 
-    sql = u"""ALTER IGNORE TABLE `rbUnit`
+    sql = u"ALTER TABLE `rlsFilling` ADD UNIQUE INDEX `name` (`name`);"
+    c.execute(sql)
+
+    sql = u"""ALTER TABLE `rbUnit`
     CHANGE COLUMN `code` `code` VARCHAR(256),
     CHANGE COLUMN `name` `name` VARCHAR(256)"""
     c.execute(sql)
@@ -128,14 +131,18 @@ ENGINE=InnoDB;"""
     sql = u"TRUNCATE `rlsTradeName`"
     c.execute(sql)
 
-    sql = u"""ALTER IGNORE TABLE `rlsTradeName`
+    sql = u"""ALTER TABLE `rlsTradeName`
     CHANGE COLUMN `latName` `name` VARCHAR(255) NULL DEFAULT NULL AFTER `id`,
     CHANGE COLUMN `name` `localName` VARCHAR(255) NULL DEFAULT NULL AFTER `name`;"""
     c.execute(sql)
 
-    sql = u"""ALTER IGNORE TABLE `rlsTradeName`
+    sql = u"""ALTER TABLE `rlsTradeName`
     DROP INDEX `name`,
-    DROP INDEX `latName`, ADD UNIQUE INDEX `name_localName` (`name`, `localName`);"""
+    DROP INDEX `latName`;"""
+    c.execute(sql)
+
+    sql = u"""ALTER TABLE `rlsTradeName`
+    ADD UNIQUE INDEX `name_localName` (`name`, `localName`);"""
     c.execute(sql)
 
     sql = u"""CREATE TABLE  IF NOT EXISTS  `rlsNomen` (
@@ -171,13 +178,19 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB;"""
     c.execute(sql)
 
-    sql = u"ALTER IGNORE TABLE `rlsPacking` DROP COLUMN `disabledForPrescription`"
+    sql = u"ALTER TABLE `rlsPacking` DROP COLUMN `disabledForPrescription`;"
     c.execute(sql)
 
-    sql = u"ALTER IGNORE TABLE `rlsPacking` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`)"
+    sql = u"ALTER TABLE `rlsPacking` DROP INDEX `name`;"
     c.execute(sql)
 
-    sql = u"ALTER IGNORE TABLE `rlsForm` DROP INDEX `name`, ADD UNIQUE INDEX `name` (`name`);"
+    sql = u"ALTER TABLE `rlsPacking` ADD UNIQUE INDEX `name` (`name`);"
+    c.execute(sql)
+
+    sql = u"ALTER TABLE `rlsForm` DROP INDEX `name`;"
+    c.execute(sql)
+
+    sql = u"ALTER TABLE `rlsForm` ADD UNIQUE INDEX `name` (`name`);"
     c.execute(sql)
 
     sql = u"""CREATE TABLE `rlsBalanceOfGoods` (
