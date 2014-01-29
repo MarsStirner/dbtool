@@ -9,7 +9,8 @@ __doc__ = '''\
 
 
 def upgrade(conn):
-    global config    
+    global config
+    global tools 
     c = conn.cursor()
     
     sql = u'''
@@ -25,7 +26,7 @@ ALTER TABLE `FlatDirectory` ADD INDEX FK_FlatDirectory_code (code);
     sql = u'''
 UPDATE `FlatDirectory` SET `FlatDirectory`.`code` = `FlatDirectory`.`id`;
 '''
-    c.execute(sql)
+    tools.executeEx(c, sql, mode=['safe_updates_off',])
 
     sql = u'''
 ALTER TABLE `FDField` ADD `flatDirectory_code` CHAR(128) NULL  DEFAULT  NULL  COMMENT 'code справочника из таблицы FlatDirectory'  AFTER `flatDirectory_id`;
@@ -40,7 +41,7 @@ ALTER TABLE `FDField` ADD INDEX FK_FDField_FlatDirectory_code (`flatDirectory_co
     sql = u'''
 UPDATE `FDField` SET `FDField`.`flatDirectory_code` = `FDField`.`flatDirectory_id`;
 '''
-    c.execute(sql)
+    tools.executeEx(c, sql, mode=['safe_updates_off',])
 
     sql = u'''
 ALTER TABLE `FDField` ADD CONSTRAINT `FK_FDField_FlatDirectory_code` FOREIGN KEY (`flatDirectory_code`) REFERENCES `FlatDirectory` (`code`);
@@ -59,7 +60,7 @@ ALTER TABLE `FDRecord` ADD CONSTRAINT `FK_FDRecord_FlatDirectory_code` FOREIGN K
 -- ALTER TABLE `FDRecord` DROP INDEX FK_FDRecord_FlatDictionary;
 -- ALTER TABLE `FDRecord` DROP flatDirectory_id;
 '''
-    c.execute(sql)
+    tools.executeEx(c, sql, mode=['safe_updates_off',])
 
 def downgrade(conn):
     pass
