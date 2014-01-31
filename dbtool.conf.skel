@@ -2,5 +2,20 @@
 host = example.com
 username = user1
 password = password1
-dbname = s11r64
+dbname = dbname
+definer = `root`@`localhost`
 
+[content]
+
+# тип бд, для которой будут выбираться модули обновления содержимого бд
+# поддерживаемые значения:
+# common - обновления для всех видов бд
+# fnkc - бд ФНКЦ (сюда же подойдет референсная бд)
+# pnz - бд Пензы
+content_type = 
+
+[rlsConvert]
+rlsPath = 
+
+[misc]
+log_filename = 
