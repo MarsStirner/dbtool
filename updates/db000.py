@@ -15,3 +15,5 @@ __doc__ = '''\
 def upgrade(conn):
     pass
 
+def downgrade(conn):
+    pass

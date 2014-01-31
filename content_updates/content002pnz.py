@@ -4,9 +4,10 @@ from __future__ import unicode_literals, print_function
 
 
 __doc__ = '''\
-- Обновление для выгрузки данных госпитализаций в ТФОМС Пензы
+Обновление для выгрузки данных госпитализаций в ТФОМС Пензы
 '''
 
+MIN_SCHEMA_VERSION = 163
 
 def upgrade(conn):
     global tools

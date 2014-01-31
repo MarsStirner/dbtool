@@ -4,10 +4,10 @@ from __future__ import unicode_literals, print_function
 
 
 __doc__ = '''\
-- Начальное состояние - запись в Meta версии content_version
+Начальное состояние - запись в Meta версии content_version
 '''
 
-MIN_SCHEMA_VERSION = 16
+MIN_SCHEMA_VERSION = 160
 
 def upgrade(conn):
     c = conn.cursor()
