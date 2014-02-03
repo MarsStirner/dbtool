@@ -8,19 +8,17 @@ __doc__ = '''\
 
 
 def upgrade(conn):
-    global config
+    global tools
     c = conn.cursor()
-
-    c.execute(u'''
-                UPDATE ActionType
-                inner join (select min(id) id
-                from ActionType
-                where code in ('amb', 'home', 'cew', 'exp', 'timeLine', 'queue')
-                group by code) AT
-                on ActionType.id = AT.id
-                SET deleted=0,
-                class=-1;
-                ''')
+    sql = u'''UPDATE ActionType
+inner join (select min(id) id
+from ActionType
+where code in ('amb', 'home', 'cew', 'exp', 'timeLine', 'queue')
+group by code) AT
+on ActionType.id = AT.id
+SET deleted=0,
+class=-1;'''
+    tools.executeEx(c, sql, mode=['ignore_duplicates',])
     c.close()
 
 
