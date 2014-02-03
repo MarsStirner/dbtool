@@ -7,6 +7,7 @@ import logging
 import os
 import re
 import MySQLdb
+import codecs
 from glob import glob
 from ConfigParser import ConfigParser, Error as ConfigError
 from utils import tools
@@ -14,7 +15,8 @@ from utils import tools
 
 def get_config(filename):
     p = ConfigParser(defaults={'port': '3306'})
-    p.read([filename])
+    with codecs.open(filename, 'r', 'utf-8-sig') as f:
+        p.readfp(f)
     return {
         'host': p.get('database', 'host'),
         'port': p.get('database', 'port'),
