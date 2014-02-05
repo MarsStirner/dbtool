@@ -18,7 +18,7 @@ group by code) AT
 on ActionType.id = AT.id
 SET deleted=0,
 class=-1;'''
-    tools.executeEx(c, sql, mode=['ignore_duplicates',])
+    tools.executeEx(c, sql, mode=['safe_updates_off',])
     c.close()
 
 
