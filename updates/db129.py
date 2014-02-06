@@ -109,9 +109,10 @@ ENGINE=InnoDB;"""
     sql = u"ALTER TABLE `rlsFilling` ADD UNIQUE INDEX `name` (`name`);"
     c.execute(sql)
 
-    sql = u"""ALTER TABLE `rbUnit`
-    CHANGE COLUMN `code` `code` VARCHAR(256),
-    CHANGE COLUMN `name` `name` VARCHAR(256)"""
+    sql = u"""ALTER TABLE `rbUnit` CHANGE COLUMN `code` `code` VARCHAR(256);"""
+    c.execute(sql)
+
+    sql = u"""ALTER TABLE `rbUnit` CHANGE COLUMN `name` `name` VARCHAR(256);"""
     c.execute(sql)
 
     sql = u"DROP TABLE IF EXISTS rlsINPName"
@@ -131,14 +132,16 @@ ENGINE=InnoDB;"""
     sql = u"TRUNCATE `rlsTradeName`"
     c.execute(sql)
 
-    sql = u"""ALTER TABLE `rlsTradeName`
-    CHANGE COLUMN `latName` `name` VARCHAR(255) NULL DEFAULT NULL AFTER `id`,
-    CHANGE COLUMN `name` `localName` VARCHAR(255) NULL DEFAULT NULL AFTER `name`;"""
+    sql = u"""ALTER TABLE `rlsTradeName` DROP INDEX `name`;"""
     c.execute(sql)
 
-    sql = u"""ALTER TABLE `rlsTradeName`
-    DROP INDEX `name`,
-    DROP INDEX `latName`;"""
+    sql = u"""ALTER TABLE `rlsTradeName` DROP INDEX `latName`;"""
+    c.execute(sql)
+
+    sql = u"""ALTER TABLE `rlsTradeName` CHANGE COLUMN `name` `localName` VARCHAR(255) NULL DEFAULT NULL;"""
+    c.execute(sql)
+
+    sql = u"""ALTER TABLE `rlsTradeName` CHANGE COLUMN `latName` `name` VARCHAR(255) NULL DEFAULT NULL;"""
     c.execute(sql)
 
     sql = u"""ALTER TABLE `rlsTradeName`
