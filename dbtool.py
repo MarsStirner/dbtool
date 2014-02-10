@@ -8,13 +8,14 @@ import sys
 import os
 import traceback
 from getopt import getopt, GetoptError
-from _dbtool import DBTool, Session, DBToolException, ConfigException
+from _dbtool import DBTool, Session, get_config, DBToolException, ConfigException
 
 
 def main(argv):
     try:
         config_filename = os.path.join(os.path.dirname(__file__), 'dbtool.conf')
-        Session.setConf(config_filename)
+        conf = get_config(config_filename)
+        Session.setConf(conf)
         log_filename = Session.getConf()['log_filename']
         configure_loggers(log_filename)
     except ConfigException, e:

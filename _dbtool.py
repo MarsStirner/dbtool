@@ -17,16 +17,18 @@ def get_config(filename):
     p = ConfigParser(defaults={'port': '3306'})
     with codecs.open(filename, 'r', 'utf-8-sig') as f:
         p.readfp(f)
-    return {
-        'host': p.get('database', 'host'),
-        'port': p.get('database', 'port'),
-        'username': p.get('database', 'username'),
-        'password': p.get('database', 'password'),
-        'dbname': p.get('database', 'dbname'),
-        'definer': p.get('database', 'definer'),
-        'content': p.get('content', 'content_type'),
-        'log_filename': p.get('misc', 'log_filename')
-    }
+    try:
+        d = {'host': p.get('database', 'host'),
+             'port': p.get('database', 'port'),
+             'username': p.get('database', 'username'),
+             'password': p.get('database', 'password'),
+             'dbname': p.get('database', 'dbname'),
+             'definer': p.get('database', 'definer'),
+             'content': p.get('content', 'content_type'),
+             'log_filename': p.get('misc', 'log_filename')}
+    except ConfigError, e:
+        raise ConfigException('config file "{0}": {1}'.format(filename, e))
+    return d
 
 
 class Session(object):
@@ -34,11 +36,8 @@ class Session(object):
     _conf = None
 
     @classmethod
-    def setConf(cls, filename):
-        try:
-            cls._conf = get_config(filename)
-        except ConfigError, e:
-            raise ConfigException('config file "{0}": {1}'.format(filename, e))
+    def setConf(cls, conf):
+        cls._conf = conf
         if not cls._conf['log_filename']:
             raise ConfigException('в конфигурационном файле должен быть задан путь для файла лога '
                                   ' (параметр log_filename)')
