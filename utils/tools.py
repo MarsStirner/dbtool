@@ -25,12 +25,12 @@ def with_safe_updates_off(func):
         cursor.execute('SET SQL_SAFE_UPDATES=1;')
     return wrap
 
-def tests(func):
+def disable_foreign_keys(func):
     def wrap(cursor, sql):
-        print('>>>here is sql: ', sql)
+        cursor.execute('SET FOREIGN_KEY_CHECKS=0;')
         func(cursor, sql)
+        cursor.execute('SET FOREIGN_KEY_CHECKS=1;')
     return wrap
-
 
 def executeEx(*args, **kwargs):
     func = lambda *args: execute(*args)
@@ -40,8 +40,8 @@ def executeEx(*args, **kwargs):
             func = ignore_duplicates(func)
         if 'safe_updates_off' in modes:
             func = with_safe_updates_off(func)
-        if 'tests' in modes:
-            func = tests(func)
+        if 'disable_fk' in modes:
+            func = disable_foreign_keys(func)
 
     func(*args)
 
