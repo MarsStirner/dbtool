@@ -3,7 +3,7 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-Обеспечение уникальности записей таблицы Person, фукнции для работы с ограничениями на возраст
+Обеспечение уникальности записей таблицы Person
 '''
 
 MIN_CONTENT_VERSION = 4
