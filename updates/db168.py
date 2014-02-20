@@ -24,7 +24,7 @@ CREATE DEFINER=%s FUNCTION `checkAgeLimitFits`(
     unit CHAR(1),
     reverse TINYINT(1)) RETURNS int(11)
     DETERMINISTIC
-    COMMENT 'Check that age limit, defined in various tables in `age` field, falls within the interval'
+    COMMENT 'Check that age limit from `age` fields falls within the interval'
 BEGIN
     /*
     age_limit - age limit like "{NNN{д|н|м|г}-{MMM{д|н|м|г}}"
