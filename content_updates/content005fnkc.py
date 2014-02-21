@@ -20,15 +20,14 @@ def upgrade(conn):
             FROM
             ClientDocument cd,
             (
-                SELECT min(id) last_id, client_id, documentType_id, serial, number, origin, COUNT(*) num_of_eq
+                SELECT min(id) last_id, client_id, documentType_id, number, origin, COUNT(*) num_of_eq
                 FROM ClientDocument
-                GROUP BY client_id, documentType_id, serial, number, origin HAVING count(*) > 1
+                GROUP BY client_id, documentType_id, number, origin HAVING count(*) > 1
             ) sub1
             WHERE
                 cd.id <> sub1.last_id AND
                 sub1.client_id=cd.client_id AND
                 sub1.documentType_id=cd.documentType_id AND
-                sub1.serial=cd.serial AND
                 sub1.number=cd.number AND
                 sub1.origin=cd.origin
             ) x);
