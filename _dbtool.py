@@ -184,6 +184,10 @@ class DBTool(object):
         upd = self.schema_updates.get(v, None)
         if upd is None:
             raise DBToolException('Файл обновления для версии {0} не найден'.format(v))
+        min_content_version = upd.get('min_content_version')
+        if min_content_version and self.content_version < min_content_version:
+            raise DBToolException(u'Минимальная версия контента БД: {0}. '
+                                  u'Проведите сначала обновление контента базы данных.'.format(min_content_version))
         upd_func = upd['upgrade']
         print(upd['title'])
         upd_func(self._getConnection())
@@ -370,6 +374,7 @@ class SchemaUpdateModulesList(UpdateModulesList):
                 'title': context.get('__doc__', '(no docstring)'),
                 'upgrade': context['upgrade'],
                 'downgrade': context['downgrade'],
+                'min_content_version': context.get('MIN_CONTENT_VERSION', None),
             }
             self[version] = d
         except KeyError, e:
