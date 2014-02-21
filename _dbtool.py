@@ -75,6 +75,7 @@ class Session(object):
     def closeConnection(cls):
         if cls._conn:
             cls._conn.close()
+            cls._conn = None
 
 
 class DBToolException(Exception): pass
