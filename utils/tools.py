@@ -32,6 +32,15 @@ def disable_foreign_keys(func):
         cursor.execute('SET FOREIGN_KEY_CHECKS=1;')
     return wrap
 
+def with_empty_sql_mode(func):
+    def wrap(cursor, sql):
+        cursor.execute('SELECT @@local.sql_mode;')
+        prev_sql_mode = cursor.fetchone()[0]
+        cursor.execute("SET sql_mode=''")
+        func(cursor, sql)
+        cursor.execute("SET sql_mode='%s'" % prev_sql_mode)
+    return wrap
+
 def executeEx(*args, **kwargs):
     func = lambda *args: execute(*args)
     modes = kwargs.get('mode')
@@ -42,6 +51,8 @@ def executeEx(*args, **kwargs):
             func = with_safe_updates_off(func)
         if 'disable_fk' in modes:
             func = disable_foreign_keys(func)
+        if 'empty_sql_mode' in modes:
+            func = with_empty_sql_mode(func)
 
     func(*args)
 

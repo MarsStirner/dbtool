@@ -10,13 +10,12 @@ def upgrade(conn):
     global config
     global tools
     c = conn.cursor()
-
     sql = '''
 ALTER TABLE `DrugComponent`
 CHANGE COLUMN `unit` `unit` INT(11) NOT NULL ,
 ADD INDEX `fk_DrugComponent_rbUnit_idx` (`unit` ASC);
 '''
-    c.execute(sql)
+    tools.executeEx(c, sql, mode=['empty_sql_mode',])
 
     sql = '''
 ALTER TABLE `DrugComponent`
@@ -26,7 +25,7 @@ ADD CONSTRAINT `fk_DrugComponent_rbUnit`
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
 '''
-    tools.executeEx(c, sql, mode=['disable_fk',])
+    tools.executeEx(c, sql, mode=['disable_fk', 'empty_sql_mode',])
     c.close()
 
 def downgrade(conn):
