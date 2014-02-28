@@ -6,7 +6,6 @@ __doc__ = '''\
 Удаление дубликатов документов, удостоверяющих личность
 '''
 
-
 def upgrade(conn):
     global config
     c = conn.cursor()
