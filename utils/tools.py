@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals, print_function
 
 import MySQLdb as db
@@ -114,15 +116,14 @@ def addNewActionType(cursor, **kwargs):
     sql = u'''
 INSERT INTO `ActionType` (%s) VALUES (%s)
 ''' % (','.join(map(unicode, fields_to_sql)), ','.join(map(unicode, values_to_sql)))
-    print(sql)
-#     cursor.execute(sql)
+    cursor.execute(sql)
     return cursor.lastrowid
 
-def addNewActionProperty(cursor, **kwargs):
+def addNewActionPropertyType(cursor, **kwargs):
     at_id = kwargs.get('actionType_id')
     typeName = kwargs.get('typeName')
     if at_id is None or typeName is None:
-        raise AttributeError('actionTypeId and typeName cannot be empty')
+        raise AttributeError('actionTyped and typeName cannot be empty')
 
     musthave_fields = (('createDatetime', 'CURRENT_TIMESTAMP'),
                        ('modifyDatetime', 'CURRENT_TIMESTAMP'),
@@ -169,6 +170,8 @@ def _countAPT(cursor, at_id):
     cursor.execute('SELECT count(*) FROM ActionPropertyType WHERE actionType_id=%d AND deleted=0' % at_id)
     count = int(cursor.fetchone()[0])
     return count
+
+addNewActionProperty = addNewActionPropertyType # FIXME: заменить в проекте, где раньше использовалось название addNewActionProperty
 
 
 
