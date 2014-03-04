@@ -7,7 +7,8 @@ __doc__ = '''\
 '''
 
 def upgrade(conn):
-    global config
+    global tools
     c = conn.cursor()
-    c.execute(u"""DELETE FROM ClientDocument WHERE client_id NOT IN (SELECT id FROM Client);""")
+    sql = """DELETE FROM ClientDocument WHERE client_id NOT IN (SELECT id FROM Client);"""
+    tools.executeEx(c, sql, mode=['safe_updates_off',])
     c.close()
