@@ -122,8 +122,7 @@ def perform_birthinfo_upgrade(c, parent_at_id):
                                    name="'Кесарево сечение'",
                                    descr="'Кесарево сечение'",
                                    code="'cesareanSection'",
-                                   valueDomain='''"'в н.м. сегменте','корпоральное'"''',
-                                   mandatory=1,)
+                                   valueDomain='''"'в н.м. сегменте','корпоральное'"''',)
 
 def perform_childinfo_upgrade(c, parent_at_id):
     # Сведения о ребёнке
