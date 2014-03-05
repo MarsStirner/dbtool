@@ -7,9 +7,9 @@ __doc__ = '''\
 '''
 
 def upgrade(conn):
-    global config
+    global tools
     c = conn.cursor()
-    c.execute(u"""
+    sql = """
     UPDATE ClientDocument SET deleted=1 WHERE id IN
         (SELECT id FROM (
             SELECT
@@ -29,6 +29,7 @@ def upgrade(conn):
                 sub1.number=cd.number AND
                 sub1.origin=cd.origin
             ) x);
-""")
+"""
+    tools.executeEx(c, sql, mode=['safe_updates_off',])
 
     c.close()
