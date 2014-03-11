@@ -103,14 +103,6 @@ def perform_birthinfo_upgrade(c, parent_at_id):
                                    mandatory=1,)
     tools.addNewActionPropertyType(c, actionType_id=chbirthinfo_id,
                                    typeName="'String'",
-                                   name="'Пособия и манипуляции'",
-                                   descr="'Пособия и манипуляции'",
-                                   code="'manipulations'",
-                                   valueDomain='''"'Нет','Были осуществлены'"''',
-                                   defaultValue="'Нет'",
-                                   mandatory=1,)
-    tools.addNewActionPropertyType(c, actionType_id=chbirthinfo_id,
-                                   typeName="'String'",
                                    name="'Операции'",
                                    descr="'Операции'",
                                    code="'operations'",
@@ -241,18 +233,3 @@ def perform_abortioninfo_upgrade(c, parent_at_id):
                                                ''''другие виды прерывания беременности (криминальные)','неуточненные','аборт медикаментозным методом'''
                                                ''' - по состоянию женщины',' 'аборт медикаментозным методом - по состоянию ребенка'"''',
                                    mandatory=1,)
-    
-    
-    
-    
-    
-
-
-
-
-
-
-
-
-
-    
