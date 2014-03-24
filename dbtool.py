@@ -8,7 +8,8 @@ import sys
 import os
 import traceback
 from getopt import getopt, GetoptError
-from _dbtool import DBTool, Session, get_config, DBToolException, ConfigException
+from _dbtool import (DBTool, Session, get_config, DBToolException,
+    ConfigException, DBToolUpdateException)
 
 
 def main(argv):
@@ -24,72 +25,77 @@ def main(argv):
     except IOError:
         print('укажите корректный путь и имя конфигурационного файла, для которого у вас есть права на запись')
         return
-
-    logging.debug('========== Новый запуск ==========')
+    logger = logging.getLogger('dbtool')
+    logger.debug('========== Новый запуск ==========')
     try:
         Session.checkConf()
     except ConfigException, e:
-        logging.error(unicode(e))
+        logger.error(unicode(e))
         return
 
     dbtool = DBTool()
     try:
-        dbtool.load()
+        dbtool.load(Session)
         opts, args = getopt(argv, 'hlcu:',
                             ['help', 'list', 'change-definers', 'update=', 'update-content='])
         if args:
-            logging.error('неизвестные аргументы, смотрите --help: "{0}"'.format(' '.join(args)))
+            logger.error('неизвестные аргументы, смотрите --help: "{0}"'.format(' '.join(args)))
             sys.exit(1)
 
         if not opts:
             msg = dbtool.usage()
-            logging.info(msg)
+            logger.info(msg)
             sys.exit(1)
 
         for opt, arg in opts:
             if opt in ['-h', '--help']:
                 msg = dbtool.usage()
-                logging.info(msg)
+                logger.info(msg)
                 sys.exit(0)
             elif opt in ['-l', '--list']:
                 msg = dbtool.list_db_updates()
-                logging.info(msg)
+                logger.info(msg)
             elif opt in ['-c', '--change-definers']:
                 dbtool.change_definers()
             elif opt in ['-u', '--update']:
                 try:
                     version = int(arg)
                 except ValueError:
-                    logging.error('номер версии должен быть числом: "{0}"'.format(arg))
+                    logger.error('номер версии должен быть числом: "{0}"'.format(arg))
                     sys.exit(1)
                 if version < 0:
-                    logging.error('номер версии не может быть отрицательным числом')
+                    logger.error('номер версии не может быть отрицательным числом')
                     sys.exit(1)
                 dbtool.update_schema(version)
-                logging.info('Результат работы смотрите в логе ({0})'.format(log_filename))
+                logger.info('Результат работы смотрите в логе ({0})'.format(log_filename))
             elif opt in (b'--update-content'):
                 try:
                     version = int(arg)
                 except ValueError:
-                    logging.error('номер версии должен быть числом: "{0}"'.format(arg))
+                    logger.error('номер версии должен быть числом: "{0}"'.format(arg))
                     sys.exit(1)
                 if version < 0:
-                    logging.error('номер версии не может быть отрицательным числом')
+                    logger.error('номер версии не может быть отрицательным числом')
                     sys.exit(1)
                 dbtool.update_content(version)
-                logging.info('Результат работы смотрите в логе ({0})'.format(log_filename))
+                logger.info('Результат работы смотрите в логе ({0})'.format(log_filename))
             else:
                 msg = dbtool.usage()
-                logging.info(msg)
+                logger.info(msg)
                 sys.exit(1)
     except (GetoptError, DBToolException, ConfigException), e:
-        logging.error(unicode(e))
-        logging.info('Результат работы смотрите в логе ({0})'.format(log_filename))
+        logger.error(unicode(e))
+        logger.info('Результат работы смотрите в логе ({0})'.format(log_filename))
+        sys.exit(1)
+    except DBToolUpdateException, e:
+        logger.error(unicode(e))
+        logger.error(unicode(''.join(traceback.format_tb(e.tb))))
+        logger.info('Результат работы смотрите в логе ({0})'.format(log_filename))
         sys.exit(1)
     except Exception, e:
-        logging.error(unicode(e))
-        logging.error(unicode(traceback.format_exc()))
-        logging.info('Результат работы смотрите в логе ({0})'.format(log_filename))
+        logger.error(unicode(e))
+        logger.error(unicode(traceback.format_exc(), encoding='utf-8'))
+        logger.info('Результат работы смотрите в логе ({0})'.format(log_filename))
         sys.exit(1)
     finally:
         Session.closeConnection()
@@ -97,15 +103,22 @@ def main(argv):
 
 
 def configure_loggers(log_filename):
-    logging.basicConfig(
-        filename=log_filename,
-        filemode='a',
-        level=logging.DEBUG,
-        format='%(asctime)s [%(levelname)s] %(message)s')
+    logger = logging.getLogger('dbtool')
+    logger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s')
+    f_hdl = logging.FileHandler(log_filename, 'a')
+    f_hdl.setLevel(logging.DEBUG)
+    f_hdl.setFormatter(formatter)
+    logger.addHandler(f_hdl)
 
+#     logging.basicConfig(
+#         filename=log_filename,
+#         filemode='a',
+#         level=logging.DEBUG,
+#         format='%(asctime)s [%(levelname)s] %(message)s')
     s_hdl = logging.StreamHandler()
     s_hdl.setLevel(logging.INFO)
-    logger = logging.getLogger()
+    s_hdl.setFormatter(formatter)
     logger.addHandler(s_hdl)
 
 

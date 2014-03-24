@@ -17,7 +17,7 @@ DROP INDEX `uuid_id` ,
 ADD UNIQUE INDEX `uuid_id` (`uuid_id` ASC);
 '''
     c.execute(sql)
-
+    c.close()
 
 def downgrade(conn):
     pass

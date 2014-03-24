@@ -5,6 +5,7 @@ from __future__ import unicode_literals, print_function
 
 import logging
 import os
+import sys
 import re
 import MySQLdb
 import codecs
@@ -12,6 +13,9 @@ from glob import glob
 from ConfigParser import ConfigParser, Error as ConfigError
 from utils import tools
 
+
+logging.getLogger('dbtool').addHandler(logging.NullHandler())
+logging.getLogger('dbtool').setLevel(logging.DEBUG)
 
 def get_config(filename):
     p = ConfigParser(defaults={'port': '3306'})
@@ -28,6 +32,9 @@ def get_config(filename):
              'log_filename': p.get('misc', 'log_filename')}
     except ConfigError, e:
         raise ConfigException('config file "{0}": {1}'.format(filename, e))
+    if not d['log_filename']:
+        raise ConfigException('в конфигурационном файле должен быть задан путь для файла лога '
+                              ' (параметр log_filename)')
     return d
 
 
@@ -38,9 +45,6 @@ class Session(object):
     @classmethod
     def setConf(cls, conf):
         cls._conf = conf
-        if not cls._conf['log_filename']:
-            raise ConfigException('в конфигурационном файле должен быть задан путь для файла лога '
-                                  ' (параметр log_filename)')
 
     @classmethod
     def checkConf(cls):
@@ -60,15 +64,20 @@ class Session(object):
             return cls._conn
         if not cls._conf:
             raise AttributeError('Set config first')
-        c = MySQLdb.connect(host=cls._conf['host'],
-            port=int(cls._conf['port']),
-            user=cls._conf['username'],
-            passwd=cls._conf['password'],
-            db=cls._conf['dbname'],
-            charset='utf8',
-            use_unicode=True)
+        try:
+            if not cls._conf['dbname']:
+                raise Exception('Не выбрано название бд')
+            c = MySQLdb.connect(host=cls._conf['host'],
+                port=int(cls._conf['port']),
+                user=cls._conf['username'],
+                passwd=cls._conf['password'],
+                db=cls._conf['dbname'],
+                charset='utf8',
+                use_unicode=True)
+            c.autocommit(False)
+        except Exception, e:
+            raise DBToolConnectionException('Ошибка подключения к бд: %s' % unicode(sys.exc_info()[1]))
         cls._conn = c
-        c.autocommit(False)
         return c
 
     @classmethod
@@ -80,12 +89,22 @@ class Session(object):
 
 class DBToolException(Exception): pass
 
+class DBToolConnectionException(Exception): pass
+
+class DBToolUpdateException(Exception):
+    def __init__(self, message, tb):
+        super(DBToolUpdateException, self).__init__(message)
+        self.tb = tb
+
 class ConfigException(Exception): pass
 
 
 class DBTool(object):
 
+    logger = logging.getLogger('dbtool')
+
     def __init__(self):
+        self.session = None
         self.conf = None
         self.connection = None
         self.db_version = None
@@ -93,8 +112,9 @@ class DBTool(object):
         self.schema_updates = None
         self.content_updates = None
 
-    def load(self):
-        self.conf = Session.getConf()
+    def load(self, session):
+        self.session = session
+        self.conf = session.getConf()
         self._load_versions()
 
     def _getConnection(self):
@@ -102,7 +122,7 @@ class DBTool(object):
         # DDL, например для "create table", так что транзакции здесь не
         # всегда гарантируют консистентное состояние БД при ошибках
         # обновления
-        return Session.getConnection()
+        return self.session.getConnection()
 
     def _load_versions(self):
         try:
@@ -116,7 +136,7 @@ class DBTool(object):
                     raise DBToolException(u'Неверное значение версий схемы и контента БД в таблице Meta')
         except MySQLdb.ProgrammingError:
             self.db_version = self.content_version = 0
-            logging.warning("В базе данных не найдена таблица `Meta`, предполагается, что версия бд равна 0")
+            self.logger.warning("В базе данных не найдена таблица `Meta`, предполагается, что версия бд равна 0")
 
     def update_schema(self, version):
         if not self.schema_updates:
@@ -127,7 +147,7 @@ class DBTool(object):
         elif version < self.db_version:
             versions = reversed(range(version + 1, self.db_version + 1))
         else:
-            logging.info('Схема бд уже обновлена до этой версии')
+            self.logger.info('Схема бд уже обновлена до этой версии')
             return
 
         try:
@@ -143,10 +163,10 @@ class DBTool(object):
                     raise
                 else:
                     self._perform_meta_update(actual_v, 'schema_version')
-        except:
+        except Exception, e:
             self._getConnection().rollback()
-            raise
-        logging.info('Схема бд обновлена до версии {0}'.format(actual_v))
+            raise DBToolUpdateException('Возникла проблема при обновлении: %s' % sys.exc_info()[1], sys.exc_info()[2])
+        self.logger.info('Схема бд обновлена до версии {0}'.format(actual_v))
         self._load_versions()
 
     def update_content(self, version):
@@ -158,7 +178,7 @@ class DBTool(object):
         elif version < self.content_version:
             versions = reversed(range(version + 1, self.content_version + 1))
         else:
-            logging.info('Контент бд уже обновлен до этой версии')
+            self.logger.info('Контент бд уже обновлен до этой версии')
             return
 
         try:
@@ -176,12 +196,12 @@ class DBTool(object):
                     self._perform_meta_update(actual_v, 'content_version')
         except:
             self._getConnection().rollback()
-            raise
-        logging.info('Контент бд обновлен до версии {0}'.format(actual_v))
+            raise DBToolUpdateException('Возникла проблема при обновлении: %s' % sys.exc_info()[1], sys.exc_info()[2])
+        self.logger.info('Контент бд обновлен до версии {0}'.format(actual_v))
         self._load_versions()
 
     def _perform_schema_upgrade(self, v):
-        logging.info('Обновление версии схемы до {0}...'.format(v))
+        self.logger.info('Обновление версии схемы до {0}...'.format(v))
         upd = self.schema_updates.get(v, None)
         if upd is None:
             raise DBToolException('Файл обновления для версии {0} не найден'.format(v))
@@ -191,18 +211,18 @@ class DBTool(object):
                                   u'Проведите сначала обновление контента базы данных.'.format(min_content_version))
         upd_func = upd['upgrade']
         print(upd['title'])
-        upd_func(self._getConnection())
+        # upd_func(self._getConnection())
 
     def _perform_schema_downgrade(self, v):
-        logging.info('Сброс версии схемы до {0}...'.format(v - 1))
+        self.logger.info('Сброс версии схемы до {0}...'.format(v - 1))
         upd = self.schema_updates.get(v, None)
         if upd is None:
             raise DBToolException('Файл обновления для версии {0} не найден'.format(v))
         dgrd_func = upd['downgrade']
-        dgrd_func(self._getConnection())
+        # dgrd_func(self._getConnection())
 
     def _perform_content_upgrade(self, v):
-        logging.info('Обновление версии контента до {0}...'.format(v))
+        self.logger.info('Обновление версии контента до {0}...'.format(v))
         update_list = self.content_updates.get(v, None)
         if update_list is None:
             raise DBToolException('Файл обновления для версии {0} не найден'.format(v))
@@ -213,10 +233,10 @@ class DBTool(object):
                                       u'Проведите сначала обновление схемы базы данных.'.format(min_schema_version))
             upd_func = upd['upgrade']
             print(upd['title'])
-            upd_func(self._getConnection())
+            # upd_func(self._getConnection())
 
     def _perform_content_downgrade(self, v):
-        logging.info('Сброс версии контента до {0}...'.format(v - 1))
+        self.logger.info('Сброс версии контента до {0}...'.format(v - 1))
 
     def _perform_meta_update(self, v, table_attr):
         # Записать номер версии базы в случае успешного апдейта
@@ -240,10 +260,10 @@ class DBTool(object):
                 c.execute('DROP TRIGGER IF EXISTS %s' % name)
                 c.execute(create_text)
 
-            logging.info('- updating procedures')
+            self.logger.info('- updating procedures')
             c.execute('UPDATE mysql.proc SET definer = "%s" WHERE db="%s"' % (new_definer.replace('`', ''), current_db_name))
             
-            logging.info('- updating views')
+            self.logger.info('- updating views')
             c.execute('SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_TYPE = "VIEW" AND TABLE_SCHEMA = "%s"' % current_db_name)
             views = c.fetchall()
             wrong_views = []
@@ -265,7 +285,7 @@ class DBTool(object):
                     else:
                         raise
             if wrong_views:
-                logging.info('Возникла проблема изменения дефайнеров для следующих представлений: %s. '
+                self.logger.info('Возникла проблема изменения дефайнеров для следующих представлений: %s. '
                     'Требуется ручное вмешательство.' % ', '.join(wrong_views))
         return
 

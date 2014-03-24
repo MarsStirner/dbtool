@@ -87,6 +87,7 @@ BEGIN
     RETURN 0;
 END''' % config['definer']
     c.execute(sql)
+    c.close()
 
 
 def downgrade(conn):
