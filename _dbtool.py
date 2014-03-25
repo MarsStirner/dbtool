@@ -12,10 +12,12 @@ import codecs
 from glob import glob
 from ConfigParser import ConfigParser, Error as ConfigError
 from utils import tools
+from contextlib import contextmanager
 
 
 logging.getLogger('dbtool').addHandler(logging.NullHandler())
 logging.getLogger('dbtool').setLevel(logging.DEBUG)
+
 
 def get_config(filename):
     p = ConfigParser(defaults={'port': '3306'})
@@ -36,6 +38,23 @@ def get_config(filename):
         raise ConfigException('в конфигурационном файле должен быть задан путь для файла лога '
                               ' (параметр log_filename)')
     return d
+
+
+@contextmanager
+def update_wrapper(conn, with_lock=True):
+    if with_lock:
+        with conn as cursor:
+            try:
+                tablenames_sql = u'''SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema=DATABASE() and TABLE_TYPE="BASE TABLE";'''
+                cursor.execute(tablenames_sql)
+                tables = [t[0] + ' WRITE' for t in cursor.fetchall()]
+                cursor.execute('LOCK TABLES %s' % ', '.join(tables))
+
+                yield
+            finally:
+                cursor.execute('UNLOCK TABLES')
+    else:
+        yield
 
 
 class Session(object):
@@ -122,7 +141,10 @@ class DBTool(object):
         # DDL, например для "create table", так что транзакции здесь не
         # всегда гарантируют консистентное состояние БД при ошибках
         # обновления
-        return self.session.getConnection()
+        if self.connection is not None:
+            return self.connection
+        self.connection = self.session.getConnection()
+        return self.connection
 
     def _load_versions(self):
         try:
@@ -151,21 +173,23 @@ class DBTool(object):
             return
 
         try:
-            for v in versions:
-                try:
-                    if version > self.db_version:
-                        self._perform_schema_upgrade(v)
-                        actual_v = v
-                    elif version < self.db_version:
-                        self._perform_schema_downgrade(v)
-                        actual_v = v - 1
-                except Exception:
-                    raise
-                else:
-                    self._perform_meta_update(actual_v, 'schema_version')
+            with update_wrapper(self._getConnection()):
+                for v in versions:
+                    try:
+                        if version > self.db_version:
+                            self._perform_schema_upgrade(v)
+                            actual_v = v
+                        elif version < self.db_version:
+                            self._perform_schema_downgrade(v)
+                            actual_v = v - 1
+                    except Exception:
+                        raise
+                    else:
+                        self._perform_meta_update(actual_v, 'schema_version')
         except Exception, e:
             self._getConnection().rollback()
             raise DBToolUpdateException('Возникла проблема при обновлении: %s' % sys.exc_info()[1], sys.exc_info()[2])
+
         self.logger.info('Схема бд обновлена до версии {0}'.format(actual_v))
         self._load_versions()
 
