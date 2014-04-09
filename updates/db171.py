@@ -10,22 +10,22 @@ def upgrade(conn):
     c = conn.cursor()
 
     sql = '''
-        UPDATE `Address` SET `createPerson_id`=1 WHERE `createPerson_id` NOT IN (SELECT `id` FROM `Person`);
+        UPDATE `Address` SET `createPerson_id`=NULL WHERE `createPerson_id` NOT IN (SELECT `id` FROM `Person`);
         ALTER TABLE `Address` ADD CONSTRAINT `address_to_person_by_create_person` FOREIGN KEY (`createPerson_id`) REFERENCES `Person` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
-        UPDATE `Address` SET `modifyPerson_id`=1 WHERE `modifyPerson_id` NOT IN (SELECT id FROM `Person`);
+        UPDATE `Address` SET `modifyPerson_id`=NULL WHERE `modifyPerson_id` NOT IN (SELECT id FROM `Person`);
         ALTER TABLE `Address` ADD CONSTRAINT `address_to_person_by_modify_person` FOREIGN KEY (`modifyPerson_id`) REFERENCES `Person` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
-        UPDATE `AddressHouse` SET `createPerson_id`=1 WHERE `createPerson_id` NOT IN (SELECT `id` FROM `Person`);
+        UPDATE `AddressHouse` SET `createPerson_id`=NULL WHERE `createPerson_id` NOT IN (SELECT `id` FROM `Person`);
         ALTER TABLE `AddressHouse` ADD CONSTRAINT `address_house_to_person_by_create_person` FOREIGN KEY (`createPerson_id`) REFERENCES `Person` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
-        UPDATE `AddressHouse` SET `modifyPerson_id`=1 WHERE `modifyPerson_id` NOT IN (SELECT `id` FROM `Person`);
+        UPDATE `AddressHouse` SET `modifyPerson_id`=NULL WHERE `modifyPerson_id` NOT IN (SELECT `id` FROM `Person`);
         ALTER TABLE `AddressHouse` ADD CONSTRAINT `address_house_to_person_by_modify_person` FOREIGN KEY (`modifyPerson_id`) REFERENCES `Person` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
-        UPDATE `ClientAddress` SET `createPerson_id`=1 WHERE `createPerson_id` NOT IN (SELECT `id` FROM `Person`);
+        UPDATE `ClientAddress` SET `createPerson_id`=NULL WHERE `createPerson_id` NOT IN (SELECT `id` FROM `Person`);
         ALTER TABLE `ClientAddress` ADD CONSTRAINT `client_address_to_person_by_create_person` FOREIGN KEY (`createPerson_id`) REFERENCES `Person` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
-        UPDATE `ClientAddress` SET `modifyPerson_id`=1 WHERE `modifyPerson_id` NOT IN (SELECT `id` FROM `Person`);
+        UPDATE `ClientAddress` SET `modifyPerson_id`=NULL WHERE `modifyPerson_id` NOT IN (SELECT `id` FROM `Person`);
         ALTER TABLE `ClientAddress` ADD CONSTRAINT `client_address_to_person_by_modify_person` FOREIGN KEY (`modifyPerson_id`) REFERENCES `Person` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
         # Address -> AddressHouse
