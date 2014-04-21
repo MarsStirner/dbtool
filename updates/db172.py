@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
@@ -7,7 +9,7 @@ __doc__ = '''\
 def upgrade(conn):
     c = conn.cursor()
     sql = '''
-    CREATE TABLE `AutoSaveStorage` (
+    CREATE TABLE IF NOT EXISTS `AutoSaveStorage` (
         id VARCHAR(60) NOT NULL,
         user_id INT(11) NOT NULL,
         modifyDatetime DATETIME NOT NULL,
