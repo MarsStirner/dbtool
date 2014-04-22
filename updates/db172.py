@@ -13,7 +13,7 @@ def upgrade(conn):
         id VARCHAR(60) NOT NULL,
         user_id INT(11) NOT NULL,
         modifyDatetime DATETIME NOT NULL,
-        text LONGTEXT NOT NULL,
+        text TEXT NOT NULL,
         PRIMARY KEY (id, user_id),
         FOREIGN KEY `autoSaveStorage_user_id_to_Person` (user_id) REFERENCES Person (id) ON DELETE CASCADE ON UPDATE CASCADE
     );
