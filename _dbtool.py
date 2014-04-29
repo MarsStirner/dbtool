@@ -14,7 +14,8 @@ from utils import tools
 
 
 def get_config(filename):
-    p = ConfigParser(defaults={'port': '3306'})
+    p = ConfigParser(defaults={'port': '3306',
+                               'develop_version': False})
     with codecs.open(filename, 'r', 'utf-8-sig') as f:
         p.readfp(f)
     return {
@@ -25,7 +26,8 @@ def get_config(filename):
         'dbname': p.get('database', 'dbname'),
         'definer': p.get('database', 'definer'),
         'content': p.get('content', 'content_type'),
-        'log_filename': p.get('misc', 'log_filename')
+        'log_filename': p.get('misc', 'log_filename'),
+        'develop_version': p.get('misc', 'develop_version'),
     }
 
 
@@ -96,6 +98,11 @@ class DBTool(object):
     def load(self):
         self.conf = Session.getConf()
         self._load_versions()
+        if self.conf.get('develop_version') and not self.develop_version:
+            connection = self._getConnection()
+            with connection as cursor:
+                cursor.execute('''INSERT INTO `Meta` (`name`, `value`) VALUES (%s, %s) ''', ('develop_version', 'True'))
+                connection.commit()
 
     def _getConnection(self):
         # XXX: MySQL не поддерживает транзакации для некоторых выражений
@@ -112,6 +119,7 @@ class DBTool(object):
                 try:
                     self.db_version = int(d.get('schema_version', 0))
                     self.content_version = int(d.get('content_version', 0))
+                    self.develop_version = bool(d.get('develop_version', False))
                 except ValueError:
                     raise DBToolException(u'Неверное значение версий схемы и контента БД в таблице Meta')
         except MySQLdb.ProgrammingError:
