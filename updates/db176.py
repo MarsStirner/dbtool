@@ -10,7 +10,17 @@ __doc__ = '''\
 def upgrade(conn):
     c = conn.cursor()
 
-    sql = u'''ALTER TABLE `Event_LocalContract` CHANGE COLUMN `master_id` `master_id` INT(11) NULL COMMENT 'Событие {Event}' '''
+    sql = u'''ALTER TABLE `Event_LocalContract`
+CHANGE COLUMN `master_id` `master_id` INT(11) NULL COMMENT 'Событие {Event}' ,
+CHANGE COLUMN `lastName` `lastName` VARCHAR(30) NULL DEFAULT NULL COMMENT 'Фамилия' ,
+CHANGE COLUMN `firstName` `firstName` VARCHAR(30) NULL DEFAULT NULL COMMENT 'Имя' ,
+CHANGE COLUMN `patrName` `patrName` VARCHAR(30) NULL DEFAULT NULL COMMENT 'Отчество' ,
+CHANGE COLUMN `birthDate` `birthDate` DATE NULL DEFAULT NULL COMMENT 'Дата рождения' ,
+CHANGE COLUMN `serialLeft` `serialLeft` VARCHAR(8) NULL DEFAULT NULL COMMENT 'Серия левая часть документа' ,
+CHANGE COLUMN `serialRight` `serialRight` VARCHAR(8) NULL DEFAULT NULL COMMENT 'Серия правая часть документа' ,
+CHANGE COLUMN `number` `number` VARCHAR(16) NULL DEFAULT NULL COMMENT 'Номер документа' ,
+CHANGE COLUMN `regAddress` `regAddress` VARCHAR(64) NULL DEFAULT NULL COMMENT 'Адрес регистрации' ;
+'''
     c.execute(sql)
 
     sql = '''ALTER TABLE `Event_Payment` CHANGE COLUMN `master_id` `master_id` INT(11) NULL COMMENT 'Событие {Event}' '''
