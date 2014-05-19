@@ -30,7 +30,7 @@ CHANGE COLUMN `regAddress` `regAddress` VARCHAR(64) NULL DEFAULT NULL COMMENT '�
 ADD COLUMN `sumDiscount` DOUBLE NOT NULL COMMENT 'Сумма скидки' AFTER `cashBox`,
 ADD COLUMN `action_id` INT(11) NULL DEFAULT NULL COMMENT 'Услуга {Action}' AFTER `sumDiscount`,
 ADD COLUMN `service_id` INT(11) NULL DEFAULT NULL COMMENT 'Тип услуги {rbService}' AFTER `action_id`,
-ADD COLUMN `localContract_id` INT(11) NOT NULL COMMENT '{Event_LocalContract}' AFTER `service_id`
+ADD COLUMN `localContract_id` INT(11) NULL COMMENT '{Event_LocalContract}' AFTER `service_id`
 '''
     c.execute(sql)
 
