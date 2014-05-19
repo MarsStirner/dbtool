@@ -74,7 +74,14 @@ def upgrade(conn):
 			            OR `ActionType`.flatCode LIKE 'received')
 			     ORDER BY `Action`.`createDatetime` DESC)
 			  AND `status` = 'COMPLETE';
-		END IF;
+		        INSERT INTO `event_financechanges` (`event_id`, `modifyDatetime`, `modifyPerson_id`, `eventTypeOld_id`, `eventTypeNew_id`, `financeOld_id`, `financeNew_id`)
+			VALUES (NEW.`id`, 
+                	        NEW.`modifyDatetime`, 
+	                        NEW.`modifyPerson_id`, 
+        	                OLD.eventType_id, NEW.`eventType_id`, 
+			        (SELECT `rbFinance`.`id` FROM `rbFinance` INNER JOIN `EventType` ON `rbFinance`.`id` = `EventType`.finance_id WHERE `EventType`.`id` = OLD.eventType_id), 
+		        	(SELECT `rbFinance`.`id` FROM `rbFinance` INNER JOIN `EventType` ON `rbFinance`.`id` = `EventType`.finance_id WHERE `EventType`.`id` = NEW.eventType_id));
+			END IF;
           END'''%(config['definer'], triggerEvent, tableName, triggerEvent, tableName)
     c.execute('''DROP TRIGGER `onUpdateEvent`''')
     c.execute(sql)
@@ -101,13 +108,6 @@ def upgrade(conn):
 		                OR `ActionType`.flatCode LIKE 'received')
 		         ORDER BY `Action`.`createDatetime` DESC)
 		      AND `status` = 'COMPLETE';
-	        INSERT INTO `event_financechanges` (`event_id`, `modifyDatetime`, `modifyPerson_id`, `eventTypeOld_id`, `eventTypeNew_id`, `financeOld_id`, `financeNew_id`)
-		VALUES (NEW.`id`, 
-                        NEW.`modifyDatetime`, 
-                        NEW.`modifyPerson_id`, 
-                        OLD.eventType_id, NEW.`eventType_id`, 
-		        (SELECT `rbFinance`.`id` FROM `rbFinance` INNER JOIN `EventType` ON `rbFinance`.`id` = `EventType`.finance_id WHERE `EventType`.`id` = OLD.`eventType_id`), 
-		        (SELECT `rbFinance`.`id` FROM `rbFinance` INNER JOIN `EventType` ON `rbFinance`.`id` = `EventType`.finance_id WHERE `EventType`.`id` = NEW.`eventType_id`));
 		END IF; 
 	END'''%(config['definer'], triggerEvent, tableName, triggerEvent, tableName)
     c.execute('''DROP TRIGGER `onUpdateClient`''')
