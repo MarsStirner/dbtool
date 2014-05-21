@@ -105,7 +105,7 @@ CREATE TABLE `ScheduleClientTicket` (
   `isUrgent` tinyint(1) DEFAULT NULL,
   `note` varchar(256) DEFAULT NULL,
   `appointmentType_id` int(11) DEFAULT NULL,
-  `orgFrom_id` int(11) DEFAULT NULL,
+  `infisFrom` varchar(15) DEFAULT NULL,
   `createDatetime` datetime NOT NULL,
   `createPerson_id` int(11) DEFAULT NULL,
   `modifyDatetime` datetime NOT NULL,
@@ -115,15 +115,13 @@ CREATE TABLE `ScheduleClientTicket` (
   KEY `client_id` (`client_id`),
   KEY `ticket_id` (`ticket_id`),
   KEY `appointmentType_id` (`appointmentType_id`),
-  KEY `orgFrom_id` (`orgFrom_id`),
   KEY `ix_ScheduleClientTicket_createPerson_id` (`createPerson_id`),
   KEY `ix_ScheduleClientTicket_modifyPerson_id` (`modifyPerson_id`),
   CONSTRAINT `fk_ScheduleClientTicket_1` FOREIGN KEY (`createPerson_id`) REFERENCES `Person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ScheduleClientTicket_2` FOREIGN KEY (`modifyPerson_id`) REFERENCES `Person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `scheduleclientticket_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `Client` (`id`),
   CONSTRAINT `scheduleclientticket_ibfk_2` FOREIGN KEY (`ticket_id`) REFERENCES `ScheduleTicket` (`id`),
-  CONSTRAINT `scheduleclientticket_ibfk_3` FOREIGN KEY (`appointmentType_id`) REFERENCES `rbAppointmentType` (`id`),
-  CONSTRAINT `scheduleclientticket_ibfk_4` FOREIGN KEY (`orgFrom_id`) REFERENCES `Organisation` (`id`)
+  CONSTRAINT `scheduleclientticket_ibfk_3` FOREIGN KEY (`appointmentType_id`) REFERENCES `rbAppointmentType` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Таблица занятых пациентами талонов на прием.';
 '''
     c.execute(sql)
