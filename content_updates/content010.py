@@ -13,7 +13,7 @@ MIN_SCHEMA_VERSION = 175
 def upgrade(conn):
     import datetime
 
-    print(u'Этап 1')
+    print(u'Загрузка информации о расписаниях (скалярные данные)...')
     first_step_sql = """
     SELECT
         `Action`.id, `Action`.createDatetime, `Action`.createPerson_id, `Action`.modifyDateTime, `Action`.modifyPerson_id,
@@ -54,43 +54,9 @@ def upgrade(conn):
     )
     c.close()
 
-    print(u'Этап 2')
-    second_step_sql = """
-    SELECT
-        ActionProperty.action_id,
-        ActionProperty_Action.value,
-        ActionProperty_Action.`index`,
-        Action.AppointmentType,
-        Action.pacientInQueueType,
-        Event.client_id,
-        Event.setDate,
-        `Action`.createDatetime, `Action`.createPerson_id, `Action`.modifyDateTime, `Action`.modifyPerson_id,
-        `Action`.deleted
-    FROM ActionProperty
-    JOIN ActionPropertyType ON (ActionPropertyType.id = ActionProperty.type_id AND ActionPropertyType.name = 'queue')
-    JOIN ActionProperty_Action ON ActionProperty_Action.id = ActionProperty.id
-    JOIN `Action` ON ActionProperty_Action.value = `Action`.id
-    JOIN `Event` ON `Action`.event_id = `Event`.id
-    WHERE ActionProperty.action_id in (
-        SELECT `Action`.`id`
-        FROM `Action`
-        JOIN `Event` ON `Event`.`id` = `Action`.`id`
-        JOIN `EventType` ON `EventType`.`id` = `Event`.`eventType_id`
-        WHERE `EventType`.`code` = '0'
-    )
-    ORDER BY `ActionProperty`.`action_id`, ActionProperty_Action.`id`, ActionProperty_Action.`index`
-    """
-    c = conn.cursor()
-    c.execute(second_step_sql)
-    for result in c:
-        aid = result[0]
-        if not aid in schedules:
-            continue
-        schedules[aid][-1].append(result[1:])
-    c.close()
+    schedule_ids = ','.join(unicode(i) for i in schedules.iterkeys())
 
-
-    print(u'Этап 3')
+    print(u'Загрузка информации о расписаниях (векторные данные)...')
     third_step_sql = """
     SELECT
         ActionProperty.action_id,
@@ -98,15 +64,9 @@ def upgrade(conn):
     FROM ActionProperty
     JOIN ActionPropertyType ON (ActionPropertyType.id = ActionProperty.type_id AND ActionPropertyType.name = 'times')
     JOIN ActionProperty_Time ON ActionProperty_Time.id = ActionProperty.id
-    WHERE ActionProperty.action_id in (
-        SELECT `Action`.`id`
-        FROM `Action`
-        JOIN `Event` ON `Event`.`id` = `Action`.`id`
-        JOIN `EventType` ON `EventType`.`id` = `Event`.`eventType_id`
-        WHERE `EventType`.`code` = '0'
-    )
+    WHERE ActionProperty.action_id in (%s)
     ORDER BY `ActionProperty`.`action_id`, ActionProperty_Time.`id`, ActionProperty_Time.`index`
-    """
+    """ % schedule_ids
     c = conn.cursor()
     c.execute(third_step_sql)
     for result in c:
@@ -114,6 +74,37 @@ def upgrade(conn):
         if not aid in schedules:
             continue
         schedules[aid][-2].append(result[1])
+    c.close()
+
+
+    print(u'Загрузка информации о записях на приём...')
+    second_step_sql = """
+    SELECT
+        ActionProperty.action_id,
+        ActionProperty_Action.value,
+        ActionProperty_Action.`index`,
+        Action.AppointmentType,
+        Action.pacientInQueueType,
+        Client.id,
+        Event.client_id,
+        `Action`.createDatetime, `Action`.createPerson_id, `Action`.modifyDateTime, `Action`.modifyPerson_id,
+        `Action`.deleted, Action.hospitalUidFrom
+    FROM ActionProperty
+    JOIN ActionPropertyType ON (ActionPropertyType.id = ActionProperty.type_id AND ActionPropertyType.name = 'queue')
+    JOIN ActionProperty_Action ON ActionProperty_Action.id = ActionProperty.id
+    JOIN `Action` ON ActionProperty_Action.value = `Action`.id
+    JOIN `Event` ON `Action`.event_id = `Event`.id
+    LEFT JOIN `Client` ON `Client`.`id` = `Event`.`client_id`
+    WHERE ActionProperty.action_id in (%s)
+    ORDER BY `ActionProperty`.`action_id`, ActionProperty_Action.`id`, ActionProperty_Action.`index`
+    """ % schedule_ids
+    c = conn.cursor()
+    c.execute(second_step_sql)
+    for result in c:
+        aid = result[0]
+        if not aid in schedules:
+            continue
+        schedules[aid][-1].append(result)
     c.close()
 
     # Предзагрузка справочников:
@@ -150,17 +141,19 @@ def upgrade(conn):
 
     create_client_ticket = """
         INSERT INTO ScheduleClientTicket (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, client_id,
-        ticket_id, appointmentType_id, orgFrom_id, deleted)
+        ticket_id, appointmentType_id, infisFrom, deleted)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
+
+    print(u'Сохранение данных в новые таблицы... (%d записей)' % len(schedules))
 
     for aid, result in schedules.iteritems():
         maxOverQueue = result[11]
         maxCito = result[12]
 
-        cito = [action for action in result[-1] if action[3] == 1]
+        cito = [action for action in result[-1] if action[4] == 1]
         cito_count = len(cito)
-        extra = [action for action in result[-1] if action[3] == 2]
+        extra = [action for action in result[-1] if action[4] == 2]
 
         c = conn.cursor()
         c.execute(create_schedule, (
@@ -201,20 +194,28 @@ def upgrade(conn):
             ticket_ids_extra.append(c.lastrowid)
 
         for action in result[-1]:
-            if action[3] == 1:
+            if not action[5]:
+                print(u'Запись на приём (Action.id = %s) ссылается на несуществующего пациента (id=%s)' % (action[1], action[6]))
+                continue
+            if action[4] == 1:
                 ticket_id = ticket_ids_cito[used_cito_tickets]
-                if not action[10]:
+                if not action[11]:
                     used_cito_tickets += 1
-            elif action[3] == 2:
+            elif action[4] == 2:
                 ticket_id = ticket_ids_extra[used_extra_tickets]
-                if not action[10]:
+                if not action[11]:
                     used_extra_tickets += 1
             else:
-                ticket_id = ticket_ids_normal[action[1] - cito_count]
+                index = action[2] - cito_count
+                if index >= len(ticket_ids_normal):
+                    print(u'oops... В расписании Action.id=%s создано записей больше, чем тикетов. '
+                          u'Action.id=%s проигнорирован' % (action[0], action[1]))
+                    continue
+                ticket_id = ticket_ids_normal[index]
             c.execute(create_client_ticket, (
-                action[6], action[7], action[8], action[9],
-                action[4], ticket_id, rbAppointmentType.get(action[2], 'NULL'),
-                action[3] if action[3] != '0' else 'NULL', action[10]
+                action[7], action[8], action[9], action[10],
+                action[5], ticket_id, rbAppointmentType.get(action[3], None),
+                action[12] if action[12] != '0' else None, action[11]
             ))
         c.close()
 
