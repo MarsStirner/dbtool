@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
+import sys
 
 
 __doc__ = '''\
@@ -9,103 +10,36 @@ __doc__ = '''\
 
 MIN_SCHEMA_VERSION = 175
 
+def all_in(who, where):
+    return all((i in where) for i in who)
+
 
 def upgrade(conn):
     import datetime
 
-    print(u'Загрузка информации о расписаниях (скалярные данные)...')
-    first_step_sql = """
-    SELECT
-        `Action`.id, `Action`.createDatetime, `Action`.createPerson_id, `Action`.modifyDateTime, `Action`.modifyPerson_id,
-        `Event`.setPerson_id, `Event`.setDate,
-        ActionType.code,
-        ap_begTime.value, ap_endTime.value, ap_plan.value, ap_office.value,
-        Person.maxOverQueue, Person.maxCito
-    FROM `Action`
-    JOIN `Event` ON `Event`.`id` = `Action`.`id`
-    JOIN `EventType` ON `EventType`.`id` = `Event`.`eventType_id`
-    JOIN `ActionType` ON `ActionType`.`id` = `Action`.`actionType_id`
-
-    JOIN Person ON Person.id = Event.setPerson_id
-
-    JOIN ActionProperty ap_1 ON ap_1.action_id = `Action`.id
-    JOIN ActionPropertyType apt_1 ON (apt_1.id = ap_1.type_id AND apt_1.name = 'begTime')
-    JOIN ActionProperty_Time ap_begTime ON ap_begTime.id = ap_1.id
-
-    JOIN ActionProperty ap_2 ON ap_2.action_id = `Action`.id
-    JOIN ActionPropertyType apt_2 ON (apt_2.id = ap_2.type_id AND apt_2.name = 'endTime')
-    JOIN ActionProperty_Time ap_endTime ON ap_endTime.id = ap_2.id
-
-    JOIN ActionProperty ap_3 ON ap_3.action_id = `Action`.id
-    JOIN ActionPropertyType apt_3 ON (apt_3.id = ap_3.type_id AND apt_3.name = 'plan')
-    JOIN ActionProperty_Integer ap_plan ON ap_plan.id = ap_3.id
-
-    JOIN ActionProperty ap_4 ON ap_4.action_id = `Action`.id
-    JOIN ActionPropertyType apt_4 ON (apt_4.id = ap_4.type_id AND apt_4.name = 'office')
-    JOIN ActionProperty_String ap_office ON ap_office.id = ap_4.id
-
-    WHERE `EventType`.`code` = '0' AND `Action`.deleted = 0
+    create_schedule = """
+    INSERT INTO Schedule (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, person_id, `date`,
+    receptionType_id, begTime, endTime, numTickets, office)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
-    c = conn.cursor()
-    c.execute(first_step_sql)
-    schedules = dict(
-        (result[0], result[1:] + ([],) + ([],))
-        for result in c
-    )
-    c.close()
 
-    schedule_ids = ','.join(unicode(i) for i in schedules.iterkeys())
+    create_schedule_empty = """
+    INSERT INTO Schedule (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, person_id, `date`,
+    reasonOfAbsence_id, begTime, endTime)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, '00:00', '00:00')
+    """
 
-    print(u'Загрузка информации о расписаниях (векторные данные)...')
-    third_step_sql = """
-    SELECT
-        ActionProperty.action_id,
-        ActionProperty_Time.`value`
-    FROM ActionProperty
-    JOIN ActionPropertyType ON (ActionPropertyType.id = ActionProperty.type_id AND ActionPropertyType.name = 'times')
-    JOIN ActionProperty_Time ON ActionProperty_Time.id = ActionProperty.id
-    WHERE ActionProperty.action_id in (%s)
-    ORDER BY `ActionProperty`.`action_id`, ActionProperty_Time.`id`, ActionProperty_Time.`index`
-    """ % schedule_ids
-    c = conn.cursor()
-    c.execute(third_step_sql)
-    for result in c:
-        aid = result[0]
-        if not aid in schedules:
-            continue
-        schedules[aid][-2].append(result[1])
-    c.close()
+    create_ticket = """
+    INSERT INTO ScheduleTicket (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, schedule_id,
+    begDateTime, endDatetime, attendanceType_id)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """
 
-
-    print(u'Загрузка информации о записях на приём...')
-    second_step_sql = """
-    SELECT
-        ActionProperty.action_id,
-        ActionProperty_Action.value,
-        ActionProperty_Action.`index`,
-        Action.AppointmentType,
-        Action.pacientInQueueType,
-        Client.id,
-        Event.client_id,
-        `Action`.createDatetime, `Action`.createPerson_id, `Action`.modifyDateTime, `Action`.modifyPerson_id,
-        `Action`.deleted, Action.hospitalUidFrom
-    FROM ActionProperty
-    JOIN ActionPropertyType ON (ActionPropertyType.id = ActionProperty.type_id AND ActionPropertyType.name = 'queue')
-    JOIN ActionProperty_Action ON ActionProperty_Action.id = ActionProperty.id
-    JOIN `Action` ON ActionProperty_Action.value = `Action`.id
-    JOIN `Event` ON `Action`.event_id = `Event`.id
-    LEFT JOIN `Client` ON `Client`.`id` = `Event`.`client_id`
-    WHERE ActionProperty.action_id in (%s)
-    ORDER BY `ActionProperty`.`action_id`, ActionProperty_Action.`id`, ActionProperty_Action.`index`
-    """ % schedule_ids
-    c = conn.cursor()
-    c.execute(second_step_sql)
-    for result in c:
-        aid = result[0]
-        if not aid in schedules:
-            continue
-        schedules[aid][-1].append(result)
-    c.close()
+    create_client_ticket = """
+    INSERT INTO ScheduleClientTicket (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, client_id,
+    ticket_id, appointmentType_id, infisFrom, deleted)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
 
     # Предзагрузка справочников:
     c = conn.cursor()
@@ -121,103 +55,274 @@ def upgrade(conn):
     rbAttendanceType = dict(result for result in c)
     c.close()
 
-    # Action.id -> [  Action.createDatetime, Action.createPerson_id, Action.modifyDateTime, Action.modifyPerson_id,
-    # Event.setPerson_id, Event.setDate,
-    # ActionType.code,
-    # begTime, endTime, numTickets, office,
-    # [], [] ]
+    print(u'Загрузка списка расписаний...')
+    ca = conn.cursor()
+    rowcount = ca.execute("""SELECT `Action`.id,
+        `Action`.createDatetime, `Action`.createPerson_id, `Action`.modifyDateTime, `Action`.modifyPerson_id,
+        `Event`.setPerson_id, `Event`.setDate,
+        ActionType.code, Person.maxOverQueue, Person.maxCito
+    FROM `Action`
+    JOIN `Event` ON `Event`.`id` = `Action`.`event_id`
+    JOIN `EventType` ON `EventType`.`id` = `Event`.`eventType_id`
+    JOIN `ActionType` ON `ActionType`.`id` = `Action`.`actionType_id`
 
-    create_schedule = """
-    INSERT INTO Schedule (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, person_id, `date`,
-    receptionType_id, begTime, endTime, numTickets, office)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """
+    JOIN Person ON Person.id = Event.setPerson_id
 
-    create_ticket = """
-    INSERT INTO ScheduleTicket (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, schedule_id,
-    begDateTime, endDatetime, attendanceType_id)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-    """
+    WHERE `EventType`.`code` = '0' AND `Action`.deleted = 0""")
+    print(u'прочитано расписаний: %s' % rowcount)
 
-    create_client_ticket = """
-        INSERT INTO ScheduleClientTicket (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, client_id,
-        ticket_id, appointmentType_id, infisFrom, deleted)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """
+    # Проход по каждому расписанию
+    for processed, (aid, cdt, cpid, mdt, mpid, person_id, setDate, type_code, max_extra, max_cito) in enumerate(ca):
+        ap_cursor = conn.cursor()
+        ap_cursor.execute("""
+        SELECT ActionProperty.id, ActionPropertyType.name
+            FROM ActionProperty
+            JOIN ActionPropertyType ON ActionProperty.type_id = ActionPropertyType.id
+        WHERE ActionProperty.action_id = %s""", (aid,))
 
-    print(u'Сохранение данных в новые таблицы... (%d записей)' % len(schedules))
+        props = {}
 
-    for aid, result in schedules.iteritems():
-        maxOverQueue = result[11]
-        maxCito = result[12]
+        # Проход по свойствам расписания
+        for ap_id, ap_name in ap_cursor:
+            ap_val_cursor = conn.cursor()
+            if ap_name == 'queue':  # Записи на прём
+                ap_val_cursor.execute("""
+                    SELECT ActionProperty_Action.value, ActionProperty_Action.index,
+                    ActionType.code, Action.AppointmentType, Action.pacientInQueueType,
+                    Event.client_id, Client.id, TIME(Action.directionDate), Action.deleted,
+                    Action.createDatetime, Action.createPerson_id, Action.modifyDatetime, Action.modifyPerson_id,
+                    Action.hospitalUidFrom
+                    FROM ActionProperty_Action
+                    JOIN Action ON Action.id = ActionProperty_Action.value
+                    JOIN ActionType ON ActionType.id = Action.actionType_id
+                    JOIN Event ON Event.id = Action.event_id
+                    LEFT JOIN Client ON Client.id = Event.client_id
+                    WHERE ActionProperty_Action.id = %s
+                """, (ap_id, ))
+                props['queue'] = list(ap_val_cursor)
+            elif ap_name == 'times':  # запланированные тикеты
+                ap_val_cursor.execute("""
+                    SELECT ActionProperty_Time.value
+                    FROM ActionProperty_Time
+                    WHERE ActionProperty_Time.id = %s
+                    ORDER BY ActionProperty_Time.index
+                """, (ap_id, ))
+                result = list(ap_val_cursor)
+                if result:
+                    props[ap_name] = [i[0] for i in result]
+            elif ap_name[3:7] == 'Time':  # Времена начала, конца периодов
+                ap_val_cursor.execute("""
+                    SELECT ActionProperty_Time.value
+                    FROM ActionProperty_Time
+                    WHERE ActionProperty_Time.id = %s
+                """, (ap_id, ))
+                result = list(ap_val_cursor)
+                if result:
+                    props[ap_name] = result[0][0]
+            elif ap_name.startswith('office'):  # Кабинет
+                ap_val_cursor.execute("""
+                    SELECT ActionProperty_String.value
+                    FROM ActionProperty_String
+                    WHERE ActionProperty_String.id = %s
+                """, (ap_id, ))
+                result = list(ap_val_cursor)
+                if result:
+                    props[ap_name] = result[0][0]
+            elif ap_name == 'reasonOfAbsence':  # Записи на прём
+                if ap_val_cursor.execute("""
+                    SELECT ActionProperty_rbReasonOfAbsence.value
+                    FROM ActionProperty_rbReasonOfAbsence
+                    WHERE ActionProperty_rbReasonOfAbsence.id = %s
+                    """, (ap_id, )):
+                    props[ap_name] = list(ap_val_cursor)[0][0]
+            ap_val_cursor.close()
 
-        cito = [action for action in result[-1] if action[4] == 1]
-        cito_count = len(cito)
-        extra = [action for action in result[-1] if action[4] == 2]
+        # В одном расписании старого типа может быть 2 расписания нового
+        scheds = []
 
-        c = conn.cursor()
-        c.execute(create_schedule, (
-            result[0], result[1], result[2], result[3], result[4], result[5],
-            rbReceptionType.get(result[6], 'NULL'),
-            result[7], result[8], result[9], result[10]
-        ))
-        schedule_id = c.lastrowid
-        c.close()
-        c = conn.cursor()
-        ticket_ids_normal = []
-        ticket_ids_cito = []
-        ticket_ids_extra = []
+        if all_in(('begTime1', 'endTime1', 'begTime2', 'endTime2', 'times'), props):
+            times = props['times']
+            queue = props.get('queue', [])
+            times1 = [p for p in times if props['begTime1'] <= p < props['endTime1']]
+            times2 = [p for p in times if props['begTime2'] <= p < props['endTime2']]
+            queue1 = []
+            queue2 = []
+            cito = [p for p in queue if p[4] == 1]
+            extra = []
+            cito_count = len(cito)
+            for p in queue:
+                if p[7] and p[4] == 0 and 0 <= p[1] - cito_count < len(times):
 
-        used_cito_tickets = 0
-        used_extra_tickets = 0
+                    if 0 <= p[1] - cito_count < len(times1):
+                        queue1.append((p, p[1] - len(cito)))
 
-        for i, t in enumerate(result[-2]):
-            dt = datetime.datetime.combine(result[5], datetime.time())
-            begDateTime = dt + t
-            endDateTime = dt + (result[-2][i + 1] if i < len(result[-2]) - 1 else result[8])
-            c.execute(create_ticket, (
-                result[0], result[1], result[2], result[3], schedule_id, begDateTime, endDateTime,
-                rbAttendanceType.get('planned')
-            ))
-            ticket_ids_normal.append(c.lastrowid)
+                    elif len(times1) <= p[1] - cito_count < len(times):
+                        queue2.append((p, p[1] - len(cito) - len(times1)))
 
-        for i in xrange(max(maxCito, len(cito))):
-            c.execute(create_ticket, (
-                result[0], result[1], result[2], result[3], schedule_id, "NULL", "NULL", rbAttendanceType.get('CITO')
-            ))
-            ticket_ids_cito.append(c.lastrowid)
+                elif p[4] != 1 and (not p[7] or p[1] - len(cito) >= len(times)):
+                    extra.append(p)
 
-        for i in xrange(max(maxOverQueue, len(extra))):
-            c.execute(create_ticket, (
-                result[0], result[1], result[2], result[3], schedule_id, "NULL", "NULL", rbAttendanceType.get('extra')
-            ))
-            ticket_ids_extra.append(c.lastrowid)
+            scheds.extend([
+                {
+                    'begTime': props['begTime1'],
+                    'endTime': props['endTime1'],
+                    'office': props.get('office1', ''),
+                    'times': times1,
+                    'queue': queue1,
+                    'cito': cito,
+                    'extra': extra,
+                    'max_cito': max_cito,
+                    'max_extra': max_extra,
+                }, {
+                    'begTime': props['begTime2'],
+                    'endTime': props['endTime2'],
+                    'office': props.get('office2', ''),
+                    'times': times2,
+                    'queue': queue2,
+                    'cito': [],
+                    'extra': [],
+                    'max_cito': 0,
+                    'max_extra': 0,
+                }
+            ])
+            sys.stdout.write('*')
+        elif all_in(('begTime', 'endTime', 'office', 'times'), props):
+            # Заполняется _одно_ расписание на день
+            times = props['times']
+            q = props.get('queue', [])
+            cito = [p for p in q if p[4] == 1]
+            extra = []
+            queue = []
+            for p in q:
+                if p[7] and p[4] == 0 and 0 <= p[1] - len(cito) < len(times):
+                    queue.append((p, p[1] - len(cito)))
+                elif p[4] != 1 and (not p[7] or p[1] - len(cito) >= len(times)):
+                    extra.append(p)
+            scheds.append(
+                {
+                    'begTime': props['begTime'],
+                    'endTime': props['endTime'],
+                    'office': props['office'],
+                    'times': times,
+                    'queue': queue,
+                    'cito': cito,
+                    'extra': extra,
+                    'max_cito': max_cito,
+                    'max_extra': max_extra,
+                }
+            )
+            sys.stdout.write('+')
+        elif 'reasonOfAbsence' in props:
+            scheds.append({
+                'reasonOfAbsence': props['reasonOfAbsence']
+            })
+            sys.stdout.write('>')
+        else:
+            sys.stdout.write('-')
+        if not ((processed+1) % 80):
+            sys.stdout.write('\n')
 
-        for action in result[-1]:
-            if not action[5]:
-                print(u'Запись на приём (Action.id = %s) ссылается на несуществующего пациента (id=%s)' % (action[1], action[6]))
+        for sched in scheds:
+            ticket_ids_normal = []
+            ticket_ids_cito = []
+            ticket_ids_extra = []
+
+            used_cito_tickets = 0
+            used_extra_tickets = 0
+
+            # Создание расписания на день
+            c = conn.cursor()
+            if 'reasonOfAbsence' in sched:
+                c.execute(create_schedule_empty, (
+                    cdt, cpid, mdt, mpid, person_id, setDate,
+                    sched['reasonOfAbsence'])
+                )
+                c.close()
                 continue
-            if action[4] == 1:
-                ticket_id = ticket_ids_cito[used_cito_tickets]
-                if not action[11]:
-                    used_cito_tickets += 1
-            elif action[4] == 2:
-                ticket_id = ticket_ids_extra[used_extra_tickets]
-                if not action[11]:
-                    used_extra_tickets += 1
             else:
-                index = action[2] - cito_count
-                if index >= len(ticket_ids_normal):
-                    print(u'oops... В расписании Action.id=%s создано записей больше, чем тикетов. '
-                          u'Action.id=%s проигнорирован' % (action[0], action[1]))
-                    continue
-                ticket_id = ticket_ids_normal[index]
-            c.execute(create_client_ticket, (
-                action[7], action[8], action[9], action[10],
-                action[5], ticket_id, rbAppointmentType.get(action[3], None),
-                action[12] if action[12] != '0' else None, action[11]
-            ))
-        c.close()
+                c.execute(create_schedule, (
+                    cdt, cpid, mdt, mpid, person_id, setDate,
+                    rbReceptionType.get(type_code, 'NULL'),
+                    sched['begTime'], sched['endTime'], len(sched['times']), sched['office']
+                ))
+                schedule_id = c.lastrowid
+                c.close()
+
+            c = conn.cursor()
+            # Создаём плановые тикеты
+            for i, t in enumerate(sched['times']):
+                dt = datetime.datetime.combine(setDate, datetime.time())
+                begDateTime = dt + t
+                endDateTime = dt + (sched['times'][i + 1] if i < len(sched['times']) - 1 else sched['endTime'])
+                c.execute(create_ticket, (
+                    cdt, cpid, mdt, mpid, schedule_id, begDateTime, endDateTime,
+                    rbAttendanceType.get('planned')
+                ))
+                ticket_ids_normal.append(c.lastrowid)
+
+            # Создаём цито тикеты
+            for i in xrange(max(sched['max_cito'], len(sched['cito']))):
+                c.execute(create_ticket, (
+                    cdt, cpid, mdt, mpid, schedule_id, "NULL", "NULL", rbAttendanceType.get('CITO')
+                ))
+                ticket_ids_cito.append(c.lastrowid)
+
+            # Создаём сверх-плановые тикеты
+            for i in xrange(max(sched['max_extra'], len(sched['extra']))):
+                c.execute(create_ticket, (
+                    cdt, cpid, mdt, mpid, schedule_id, "NULL", "NULL", rbAttendanceType.get('extra')
+                ))
+                ticket_ids_extra.append(c.lastrowid)
+
+            # Создаём плановые записи на прём
+            for (action, index) in sched['queue']:
+                if not action[6]:
+                    print(u'Запись на приём (Action.id = %s) ссылается на несуществующего пациента (id=%s)' % (action[0], action[5]))
+                else:
+                    if index >= len(ticket_ids_normal):
+                        print(u'oops... В расписании Action.id=%s создано записей больше, чем тикетов, '
+                              u'в т.ч. сверх плана. Action.id=%s проигнорирован' % (aid, action[0]))
+                    else:
+                        ticket_id = ticket_ids_normal[index]
+                        c.execute(create_client_ticket, (
+                            action[9], action[10], action[11], action[12],
+                            action[6], ticket_id, rbAppointmentType.get(action[3], None),
+                            action[13] if action[13] != '0' else None, action[8]
+                        ))
+            for index, action in enumerate(sched['extra']):
+                if not action[6]:
+                    print(u'Запись на приём (Action.id = %s) ссылается на несуществующего пациента (id=%s)' % (action[0], action[5]))
+                else:
+                    ticket_id = ticket_ids_extra[index]
+                    c.execute(create_client_ticket, (
+                        action[9], action[10], action[11], action[12],
+                        action[6], ticket_id, rbAppointmentType.get(action[3], None),
+                        action[13] if action[13] != '0' else None, action[8]
+                    ))
+            for index, action in enumerate(sched['cito']):
+                if not action[6]:
+                    print(u'Запись на приём (Action.id = %s) ссылается на несуществующего пациента (id=%s)' % (action[0], action[5]))
+                else:
+                    ticket_id = ticket_ids_cito[index]
+                    c.execute(create_client_ticket, (
+                        action[9], action[10], action[11], action[12],
+                        action[6], ticket_id, rbAppointmentType.get(action[3], None),
+                        action[13] if action[13] != '0' else None, action[8]
+                    ))
+            c.close()
+
+    ca.close()
+
+    # print(u'Загрузка свойств расписаний')
+    # c = conn.cursor()
+    # rowcount = c.execute("""
+    # SELECT ActionProperty.id, ActionPropertyType.name
+    #     FROM ActionProperty
+    #     JOIN ActionPropertyType ON ActionProperty.type_id = ActionPropertyType.id
+    # WHERE ActionProperty.action_id IN (%s)""", (schedule_ids,))
+    # print(u'Прочитано свойств: %s' % rowcount)
+
+    # sys.exit(-1)
 
     conn.commit()
 
