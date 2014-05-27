@@ -19,7 +19,7 @@ def upgrade(conn):
 
     create_schedule = """
     INSERT INTO Schedule (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, person_id, `date`,
-    receptionType_id, begTime, endTime, numTickets, office)
+    receptionType_id, begTime, endTime, numTickets, office_id)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
 
@@ -53,6 +53,10 @@ def upgrade(conn):
     c = conn.cursor()
     c.execute("SELECT code, id FROM rbAttendanceType")
     rbAttendanceType = dict(result for result in c)
+    c.close()
+    c = conn.cursor()
+    c.execute("SELECT code, id FROM Office")
+    Office = dict(result for result in c)
     c.close()
 
     print(u'Загрузка списка расписаний...')
@@ -161,12 +165,24 @@ def upgrade(conn):
 
                 elif p[4] != 1 and (not p[7] or p[1] - len(cito) >= len(times)):
                     extra.append(p)
+            office1_name = props.get('office1', '')
+            office2_name = props.get('office2', '')
+            if not office1_name in Office:
+                oc = conn.cursor()
+                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', office1_name)
+                Office[office1_name] = oc.lastrowid
+            if not office2_name in Office:
+                oc = conn.cursor()
+                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', office2_name)
+                Office[office2_name] = oc.lastrowid
+            office1_id = Office[office1_name]
+            office2_id = Office[office2_name]
 
             scheds.extend([
                 {
                     'begTime': props['begTime1'],
                     'endTime': props['endTime1'],
-                    'office': props.get('office1', ''),
+                    'office': office1_id,
                     'times': times1,
                     'queue': queue1,
                     'cito': cito,
@@ -176,7 +192,7 @@ def upgrade(conn):
                 }, {
                     'begTime': props['begTime2'],
                     'endTime': props['endTime2'],
-                    'office': props.get('office2', ''),
+                    'office': office2_id,
                     'times': times2,
                     'queue': queue2,
                     'cito': [],
@@ -198,11 +214,17 @@ def upgrade(conn):
                     queue.append((p, p[1] - len(cito)))
                 elif p[4] != 1 and (not p[7] or p[1] - len(cito) >= len(times)):
                     extra.append(p)
+            office_name = props['office']
+            if not office_name in Office:
+                oc = conn.cursor()
+                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', office_name)
+                Office[office_name] = oc.lastrowid
+            office_id = Office[office_name]
             scheds.append(
                 {
                     'begTime': props['begTime'],
                     'endTime': props['endTime'],
-                    'office': props['office'],
+                    'office': office_id,
                     'times': times,
                     'queue': queue,
                     'cito': cito,

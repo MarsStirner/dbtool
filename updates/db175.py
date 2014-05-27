@@ -41,6 +41,17 @@ CREATE TABLE `rbAppointmentType` (
     c.execute(sql)
 
     sql = '''
+CREATE TABLE `Office` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(32) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `orgStructure_id int(11) NULL COMMENT 'Отделение с кабинетом',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+'''
+    c.execute(sql)
+
+    sql = '''
 CREATE TABLE `Schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор записи',
   `person_id` int(11) NOT NULL COMMENT 'Идентификатор сотрудника, которому назначен график',
@@ -48,7 +59,7 @@ CREATE TABLE `Schedule` (
   `begTime` time NOT NULL COMMENT 'Время начала работы',
   `endTime` time NOT NULL COMMENT 'Время окончания работы',
   `numTickets` int(11) DEFAULT NULL,
-  `office` varchar(64) DEFAULT NULL COMMENT 'кабинет',
+  `office_id` int(64) DEFAULT NULL COMMENT 'кабинет',
   `reasonOfAbsence_id` int(11) DEFAULT NULL,
   `receptionType_id` int(11) DEFAULT NULL COMMENT 'тип приема. Например, "На дому", "Амбулаторно"',
   `createDatetime` datetime NOT NULL COMMENT 'Время создания записи',
@@ -64,6 +75,7 @@ CREATE TABLE `Schedule` (
   KEY `fk_Schedule_2_idx` (`modifyPerson_id`),
   CONSTRAINT `fk_Schedule_1` FOREIGN KEY (`createPerson_id`) REFERENCES `Person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Schedule_2` FOREIGN KEY (`modifyPerson_id`) REFERENCES `Person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `schedule_ibfk_4` FOREIGN KEY (`office_id`) REFERENCES `Office` (`id`),
   CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `Person` (`id`),
   CONSTRAINT `schedule_ibfk_2` FOREIGN KEY (`reasonOfAbsence_id`) REFERENCES `rbReasonOfAbsence` (`id`),
   CONSTRAINT `schedule_ibfk_3` FOREIGN KEY (`receptionType_id`) REFERENCES `rbReceptionType` (`id`)
