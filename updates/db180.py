@@ -60,7 +60,7 @@ def upgrade(conn):
         {ActionPropertyRelations}',
     `type` ENUM('flatDirectory', 'Action', 'Event') NULL DEFAULT NULL
         COMMENT 'Тип ссылки на другую таблицу или объект.',
-    `value` int(11) NULL DEFAULT NULL
+    `valueReference` int(11) NULL DEFAULT NULL
         COMMENT 'Значение ссылки на другую таблицу или объект.',
     `valueDate` DATE NULL DEFAULT NULL
         COMMENT 'Поле, если значение является не ссылкой на
