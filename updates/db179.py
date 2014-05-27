@@ -14,7 +14,7 @@ def upgrade(conn):
     
     sqls = [
         u'''ALTER TABLE `DrugChart`
-            CHANGE COLUMN `statusDateTime` `statusDateTime` DATETIME NULL DEFAULT NULL AFTER `status`''' 
+            CHANGE COLUMN `statusDateTime` `statusDateTime` DATETIME NULL DEFAULT NULL AFTER `status`''',
         u'''ALTER TABLE `Pharmacy` CHANGE COLUMN `status` `status` 
             ENUM('ADDED','COMPLETE','ERROR','RESEND') NULL DEFAULT 'ADDED' COMMENT 'Текущий статус сообщения' AFTER `attempts`''',
         u'''CREATE TABLE IF NOT EXISTS `Event_FinanceChanges` (
