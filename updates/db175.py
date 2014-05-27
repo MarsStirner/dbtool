@@ -54,7 +54,7 @@ CREATE TABLE `Office` (
     sql = '''
 CREATE TABLE `Schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Идентификатор записи',
-  `person_id` int(11) NOT NULL COMMENT 'Идентификатор сотрудника, которому назначен график',
+  `person_id` int(11) NULL COMMENT 'Идентификатор сотрудника, которому назначен график',
   `date` date NOT NULL COMMENT 'Дата графика',
   `begTime` time NOT NULL COMMENT 'Время начала работы',
   `endTime` time NOT NULL COMMENT 'Время окончания работы',
