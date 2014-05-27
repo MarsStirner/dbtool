@@ -45,7 +45,7 @@ CREATE TABLE `Office` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(32) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `orgStructure_id int(11) NULL COMMENT 'Отделение с кабинетом',
+  `orgStructure_id` int(11) NULL COMMENT 'Отделение с кабинетом',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 '''
@@ -73,9 +73,10 @@ CREATE TABLE `Schedule` (
   KEY `receptionType_id` (`receptionType_id`),
   KEY `fk_Schedule_1_idx` (`createPerson_id`),
   KEY `fk_Schedule_2_idx` (`modifyPerson_id`),
+  INDEX `FK_Schedule_Office` (`office_id`),
   CONSTRAINT `fk_Schedule_1` FOREIGN KEY (`createPerson_id`) REFERENCES `Person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Schedule_2` FOREIGN KEY (`modifyPerson_id`) REFERENCES `Person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `schedule_ibfk_4` FOREIGN KEY (`office_id`) REFERENCES `Office` (`id`),
+  CONSTRAINT `FK_Schedule_Office` FOREIGN KEY (`office_id`) REFERENCES `Office` (`id`),
   CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `Person` (`id`),
   CONSTRAINT `schedule_ibfk_2` FOREIGN KEY (`reasonOfAbsence_id`) REFERENCES `rbReasonOfAbsence` (`id`),
   CONSTRAINT `schedule_ibfk_3` FOREIGN KEY (`receptionType_id`) REFERENCES `rbReceptionType` (`id`)

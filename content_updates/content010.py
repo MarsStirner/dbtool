@@ -169,11 +169,11 @@ def upgrade(conn):
             office2_name = props.get('office2', '')
             if not office1_name in Office:
                 oc = conn.cursor()
-                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', office1_name)
+                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office1_name,))
                 Office[office1_name] = oc.lastrowid
             if not office2_name in Office:
                 oc = conn.cursor()
-                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', office2_name)
+                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office2_name,))
                 Office[office2_name] = oc.lastrowid
             office1_id = Office[office1_name]
             office2_id = Office[office2_name]
@@ -217,7 +217,7 @@ def upgrade(conn):
             office_name = props['office']
             if not office_name in Office:
                 oc = conn.cursor()
-                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', office_name)
+                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office_name,))
                 Office[office_name] = oc.lastrowid
             office_id = Office[office_name]
             scheds.append(

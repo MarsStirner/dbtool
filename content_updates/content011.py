@@ -29,6 +29,3 @@ DELETE FROM ActionProperty WHERE action_id NOT IN (SELECT id FROM Action)
     for name in names:
         affected = c.execute(sql_delete_ap_val % name)
         print(name, affected)
-
-    conn.rollback()
-    raise Exception('Halt')
