@@ -79,6 +79,7 @@ def upgrade(conn):
     REFERENCES `ActionPropertyRelations` (`id`)
     ON DELETE CASCADE ON UPDATE CASCADE) ENGINE = InnoDB;
     '''
+    c.execute(sql)
 
 def downgrade(conn):
     pass
