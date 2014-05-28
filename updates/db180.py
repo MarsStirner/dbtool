@@ -58,7 +58,7 @@ def upgrade(conn):
     `ActionPropertyRelations_id` INT NOT NULL
         COMMENT 'Ссылка на запись в таблице отношений между аттрибутами
         {ActionPropertyRelations}',
-    `RefType` ENUM('flatDirectory', 'Action', 'Event') NULL DEFAULT NULL
+    `RefType` ENUM('FlatDirectory', 'Action', 'Event') NULL DEFAULT NULL
         COMMENT 'Тип ссылки на другую таблицу или объект.',
     `valueReference` int(11) NULL DEFAULT NULL
         COMMENT 'Значение ссылки на другую таблицу или объект.',
