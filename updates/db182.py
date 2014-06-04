@@ -26,25 +26,25 @@ ALTER TABLE `rbPolicyType`
 
     c.execute(u'''
 UPDATE `rbDocumentType`
-    SET `serial_regexp` = '[IVXLCDM]+ [а-яА-Я]+'
+    SET `serial_regexp` = '^[IVXLCDM]+ [а-яА-Я]+$'
     WHERE `serial_format` = 1;
 ''')
 
     c.execute(u'''
 UPDATE `rbDocumentType`
-    SET `number_regexp` = '[IVXLCDM]+ [а-яА-Я]+'
+    SET `number_regexp` = '^[IVXLCDM]+ [а-яА-Я]+$'
     WHERE `number_format` = 1;
 ''')
 
     c.execute(u'''
 UPDATE `rbDocumentType`
-    SET `serial_regexp` = '\d+'
+    SET `serial_regexp` = '^\\d+ \\d+$'
     WHERE `serial_format` = 2;
 ''')
 
     c.execute(u'''
 UPDATE `rbDocumentType`
-    SET `number_regexp` = '\d+'
+    SET `number_regexp` = '^\\d+ \\d+$'
     WHERE `number_format` = 2;
 ''')
 
