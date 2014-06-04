@@ -76,7 +76,7 @@ def upgrade(conn):
 			            OR `ActionType`.flatCode LIKE 'received')
 			     ORDER BY `Action`.`createDatetime` DESC)
 			  AND `status` = 'COMPLETE';
-		        INSERT INTO `event_financechanges` (`event_id`, `modifyDatetime`, `modifyPerson_id`, `eventTypeOld_id`, `eventTypeNew_id`, `financeOld_id`, `financeNew_id`)
+		        INSERT INTO `Event_FinanceChanges` (`event_id`, `modifyDatetime`, `modifyPerson_id`, `eventTypeOld_id`, `eventTypeNew_id`, `financeOld_id`, `financeNew_id`)
 			VALUES (NEW.`id`, 
                 	        NEW.`modifyDatetime`, 
 	                        NEW.`modifyPerson_id`, 
