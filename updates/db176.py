@@ -35,14 +35,6 @@ def upgrade(conn):
           COMMENT='события для передачи в 1С ОДВД'
           COLLATE='utf8_general_ci'
           ENGINE=InnoDB;''',
-       u'''ALTER TABLE `Event_Payment` ADD COLUMN `actionSum` DOUBLE NOT NULL COMMENT 'Сумма платежа за услугу' AFTER `sum`''',
-       u'''ALTER TABLE `Event_Payment`
-        	ADD COLUMN `action_id` INT(11) NULL DEFAULT NULL COMMENT 'Услуга {Action}',
-	        ADD CONSTRAINT `FK_Event_Payment_Action` FOREIGN KEY (`action_id`) REFERENCES `Action` (`id`)''',
-       u'''ALTER TABLE `Event_Payment`
-	        ADD COLUMN `service_id` INT(11) NULL DEFAULT NULL COMMENT 'Тип услуги {rbService}' AFTER `action_id`,
-        	ADD CONSTRAINT `FK_Event_Payment_rbService` FOREIGN KEY (`service_id`) REFERENCES `rbService` (`id`)'''
-
     ]
     for sql in sqls:
         c.execute(sql)
@@ -76,7 +68,7 @@ def upgrade(conn):
     triggerEvent = "Insert"
     sql = u''' 
           CREATE DEFINER=%s TRIGGER `on%s%s` AFTER %s ON `%s` FOR EACH ROW BEGIN
-              IF NEW.status = 2 AND NEW.endDate IS NOT NULL THEN
+              IF isPaidAction(NEW.id) AND NEW.status = 2 AND NEW.endDate IS NOT NULL THEN
                  INSERT IGNORE INTO `ActionToODVD` (action_id) VALUES (NEW.id);
               END IF;          
           END'''%(config['definer'], triggerEvent, tableName, triggerEvent, tableName)   
@@ -90,12 +82,34 @@ def upgrade(conn):
                  SET deleted = NEW.deleted
                  WHERE action_id = NEW.id;
               END IF;
-              IF (NEW.status != OLD.status OR (OLD.endDate IS NULL AND NEW.endDate IS NOT NULL)) AND (NEW.status = 2 AND NEW.endDate IS NOT NULL) THEN
+              IF isPaidAction(NEW.id) AND (NEW.status != OLD.status OR (OLD.endDate IS NULL AND NEW.endDate IS NOT NULL)) AND (NEW.status = 2 AND NEW.endDate IS NOT NULL) THEN
                  INSERT IGNORE INTO `ActionToODVD` (action_id) VALUES (NEW.id);
               END IF;          
           END'''%(config['definer'], triggerEvent, tableName, triggerEvent, tableName)       
     c.execute('''DROP TRIGGER `Delete_ActionProperty_ON_UPDATE`''')
     c.execute(sql)
+
+    funcSql = u'''CREATE FUNCTION `isPaidAction`(`action_id` INT)
+                	RETURNS TINYINT
+                	LANGUAGE SQL
+                	NOT DETERMINISTIC
+                	READS SQL DATA
+                	SQL SECURITY DEFINER
+                	COMMENT 'Возвращает 1 для платных действий'
+                        BEGIN
+                           DECLARE finaceCode VARCHAR(10);                           
+                           SELECT  rbFinance.code  INTO finaceCode FROM 
+                              `Action` INNER JOIN  
+                              `Event` ON `Action`.event_id = `Event`.id INNER JOIN
+                              `EventType` ON `Event`.eventType_id = `EventType`.id INNER JOIN
+                              `rbFinance` ON `EventType`.finance_id = `rbFinance`.id
+                             WHERE `Action`.id = action_id;                        
+                           IF finaceCode LIKE '4' THEN 
+                               RETURN 1; 
+                           END IF;
+                        RETURN  0;
+               END'''
+    c.execute(funcSql)
 
 def downgrade(conn):
     pass
