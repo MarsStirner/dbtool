@@ -165,18 +165,25 @@ def upgrade(conn):
 
                 elif p[4] != 1 and (not p[7] or p[1] - len(cito) >= len(times)):
                     extra.append(p)
-            office1_name = props.get('office1', '')
-            office2_name = props.get('office2', '')
-            if not office1_name in Office:
-                oc = conn.cursor()
-                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office1_name,))
-                Office[office1_name] = oc.lastrowid
-            if not office2_name in Office:
-                oc = conn.cursor()
-                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office2_name,))
-                Office[office2_name] = oc.lastrowid
-            office1_id = Office[office1_name]
-            office2_id = Office[office2_name]
+            office1_name = props.get('office1')
+            if office1_name:
+                if not office1_name in Office:
+                    oc = conn.cursor()
+                    oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office1_name,))
+                    Office[office1_name] = oc.lastrowid
+                office1_id = Office[office1_name]
+            else:
+                office1_id = None
+
+            office2_name = props.get('office2')
+            if office2_name:
+                if not office2_name in Office:
+                    oc = conn.cursor()
+                    oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office2_name,))
+                    Office[office2_name] = oc.lastrowid
+                office2_id = Office[office2_name]
+            else:
+                office2_id = None
 
             scheds.extend([
                 {
@@ -202,8 +209,9 @@ def upgrade(conn):
                 }
             ])
             sys.stdout.write('*')
-        elif all_in(('begTime', 'endTime', 'office', 'times'), props):
+        elif all_in(('begTime', 'endTime', 'times'), props):
             # Заполняется _одно_ расписание на день
+            office_name = props.get('office')
             times = props['times']
             q = props.get('queue', [])
             cito = [p for p in q if p[4] == 1]
@@ -214,12 +222,14 @@ def upgrade(conn):
                     queue.append((p, p[1] - len(cito)))
                 elif p[4] != 1 and (not p[7] or p[1] - len(cito) >= len(times)):
                     extra.append(p)
-            office_name = props['office']
-            if not office_name in Office:
-                oc = conn.cursor()
-                oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office_name,))
-                Office[office_name] = oc.lastrowid
-            office_id = Office[office_name]
+            if office_name:
+                if not office_name in Office:
+                    oc = conn.cursor()
+                    oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office_name,))
+                    Office[office_name] = oc.lastrowid
+                office_id = Office[office_name]
+            else:
+                office_id = None
             scheds.append(
                 {
                     'begTime': props['begTime'],
@@ -248,9 +258,6 @@ def upgrade(conn):
             ticket_ids_normal = []
             ticket_ids_cito = []
             ticket_ids_extra = []
-
-            used_cito_tickets = 0
-            used_extra_tickets = 0
 
             # Создание расписания на день
             c = conn.cursor()
