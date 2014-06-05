@@ -132,6 +132,3 @@ def upgrade(conn):
         c2.execute('''INSERT INTO rbPrintTemplate (context, code, templateText, render) VALUES ("%s", "%s", "%s", %s)''', src + [0, ])
         new_id = c2.lastrowid
         print('>> %s inserted from json as %s' % (_id, new_id))
-
-    conn.rollback()
-    sys.exit(-1)

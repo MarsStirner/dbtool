@@ -11,6 +11,8 @@ __doc__ = '''\
 Трансляция шаблонов печали
 '''
 
+MIN_SCHEMA_VERSION = 181
+
 def translate(s):
     stack = []
     stack_1 = []
