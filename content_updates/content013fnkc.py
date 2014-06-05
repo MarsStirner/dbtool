@@ -95,14 +95,15 @@ def upgrade(conn):
     c = conn.cursor()
 
     # Этот код создаёт json.gz-файл
-    # c.execute('''SELECT id, context, code, templateText FROM rbPrintTemplate WHERE valid = 1;''')
-    # result = dict((_id, (context, code, template_text)) for (_id, context, code, template_text) in c)
+    # c.execute('''SELECT id, context, code, templateText, name FROM rbPrintTemplate WHERE valid = 1;''')
+    # result = dict((_id, (context, code, template_text, name)) for (_id, context, code, template_text, name) in c)
     # with gzip.open(content_filename, 'w') as fout:
     #     fout.write(json.dumps(result, ensure_ascii=False).encode('utf-8'))
+    # sys.exit(-1)
 
     with gzip.open(content_filename, 'r') as fin:
         s = json.load(fin, encoding='utf-8')
-        concode = dict(((context, code), _id) for (_id, (context, code, text)) in s.iteritems())
+        concode = dict(((context, code), _id) for (_id, (context, code, text, name)) in s.iteritems())
         source = dict((int(key), value) for (key, value) in s.iteritems())
     c.execute('''SELECT id, context, code, templateText, render, `default` FROM rbPrintTemplate''')
     c2 = conn.cursor()
@@ -111,10 +112,10 @@ def upgrade(conn):
         if _id in source:
             src = source[_id]
             if context == src[0] and code == src[1]:
-                c2.execute('''UPDATE rbPrintTemplate SET templateText = "%s" WHERE id = %s''', (source[_id][2], _id))
+                c2.execute('''UPDATE rbPrintTemplate SET templateText = "%s" WHERE id = %s''', (src[2], _id))
                 print('%s loaded from json' % _id)
             else:
-                c2.execute('''INSERT INTO rbPrintTemplate (context, code, templateText, render) VALUES ("%s", "%s", "%s", %s)''', src + [0, ])
+                c2.execute('''INSERT INTO rbPrintTemplate (context, code, templateText, name, render) VALUES ("%s", "%s", "%s", "%s", %s)''', src + [0, ])
                 print('%s inserted from json' % _id)
             loaded_from_json.add(_id)
         elif (context, code) in concode:
@@ -129,6 +130,6 @@ def upgrade(conn):
                 print('%s copied' % _id)
     for _id in set(source.iterkeys()) - loaded_from_json:
         src = source[_id]
-        c2.execute('''INSERT INTO rbPrintTemplate (context, code, templateText, render) VALUES ("%s", "%s", "%s", %s)''', src + [0, ])
+        c2.execute('''INSERT INTO rbPrintTemplate (context, code, templateText, name, render) VALUES ("%s", "%s", "%s", "%s", %s)''', src + [0, ])
         new_id = c2.lastrowid
         print('>> %s inserted from json as %s' % (_id, new_id))
