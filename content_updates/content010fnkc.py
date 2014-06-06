@@ -112,10 +112,10 @@ def upgrade(conn):
         if _id in source:
             src = source[_id]
             if context == src[0] and code == src[1]:
-                c2.execute('''UPDATE rbPrintTemplate SET templateText = "%s" WHERE id = %s''', (src[2], _id))
+                c2.execute('''UPDATE rbPrintTemplate SET templateText = %s WHERE id = %s''', (src[2], _id))
                 print('%s loaded from json' % _id)
             else:
-                c2.execute('''INSERT INTO rbPrintTemplate (context, code, templateText, name, render) VALUES ("%s", "%s", "%s", "%s", %s)''', src + [0, ])
+                c2.execute('''INSERT INTO rbPrintTemplate (context, code, templateText, name, render) VALUES (%s, %s, %s, %s, %s)''', src + [0, ])
                 print('%s inserted from json' % _id)
             loaded_from_json.add(_id)
         elif (context, code) in concode:
@@ -123,13 +123,13 @@ def upgrade(conn):
         else:
             if render == 0:
                 new_text = translate(text)
-                c2.execute('''UPDATE rbPrintTemplate SET templateText="%s" WHERE id = %s''', (new_text, _id))
+                c2.execute('''UPDATE rbPrintTemplate SET templateText=%s WHERE id = %s''', (new_text, _id))
                 print('%s translated from standard' % _id)
             else:
-                c2.execute('''UPDATE rbPrintTemplate SET templateText="%s" WHERE id = %s''', (text, _id))
+                c2.execute('''UPDATE rbPrintTemplate SET templateText=%s WHERE id = %s''', (text, _id))
                 print('%s copied' % _id)
     for _id in set(source.iterkeys()) - loaded_from_json:
         src = source[_id]
-        c2.execute('''INSERT INTO rbPrintTemplate (context, code, templateText, name, render) VALUES ("%s", "%s", "%s", "%s", %s)''', src + [0, ])
+        c2.execute('''INSERT INTO rbPrintTemplate (context, code, templateText, name, render) VALUES (%s, %s, %s, %s, %s)''', src + [0, ])
         new_id = c2.lastrowid
         print('>> %s inserted from json as %s' % (_id, new_id))
