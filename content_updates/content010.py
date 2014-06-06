@@ -105,8 +105,8 @@ def upgrade(conn):
     for _id, context, code, templateText, render, text in c:
         if render == 0:
             new_text = translate(text)
-            c2.execute('''UPDATE rbPrintTemplate SET templateText="%s" WHERE id = %s''', (new_text, _id))
+            c2.execute('''UPDATE rbPrintTemplate SET templateText=%s WHERE id = %s''', (new_text, _id))
             print('%s translated from standard' % _id)
         else:
-            c2.execute('''UPDATE rbPrintTemplate SET templateText="%s" WHERE id = %s''', (text, _id))
+            c2.execute('''UPDATE rbPrintTemplate SET templateText=%s WHERE id = %s''', (text, _id))
             print('%s copied' % _id)
