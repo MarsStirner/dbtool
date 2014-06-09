@@ -38,13 +38,13 @@ UPDATE `rbDocumentType`
 
     c.execute(u'''
 UPDATE `rbDocumentType`
-    SET `serial_regexp` = '^\\d+ \\d+$'
+    SET `serial_regexp` = '^\\\\d+ \\\\d+$'
     WHERE `serial_format` = 2;
 ''')
 
     c.execute(u'''
 UPDATE `rbDocumentType`
-    SET `number_regexp` = '^\\d+ \\d+$'
+    SET `number_regexp` = '^\\\\d+ \\\\d+$'
     WHERE `number_format` = 2;
 ''')
 
