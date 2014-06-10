@@ -118,7 +118,7 @@ CREATE TABLE `ScheduleClientTicket` (
   `isUrgent` tinyint(1) DEFAULT NULL,
   `note` varchar(256) DEFAULT NULL COMMENT 'Примечание',
   `appointmentType_id` int(11) DEFAULT NULL,
-  `infisFrom` varchar(15) DEFAULT NULL COMMENT 'Инфис-код ЛПУ из которого произведена запись,
+  `infisFrom` varchar(15) DEFAULT NULL COMMENT 'Инфис-код ЛПУ из которого произведена запись',
   `createDatetime` datetime NOT NULL COMMENT 'Время создания записи',
   `createPerson_id` int(11) DEFAULT NULL COMMENT 'ИД сотрудника, создавшего запись',
   `modifyDatetime` datetime NOT NULL COMMENT 'Время изменения записи',
