@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `Account_AktInfo` (
 	`records_count` INT(11) NOT NULL COMMENT 'Число записей в файле',
 	PRIMARY KEY (`id`),
 	INDEX `account_aktinfo_ibfk_1` (`account_id`),
-	CONSTRAINT `account_aktinfo_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE
+	CONSTRAINT `account_aktinfo_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`) ON DELETE CASCADE
 )
 COMMENT='Данные о файлах, созданных при выгрузке счета (для печати актов приема-передачи)'
 COLLATE='utf8_unicode_ci'
