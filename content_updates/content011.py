@@ -2213,7 +2213,7 @@ AND CA.client_id = ::@clientId
     }
 	
     specialvarInsertSQL = '''INSERT INTO rbSpecialVariablesPreferences(name, query) VALUES("{0}","{1}");'''
-    variableInsertSQL = '''INSERT INTO VariablesForSQL(`specialVarName_id`, `name`, `label`, `var_type`) VALUES({0}, '{1}', '{2}', '')'''
+    variableInsertSQL = '''INSERT INTO `VariablesforSQL`(`specialVarName_id`, `name`, `label`, `var_type`) VALUES({0}, '{1}', '{2}', '')'''
     # PreSelect queries
     c.execute(specialvarInsertSQL.format('SpecialVar_getMovingActionTypeId', specialvar['SpecialVar_getMovingActionTypeId']))
 	
