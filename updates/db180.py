@@ -12,11 +12,11 @@ def upgrade(conn):
 
 #-------------------- Table Modifications -----------------------------------------------------------------------------------------------------------
     sqls = [
-	'''ALTER TABLE `Account` ADD COLUMN `begDate` DATE NOT NULL COMMENT 'Дата начала интервала за который сформирован счет' AFTER `refusedSum`;''',
-	'''ALTER TABLE `Account` ADD COLUMN `endDate` DATE NOT NULL COMMENT 'Дата конца интервала за который сформирован счет' AFTER `begDate`;''',
+	'''ALTER TABLE `Account` ADD COLUMN `begDate` DATE NOT NULL COMMENT 'Дата начала интервала' AFTER `refusedSum`;''',
+	'''ALTER TABLE `Account` ADD COLUMN `endDate` DATE NOT NULL COMMENT 'Дата конца интервала' AFTER `begDate`;''',
 	'''ALTER TABLE `Account` ADD COLUMN `note` VARCHAR(50) NOT NULL DEFAULT '' COMMENT 'Примечание' AFTER `format_id`;''',
 	'''ALTER TABLE `Account_Item` ADD COLUMN `client_id` INT NULL COMMENT 'Пациент {Client}' AFTER `serviceDate`;''',
-	'''ALTER TABLE `Account_Item` ADD COLUMN `notUploadAnymore` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Отметка не выгружать больше (1=не выгружать более)' AFTER `note`;''',
+	'''ALTER TABLE `Account_Item` ADD COLUMN `notUploadAnymore` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Отметка не выгружать больше' AFTER `note`;''',
 	'''ALTER TABLE `Contract_Tariff` ADD INDEX `service_unit_deleted` (`service_id`, `unit_id`, `deleted`);''',
 	'''ALTER TABLE `ClientContact`	ADD INDEX `client_id_deleted_contactType` (`client_id`, `deleted`, `contactType_id`);''',
 	'''ALTER TABLE `Diagnostic` ADD INDEX `event_id_deleted_diagnosisType` (`event_id`, `deleted`, `diagnosisType_id`);''',
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `Account_AktInfo` (
 	INDEX `account_aktinfo_ibfk_1` (`account_id`),
 	CONSTRAINT `account_aktinfo_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `Account` (`id`) ON DELETE CASCADE
 )
-COMMENT='Данные о файлах, созданных при выгрузке счета (для печати актов приема-передачи)'
+COMMENT=''
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB
 AUTO_INCREMENT=0;
@@ -55,7 +55,7 @@ CREATE DEFINER=%s FUNCTION `num_sunday_days`(`start_date` DATE, `end_date` DATE)
 	DETERMINISTIC
 	CONTAINS SQL
 	SQL SECURITY DEFINER
-	COMMENT 'Высчитывает количество воскресений между двумя датами (концы интервала включительно)'
+	COMMENT 'кол-во воскресений между датами'
 BEGIN
 DECLARE sundays INT;
 DECLARE stDate DATE;
@@ -98,7 +98,7 @@ CREATE DEFINER=%s FUNCTION `checkAge`(`age` VARCHAR(50), `birthDate` DATE, `chec
 	DETERMINISTIC
 	NO SQL
 	SQL SECURITY DEFINER
-	COMMENT 'Проверяет строковое представление ограничения по дате на соответствие возрасту пациента'
+	COMMENT 'Ограничение на возраст'
 BEGIN
 DECLARE RESULT TINYINT;
 SET RESULT =
