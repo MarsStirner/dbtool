@@ -51,14 +51,16 @@ WHERE ActionType_Service.service_id = rbService.id AND rbService.id != rbService
     # Удаляем данные из внутренне-зависимых таблиц
 
     c.execute(u'''
-DELETE FROM `rbServiceGroup`, rbService
+DELETE FROM `rbServiceGroup`
+USING `rbServiceGroup`, rbService
 WHERE (
   `rbServiceGroup`.group_id = rbService.id OR
   `rbServiceGroup`.service_id = rbService.id
 ) AND rbService.id != rbService.group_id
 ''')
     c.execute(u'''
-DELETE FROM `rbServiceUET`, rbService
+DELETE FROM `rbServiceUET`
+USING `rbServiceUET`, rbService
 WHERE `rbServiceUET`.rbService_id = rbService.id AND rbService.id != rbService.group_id
 ''')
 
