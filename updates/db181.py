@@ -46,8 +46,10 @@ DELETE FROM rbService WHERE id != group_id
 ''')
     c.execute(u'''
 ALTER TABLE `rbService`
-    DROP COLUMN `group_id`,
-    DROP COLUMN `idx`;
+  DROP INDEX `group_id_idx`,
+  DROP FOREIGN KEY `FK_rbService_rbService`,
+  DROP COLUMN `group_id`,
+  DROP COLUMN `idx`;
 ''')
 
     c.close()
