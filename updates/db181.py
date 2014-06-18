@@ -64,6 +64,16 @@ USING `rbServiceUET`, rbService
 WHERE `rbServiceUET`.rbService_id = rbService.id AND rbService.id != rbService.group_id
 ''')
 
+    c.execute(u'''
+DELETE FROM `rbServiceGroup`
+WHERE (
+  `rbServiceGroup`.group_id NOT IN (SELECT id FROM rbService) OR
+  `rbServiceGroup`.service_id NOT IN (SELECT id FROM rbService)
+)''')
+    c.execute(u'''
+DELETE FROM `rbServiceUET`
+WHERE `rbServiceUET`.rbService_id NOT IN (SELECT id FROM rbService)''')
+
     # Переделываем FK, ибо нехер
 
     c.execute(u'''
