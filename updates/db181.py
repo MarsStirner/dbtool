@@ -33,6 +33,12 @@ WHERE Contract_Tariff.service_id = rbService.id
 
     print(u'Храни вас Господь, если вы не делали резервное копирование БД...')
 
+    # Меняем данные в внешне-зависимых таблицах
+
+    c.execute(u'''
+UPDATE Contract_Tariff, rbService SET service_id = rbService.group_id
+WHERE Contract_Tariff.service_id = rbService.id AND rbService.id != rbService.group_id
+''')
     c.execute(u'''
 UPDATE ActionType, rbService SET service_id = rbService.group_id
 WHERE ActionType.service_id = rbService.id AND rbService.id != rbService.group_id
@@ -41,9 +47,45 @@ WHERE ActionType.service_id = rbService.id AND rbService.id != rbService.group_i
 UPDATE ActionType_Service, rbService SET service_id = rbService.group_id
 WHERE ActionType_Service.service_id = rbService.id AND rbService.id != rbService.group_id
 ''')
+
+    # Удаляем данные из внутренне-зависимых таблиц
+
+    c.execute(u'''
+DELETE FROM `rbServiceGroup`, rbService
+WHERE (
+  `rbServiceGroup`.group_id = rbService.id OR
+  `rbServiceGroup`.service_id = rbService.id
+) AND rbService.id != rbService.group_id
+''')
+    c.execute(u'''
+DELETE FROM `rbServiceUET`, rbService
+WHERE `rbServiceUET`.rbService_id = rbService.id AND rbService.id != rbService.group_id
+''')
+
+    # Переделываем FK, ибо нехер
+
+    c.execute(u'''
+ALTER TABLE `rbServiceUET`
+  DROP FOREIGN KEY `rbServiceUET_ibfk_1`;
+  ''')
+    c.execute(u'''
+ALTER TABLE `rbServiceUET`
+  ADD CONSTRAINT `rbServiceUET_ibfk_1` FOREIGN KEY (`rbService_id`) REFERENCES `rbService` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;
+''')
+    c.execute(u'''
+ALTER TABLE `rbServiceGroup`
+  ADD CONSTRAINT `FK_rbServiceGroup_rbService` FOREIGN KEY (`group_id`) REFERENCES `rbService` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_rbServiceGroup_rbService_2` FOREIGN KEY (`service_id`) REFERENCES `rbService` (`id`) ON UPDATE CASCADE ON DELETE CASCADE;
+''')
+
+    # Удаляем из rbService
+
     c.execute(u'''
 DELETE FROM rbService WHERE id != group_id
 ''')
+
+    # Дропаем более не нужные столбцы
+
     c.execute(u'''
 ALTER TABLE `rbService`
   DROP INDEX `group_id_idx`,
