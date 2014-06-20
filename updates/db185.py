@@ -12,12 +12,15 @@ def upgrade(conn):
     ALTER TABLE `Action`
         ADD COLUMN `coordPerson_id` INT(11) NULL AFTER `coordDate`,
         ADD INDEX `coord_person` (`coordPerson_id` ASC);
-        ALTER TABLE `Action`
+    '''
+    c.execute(sql)
+    sql = '''
+    ALTER TABLE `Action`
         ADD CONSTRAINT `fk_coord_person`
-          FOREIGN KEY (`coordPerson_id`)
-          REFERENCES `Person` (`id`)
-          ON DELETE NO ACTION
-          ON UPDATE NO ACTION;
+        FOREIGN KEY (`coordPerson_id`)
+        REFERENCES `Person` (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION;
     '''
     c.execute(sql)
 
