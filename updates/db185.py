@@ -25,8 +25,8 @@ def downgrade(conn):
     c = conn.cursor()
     sql = '''
     ALTER TABLE `Action`
-        DROP INDEX `coord_person`,
         DROP FOREIGN KEY `fk_coord_person`,
+        DROP INDEX `coord_person`,
         DROP COLUMN `coordPerson_id`;
     '''
     c.execute(sql)
