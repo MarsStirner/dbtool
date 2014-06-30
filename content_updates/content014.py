@@ -31,7 +31,7 @@ def upgrade(conn):
 
     create_ticket = """
     INSERT INTO ScheduleTicket (createDatetime, createPerson_id, modifyDatetime, modifyPerson_id, schedule_id,
-    begDateTime, endDatetime, attendanceType_id)
+    begTime, endTime, attendanceType_id)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
 
@@ -284,7 +284,7 @@ def upgrade(conn):
                 begDateTime = dt + t
                 endDateTime = dt + (sched['times'][i + 1] if i < len(sched['times']) - 1 else sched['endTime'])
                 c.execute(create_ticket, (
-                    cdt, cpid, mdt, mpid, schedule_id, begDateTime, endDateTime,
+                    cdt, cpid, mdt, mpid, schedule_id, begDateTime.time(), endDateTime.time(),
                     rbAttendanceType.get('planned')
                 ))
                 ticket_ids_normal.append(c.lastrowid)

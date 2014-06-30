@@ -11,6 +11,7 @@ __doc__ = '''\
 def upgrade(conn):
     global tools
     c = conn.cursor()
+    c.execute('''SET foreign_key_checks=0;''')
     names = [
         'Action', 'Time', 'String', 'Date', 'Double', 'FDRecord', 'HospitalBed', 'HospitalBedProfile',
         'Image', 'ImageMap', 'Integer', 'Job_Ticket', 'MKB', 'Organisation', 'OrgStructure', 'OtherLPURecord',
@@ -29,4 +30,5 @@ DELETE FROM ActionProperty WHERE action_id NOT IN (SELECT id FROM Action)
     for name in names:
         affected = c.execute(sql_delete_ap_val % name)
         print(name, affected)
+    c.execute('''SET foreign_key_checks=1;''')
     c.close()
