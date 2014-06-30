@@ -8,7 +8,7 @@ __doc__ = '''\
 Миграция расписания (с Event-Action-Properties на Schedule-Ticket)
 '''
 
-MIN_SCHEMA_VERSION = 180
+MIN_SCHEMA_VERSION = 200
 
 def all_in(who, where):
     return all((i in where) for i in who)
