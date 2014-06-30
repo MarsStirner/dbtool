@@ -6,7 +6,7 @@ __doc__ = '''\
 Данные для справочников, связанных с расписанием врача
 '''
 
-MIN_SCHEMA_VERSION = 180
+MIN_SCHEMA_VERSION = 186
 
 def upgrade(conn):
     c = conn.cursor()
