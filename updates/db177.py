@@ -13,6 +13,7 @@ def upgrade(conn):
     c = conn.cursor()
     
     sqls = [
+        u'''UPDATE DrugChart SET `statusDateTime` = NULL WHERE `statusDateTime` = 0''',
         u'''ALTER TABLE `DrugChart`
             CHANGE COLUMN `statusDateTime` `statusDateTime` DATETIME NULL DEFAULT NULL AFTER `status`''',
         u'''ALTER TABLE `Pharmacy` CHANGE COLUMN `status` `status` 
