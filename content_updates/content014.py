@@ -169,7 +169,7 @@ def upgrade(conn):
             if office1_name:
                 if not office1_name in Office:
                     oc = conn.cursor()
-                    oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office1_name,))
+                    oc.execute('INSERT INTO Office (`code`, `name`) VALUES (%s, "")', (office1_name,))
                     Office[office1_name] = oc.lastrowid
                 office1_id = Office[office1_name]
             else:
@@ -179,7 +179,7 @@ def upgrade(conn):
             if office2_name:
                 if not office2_name in Office:
                     oc = conn.cursor()
-                    oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office2_name,))
+                    oc.execute('INSERT INTO Office (`code`, `name`) VALUES (%s, "")', (office2_name,))
                     Office[office2_name] = oc.lastrowid
                 office2_id = Office[office2_name]
             else:
@@ -225,7 +225,7 @@ def upgrade(conn):
             if office_name:
                 if not office_name in Office:
                     oc = conn.cursor()
-                    oc.execute('INSERT INTO Office (`code`) VALUES (%s)', (office_name,))
+                    oc.execute('INSERT INTO Office (`code`, `name`) VALUES (%s, "")', (office_name,))
                     Office[office_name] = oc.lastrowid
                 office_id = Office[office_name]
             else:
