@@ -11,321 +11,1263 @@ def upgrade(conn):
     c = conn.cursor()
 
     sql = '''
-INSERT INTO `ActionPropertyType` (`id`, `deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+INSERT INTO `LayoutAttribute` (`title`, `description`, `code`, `typeName`, `measure`, `defaultValue`)
 VALUES
-	(3912534, 0, 4218, 54, NULL, 'Данные об инфекционных осложнениях', '', NULL, 'String', '\'\'', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912536, 0, 4218, 55, NULL, 'Инфекционные осложнения', '', NULL, 'String', 'Да, Нет', '', 'isInfect', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912537, 0, 4218, 56, NULL, 'Дата начала осложнения', '', NULL, 'Date', '', '', 'infectBeginDate', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781),
-	(3912538, 0, 4218, 57, NULL, 'Дата окончания осложнения', '', NULL, 'Date', '', '', 'infectEndDate', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781),
-	(3912544, 0, 4218, 58, NULL, 'Тип инфекции', '', NULL, 'String', '', '', 'infectType', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912545, 0, 4218, 59, NULL, 'Лихорадка неясного генеза', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912546, 0, 4218, 60, NULL, 'Бактериемия', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912547, 0, 4218, 61, NULL, 'Сепсис', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912548, 0, 4218, 62, NULL, 'Септический шок', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912549, 0, 4218, 63, NULL, 'Локальная инфекция', '', NULL, 'String', 'Да, Нет', '', 'infectLocal', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912550, 0, 4218, 69, NULL, 'Документированная инфекция', '', NULL, 'Html', '', '', 'infectDocumental', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912551, 0, 4218, 70, NULL, 'Локализация', '', NULL, 'String', '\'\'', '', 'infectLocalisation', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912552, 0, 4218, 71, NULL, 'ЦНС', '', NULL, 'String', '', '', 'infectCNS', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912553, 0, 4218, 72, NULL, 'Абсцесс головного мозга', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912554, 0, 4218, 73, NULL, 'Менингит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912555, 0, 4218, 74, NULL, 'Менингоэнцефалит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912556, 0, 4218, 75, NULL, 'Энцефалит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912557, 0, 4218, 76, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912558, 0, 4218, 77, NULL, 'Глаз', '', NULL, 'String', '', '', 'infectEye', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912559, 0, 4218, 78, NULL, 'Коньюнктивит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912560, 0, 4218, 79, NULL, 'Воспаление параорбитальной клетчатки', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912561, 0, 4218, 80, NULL, 'Блефарит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912562, 0, 4218, 81, NULL, 'Хореоретинит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912563, 0, 4218, 82, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912564, 0, 4218, 83, NULL, 'Кожа и мягкие ткани (включая место стояния ЦВК)', '', NULL, 'String', '', '', 'infectSkin', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912565, 0, 4218, 84, NULL, 'Нетяжелые инфекции кожи и мягких тканей (панариций, фурункул)', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912566, 0, 4218, 85, NULL, 'Тяжелые инфекции кожи и мягких тканей (целлюлит, абсцесс, некроз)', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912567, 0, 4218, 86, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912575, 0, 4218, 87, NULL, 'Слизистые', '', NULL, 'String', '', '', 'infectMucous', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912576, 0, 4218, 88, NULL, 'Мукозит 1-2 ст', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912577, 0, 4218, 89, NULL, 'Мукозит 3-4 ст', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912578, 0, 4218, 90, NULL, 'Эзофагит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912579, 0, 4218, 91, NULL, 'Гингивит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912580, 0, 4218, 92, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912581, 0, 4218, 93, NULL, 'ЛОР', '', NULL, 'String', '', '', 'infectLOR', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912582, 0, 4218, 94, NULL, 'Ринит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912583, 0, 4218, 95, NULL, 'Тонзиллит/фарингит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912584, 0, 4218, 96, NULL, 'Отит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912585, 0, 4218, 97, NULL, 'Поражение ППН', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912586, 0, 4218, 98, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912587, 0, 4218, 99, NULL, 'Легкие', '', NULL, 'String', '', '', 'infectLungs', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912588, 0, 4218, 100, NULL, 'Бронхит/бронхопневмония', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912589, 0, 4218, 101, NULL, 'Интерстициальная пневмония', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912590, 0, 4218, 102, NULL, 'Очаговая/долевая пневмония', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912591, 0, 4218, 103, NULL, 'Плеврит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912592, 0, 4218, 104, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912593, 0, 4218, 105, NULL, 'Сердце', '', NULL, 'String', '', '', 'infectHeart', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912594, 0, 4218, 106, NULL, 'Перикардит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912595, 0, 4218, 107, NULL, 'Миоардит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912596, 0, 4218, 108, NULL, 'Эндокардит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912597, 0, 4218, 109, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912598, 0, 4218, 110, NULL, 'Брюшная полость', '', NULL, 'String', '', '', 'infectAbdomen', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912599, 0, 4218, 111, NULL, 'Гастрит/гастродуоденит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912600, 0, 4218, 112, NULL, 'Панкреатит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912601, 0, 4218, 113, NULL, 'Холецистит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912602, 0, 4218, 114, NULL, 'Гепатит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912603, 0, 4218, 115, NULL, 'Гепато-лиенальный кандидоз', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912604, 0, 4218, 116, NULL, 'Абсцесс', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912605, 0, 4218, 117, NULL, 'Энтероколит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912606, 0, 4218, 118, NULL, 'Тифлит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912607, 0, 4218, 119, NULL, 'Аппендицит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912608, 0, 4218, 120, NULL, 'Перитонит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912609, 0, 4218, 121, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912610, 0, 4218, 122, NULL, 'Мочеполовая система', '', NULL, 'String', '', '', 'infectUrogenital', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912611, 0, 4218, 123, NULL, 'Гломерулонефрит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912612, 0, 4218, 124, NULL, 'Пиелонефрит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912613, 0, 4218, 125, NULL, 'Цистит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912614, 0, 4218, 126, NULL, 'Уретрит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912615, 0, 4218, 127, NULL, 'Эндометрит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912616, 0, 4218, 128, NULL, 'Аднексит (тубоовариальный абсцесс)', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912617, 0, 4218, 129, NULL, 'Вульвовагинит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912618, 0, 4218, 130, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912619, 0, 4218, 131, NULL, 'Костно-мышечная система', '', NULL, 'String', '', '', 'infectMusculoskeletal', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912620, 0, 4218, 132, NULL, 'Остеомиелит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912621, 0, 4218, 133, NULL, 'Миозит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912622, 0, 4218, 134, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912623, 0, 4218, 135, NULL, 'Противоинфекционная терапия', '', NULL, 'String', '\'\'', '', '', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912624, 0, 4218, 136, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912625, 0, 4218, 64, NULL, 'Этиология', '', NULL, 'String', '', '', 'infectEtiology', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912626, 0, 4218, 65, NULL, 'Бактериальная', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912627, 0, 4218, 66, NULL, 'Грибковая', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912628, 0, 4218, 67, NULL, 'Вирусная', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912629, 0, 4218, 68, NULL, 'Неясной этиологии', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781),
-	(3912630, 0, 4218, 137, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectDrugName', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781),
-	(3912631, 0, 4218, 138, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectDrugBeginDate', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781),
-	(3912632, 0, 4218, 139, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectDrugEndDate', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+	('Нераскрываемая вертикальная группа', '', 'NONTOGGLABLE', 'String', 'string', 'false');
 '''
     c.execute(sql)
 
-    sql = '''
-INSERT INTO `LayoutAttribute` (`id`, `title`, `description`, `code`, `typeName`, `measure`, `defaultValue`)
+    groupAttrId = c.lastrowid
+
+	sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
-	(107, 'Нераскрываемая вертикальная группа', '', 'NONTOGGLABLE', 'String', 'string', 'false');
-'''
-    c.execute(sql)
+	(0, 4218, 54, NULL, 'Данные об инфекционных осложнениях', '', NULL, 'String', '\'\'', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+    	INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 67, 'true'),
+			(%s, 10, '12'),
+			(%s, 76, 'false'),
+			(%s, 77, ''),
+			(%s, 80, 'false'),
+			(%s, 81, ''),
+			(%s, 9, '35');
+    	''', (actionPropertyTypeId))
 
     sql = '''
-INSERT INTO `LayoutAttributeValue` (`id`, `actionPropertyType_id`, `layoutAttribute_id`, `value`)
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
-	(12262, 3912534, 67, 'true'),
-	(12265, 3912536, 10, '3'),
-	(12271, 3912534, 10, '12'),
-	(12272, 3912534, 76, 'false'),
-	(12273, 3912534, 77, ''),
-	(12274, 3912534, 80, 'false'),
-	(12275, 3912534, 81, ''),
-	(12276, 3912534, 9, '35'),
-	(12277, 3912537, 23, '3'),
-	(12279, 3912538, 23, '3'),
-	(12280, 3912624, 9, '100'),
-	(12281, 3912537, 22, '36'),
-	(12282, 3912538, 22, '36'),
-	(12297, 3912544, 9, '37'),
-	(12298, 3912544, 67, 'true'),
-	(12299, 3912544, 76, 'true'),
-	(12300, 3912544, 77, '5'),
-	(12301, 3912545, 9, '38'),
-	(12302, 3912545, 11, '3'),
-	(12303, 3912544, 107, 'true'),
-	(12305, 3912546, 9, '39'),
-	(12306, 3912546, 11, '3'),
-	(12307, 3912547, 9, '40'),
-	(12308, 3912547, 11, '3'),
-	(12309, 3912548, 9, '41'),
-	(12310, 3912548, 11, '3'),
-	(12311, 3912549, 9, '42'),
-	(12312, 3912549, 11, '3'),
-	(12314, 3912550, 68, '43'),
-	(12315, 3912550, 69, '5'),
-	(12316, 3912551, 9, '44'),
-	(12317, 3912551, 67, 'true'),
-	(12318, 3912552, 9, '45'),
-	(12319, 3912552, 67, 'true'),
-	(12320, 3912552, 76, 'true'),
-	(12323, 3912552, 77, '4'),
-	(12324, 3912552, 10, '5'),
-	(12325, 3912553, 11, '5'),
-	(12326, 3912553, 9, '46'),
-	(12327, 3912554, 9, '47'),
-	(12328, 3912554, 11, '5'),
-	(12329, 3912555, 9, '48'),
-	(12330, 3912555, 11, '5'),
-	(12331, 3912556, 9, '49'),
-	(12332, 3912556, 11, '5'),
-	(12333, 3912557, 9, '45'),
-	(12337, 3912557, 10, '5'),
-	(12339, 3912558, 9, '50'),
-	(12340, 3912558, 10, '5'),
-	(12341, 3912558, 67, 'true'),
-	(12342, 3912558, 76, 'true'),
-	(12343, 3912558, 77, '4'),
-	(12344, 3912559, 9, '51'),
-	(12345, 3912559, 11, '5'),
-	(12346, 3912560, 9, '52'),
-	(12347, 3912560, 11, '5'),
-	(12348, 3912561, 9, '53'),
-	(12349, 3912561, 11, '5'),
-	(12350, 3912562, 9, '54'),
-	(12351, 3912562, 11, '5'),
-	(12352, 3912563, 9, '50'),
-	(12353, 3912563, 10, '5'),
-	(12354, 3912564, 9, '55'),
-	(12355, 3912564, 10, '6'),
-	(12356, 3912564, 67, 'true'),
-	(12357, 3912564, 76, 'true'),
-	(12358, 3912564, 77, '2'),
-	(12359, 3912565, 9, '56'),
-	(12361, 3912566, 9, '57'),
-	(12363, 3912567, 9, '55'),
-	(12364, 3912567, 10, '5'),
-	(12365, 3912566, 10, '6'),
-	(12366, 3912565, 10, '6'),
-	(12384, 3912575, 9, '58'),
-	(12385, 3912575, 10, '5'),
-	(12386, 3912575, 67, 'true'),
-	(12387, 3912575, 77, '4'),
-	(12388, 3912575, 76, 'true'),
-	(12389, 3912576, 9, '59'),
-	(12390, 3912576, 10, '5'),
-	(12391, 3912577, 9, '60'),
-	(12392, 3912577, 10, '5'),
-	(12393, 3912578, 9, '61'),
-	(12394, 3912578, 10, '5'),
-	(12395, 3912579, 9, '62'),
-	(12396, 3912579, 10, '5'),
-	(12397, 3912580, 9, '58'),
-	(12398, 3912580, 10, '5'),
-	(12399, 3912581, 9, '63'),
-	(12400, 3912581, 10, '5'),
-	(12401, 3912581, 67, 'true'),
-	(12402, 3912581, 76, 'true'),
-	(12403, 3912581, 77, '4'),
-	(12404, 3912582, 9, '64'),
-	(12405, 3912582, 10, '5'),
-	(12406, 3912583, 9, '65'),
-	(12407, 3912583, 10, '5'),
-	(12408, 3912584, 9, '66'),
-	(12409, 3912584, 10, '5'),
-	(12410, 3912585, 9, '67'),
-	(12411, 3912585, 10, '5'),
-	(12412, 3912586, 9, '63'),
-	(12413, 3912586, 10, '5'),
-	(12414, 3912587, 9, '68'),
-	(12415, 3912587, 10, '5'),
-	(12416, 3912587, 67, 'true'),
-	(12417, 3912587, 76, 'true'),
-	(12418, 3912587, 77, '4'),
-	(12419, 3912588, 9, '69'),
-	(12420, 3912588, 10, '5'),
-	(12421, 3912589, 9, '70'),
-	(12422, 3912589, 10, '5'),
-	(12423, 3912590, 9, '71'),
-	(12424, 3912590, 10, '5'),
-	(12425, 3912591, 9, '72'),
-	(12426, 3912591, 10, '5'),
-	(12427, 3912592, 9, '68'),
-	(12428, 3912592, 10, '5'),
-	(12429, 3912593, 9, '73'),
-	(12430, 3912593, 10, '5'),
-	(12431, 3912593, 67, 'true'),
-	(12432, 3912593, 76, 'true'),
-	(12433, 3912593, 77, '3'),
-	(12434, 3912594, 9, '74'),
-	(12435, 3912594, 10, '5'),
-	(12436, 3912595, 9, '75'),
-	(12437, 3912595, 10, '5'),
-	(12438, 3912596, 9, '76'),
-	(12439, 3912596, 10, '5'),
-	(12440, 3912597, 9, '73'),
-	(12441, 3912597, 10, '5'),
-	(12442, 3912598, 9, '77'),
-	(12443, 3912598, 10, '5'),
-	(12444, 3912598, 67, 'true'),
-	(12445, 3912598, 76, 'true'),
-	(12446, 3912598, 77, '10'),
-	(12447, 3912599, 9, '78'),
-	(12448, 3912599, 10, '5'),
-	(12449, 3912600, 9, '79'),
-	(12450, 3912600, 10, '5'),
-	(12451, 3912601, 9, '80'),
-	(12452, 3912601, 10, '5'),
-	(12453, 3912602, 9, '81'),
-	(12454, 3912602, 10, '5'),
-	(12455, 3912603, 9, '82'),
-	(12456, 3912603, 10, '5'),
-	(12457, 3912604, 9, '83'),
-	(12458, 3912604, 10, '5'),
-	(12459, 3912605, 9, '84'),
-	(12460, 3912605, 10, '5'),
-	(12461, 3912606, 9, '85'),
-	(12462, 3912606, 10, '5'),
-	(12463, 3912607, 9, '86'),
-	(12464, 3912607, 10, '5'),
-	(12465, 3912608, 9, '87'),
-	(12466, 3912608, 10, '5'),
-	(12467, 3912609, 9, '77'),
-	(12468, 3912609, 10, '5'),
-	(12469, 3912610, 9, '88'),
-	(12470, 3912610, 10, '5'),
-	(12471, 3912610, 67, 'true'),
-	(12472, 3912610, 76, 'true'),
-	(12473, 3912610, 77, '7'),
-	(12474, 3912611, 9, '89'),
-	(12475, 3912611, 10, '5'),
-	(12476, 3912612, 9, '90'),
-	(12477, 3912612, 10, '5'),
-	(12478, 3912613, 9, '91'),
-	(12479, 3912613, 10, '5'),
-	(12480, 3912614, 9, '92'),
-	(12481, 3912614, 10, '5'),
-	(12482, 3912615, 9, '93'),
-	(12483, 3912615, 10, '5'),
-	(12484, 3912616, 9, '94'),
-	(12485, 3912616, 10, '5'),
-	(12486, 3912617, 9, '95'),
-	(12487, 3912617, 10, '5'),
-	(12488, 3912618, 9, '88'),
-	(12489, 3912618, 10, '5'),
-	(12490, 3912619, 9, '96'),
-	(12492, 3912619, 10, '5'),
-	(12493, 3912619, 67, 'true'),
-	(12494, 3912619, 76, 'true'),
-	(12495, 3912619, 77, '2'),
-	(12496, 3912620, 9, '97'),
-	(12497, 3912620, 10, '5'),
-	(12498, 3912621, 9, '98'),
-	(12499, 3912621, 10, '5'),
-	(12500, 3912622, 9, '96'),
-	(12501, 3912622, 10, '5'),
-	(12502, 3912623, 9, '99'),
-	(12503, 3912623, 67, 'true'),
-	(12504, 3912536, 9, '36'),
-	(12505, 3912624, 10, '4'),
-	(12506, 3912625, 9, '37'),
-	(12507, 3912625, 67, 'true'),
-	(12508, 3912625, 76, 'true'),
-	(12509, 3912625, 77, '4'),
-	(12510, 3912625, 107, 'true'),
-	(12511, 3912626, 9, '38'),
-	(12512, 3912626, 11, '3'),
-	(12513, 3912627, 9, '39'),
-	(12514, 3912627, 11, '3'),
-	(12515, 3912628, 9, '40'),
-	(12516, 3912628, 11, '3'),
-	(12517, 3912629, 9, '41'),
-	(12518, 3912629, 11, '3'),
-	(12519, 3912630, 9, '101'),
-	(12520, 3912630, 10, '4'),
-	(12521, 3912631, 22, '101'),
-	(12522, 3912631, 23, '3'),
-	(12523, 3912632, 22, '101'),
-	(12524, 3912632, 23, '3');
-'''
-    c.execute(sql)
+	(0, 4218, 55, NULL, 'Инфекционные осложнения', '', NULL, 'String', 'Да, Нет', '', 'isInfect', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+    	INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '36'),
+			(%s, 10, '3');
+
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 56, NULL, 'Дата начала осложнения', '', NULL, 'Date', '', '', 'infectBeginDate', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+    	INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 23, '3'),
+			(%s, 22, '36');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 57, NULL, 'Дата окончания осложнения', '', NULL, 'Date', '', '', 'infectEndDate', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 23, '3'),
+			(%s, 22, '36');
+
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 58, NULL, 'Тип инфекции', '', NULL, 'String', '', '', 'infectType', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '37'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '5'),
+			(%s, 107, 'true');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 59, NULL, 'Лихорадка неясного генеза', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+    	INSERT INTO `LayoutAttributeValue` (`id`, `actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '38'),
+			(%s, 11, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 60, NULL, 'Бактериемия', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '39'),
+			(%s, 11, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 61, NULL, 'Сепсис', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '40'),
+			(%s, 11, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 62, NULL, 'Септический шок', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '41'),
+			(%s, 11, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 63, NULL, 'Локальная инфекция', '', NULL, 'String', 'Да, Нет', '', 'infectLocal', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '42'),
+			(%s, 11, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 69, NULL, 'Документированная инфекция', '', NULL, 'Html', '', '', 'infectDocumental', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 68, '43'),
+			(%s, 69, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 70, NULL, 'Локализация', '', NULL, 'String', '\'\'', '', 'infectLocalisation', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '44'),
+			(%s, 67, 'true');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 71, NULL, 'ЦНС', '', NULL, 'String', '', '', 'infectCNS', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '45'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '4'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 72, NULL, 'Абсцесс головного мозга', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 11, '5'),
+			(%s, 9, '46');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 73, NULL, 'Менингит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '47'),
+			(%s, 11, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 74, NULL, 'Менингоэнцефалит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '48'),
+			(%s, 11, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 75, NULL, 'Энцефалит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '49'),
+			(%s, 11, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 76, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '45'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 77, NULL, 'Глаз', '', NULL, 'String', '', '', 'infectEye', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '50'),
+			(%s, 10, '5'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '4');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 78, NULL, 'Коньюнктивит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '51'),
+			(%s, 11, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 79, NULL, 'Воспаление параорбитальной клетчатки', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '52'),
+			(%s, 11, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 80, NULL, 'Блефарит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '53'),
+			(%s, 11, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 81, NULL, 'Хореоретинит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '54'),
+			(%s, 11, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 82, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '50'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 83, NULL, 'Кожа и мягкие ткани (включая место стояния ЦВК)', '', NULL, 'String', '', '', 'infectSkin', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '55'),
+			(%s, 10, '6'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '2');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 84, NULL, 'Нетяжелые инфекции кожи и мягких тканей (панариций, фурункул)', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '56'),
+			(%s, 10, '6');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 85, NULL, 'Тяжелые инфекции кожи и мягких тканей (целлюлит, абсцесс, некроз)', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '57'),
+			(%s, 10, '6');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 86, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '55'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 87, NULL, 'Слизистые', '', NULL, 'String', '', '', 'infectMucous', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '58'),
+			(%s, 10, '5'),
+			(%s, 67, 'true'),
+			(%s, 77, '4'),
+			(%s, 76, 'true');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 88, NULL, 'Мукозит 1-2 ст', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '59'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 89, NULL, 'Мукозит 3-4 ст', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '60'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 90, NULL, 'Эзофагит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '61'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 91, NULL, 'Гингивит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '62'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 92, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '58'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 93, NULL, 'ЛОР', '', NULL, 'String', '', '', 'infectLOR', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '63'),
+			(%s, 10, '5'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '4');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 94, NULL, 'Ринит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '64'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 95, NULL, 'Тонзиллит/фарингит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '65'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 96, NULL, 'Отит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '66'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 97, NULL, 'Поражение ППН', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '67'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 98, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '63'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 99, NULL, 'Легкие', '', NULL, 'String', '', '', 'infectLungs', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '68'),
+			(%s, 10, '5'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '4');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 100, NULL, 'Бронхит/бронхопневмония', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '69'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+IINSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 101, NULL, 'Интерстициальная пневмония', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '70'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 102, NULL, 'Очаговая/долевая пневмония', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '71'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 103, NULL, 'Плеврит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '72'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 104, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '68'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 105, NULL, 'Сердце', '', NULL, 'String', '', '', 'infectHeart', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '73'),
+			(%s, 10, '5'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 106, NULL, 'Перикардит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '74'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 107, NULL, 'Миоардит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '75'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 108, NULL, 'Эндокардит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '76'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 109, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '73'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 110, NULL, 'Брюшная полость', '', NULL, 'String', '', '', 'infectAbdomen', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '77'),
+			(%s, 10, '5'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '10');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 111, NULL, 'Гастрит/гастродуоденит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '78'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 112, NULL, 'Панкреатит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '79'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 113, NULL, 'Холецистит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '80'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 114, NULL, 'Гепатит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '81'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 115, NULL, 'Гепато-лиенальный кандидоз', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '82'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 116, NULL, 'Абсцесс', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '83'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 117, NULL, 'Энтероколит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '84'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 118, NULL, 'Тифлит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '85'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 119, NULL, 'Аппендицит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '86'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 120, NULL, 'Перитонит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '87'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 121, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '77'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 122, NULL, 'Мочеполовая система', '', NULL, 'String', '', '', 'infectUrogenital', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '88'),
+			(%s, 10, '5'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '7');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 123, NULL, 'Гломерулонефрит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '89'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 124, NULL, 'Пиелонефрит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '90'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 125, NULL, 'Цистит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '91'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 126, NULL, 'Уретрит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '92'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 127, NULL, 'Эндометрит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '93'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 128, NULL, 'Аднексит (тубоовариальный абсцесс)', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '94'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 129, NULL, 'Вульвовагинит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '95'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 130, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '88'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 131, NULL, 'Костно-мышечная система', '', NULL, 'String', '', '', 'infectMusculoskeletal', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '96'),
+			(%s, 10, '5'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '2');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 132, NULL, 'Остеомиелит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '97'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 133, NULL, 'Миозит', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '98'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 134, NULL, 'При отсутствии нужного диагноза напишите комментарий', '', NULL, 'String', '', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '96'),
+			(%s, 10, '5');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 135, NULL, 'Противоинфекционная терапия', '', NULL, 'String', '\'\'', '', '', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+VALUES
+	(%s, 9, '99'),
+	(%s, 67, 'true');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 136, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 10, '4'),
+			(%s, 9, '100');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 64, NULL, 'Этиология', '', NULL, 'String', '', '', 'infectEtiology', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '37'),
+			(%s, 67, 'true'),
+			(%s, 76, 'true'),
+			(%s, 77, '4'),
+			(%s, %s, 'true');
+    	''', (actionPropertyTypeId, groupAttrId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 65, NULL, 'Бактериальная', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '38'),
+			(%s, 11, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 66, NULL, 'Грибковая', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '39'),
+			(%s, 11, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 67, NULL, 'Вирусная', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '40'),
+			(%s, 11, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 68, NULL, 'Неясной этиологии', '', NULL, 'String', 'Да, Нет', '', NULL, 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '41'),
+			(%s, 11, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 137, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectDrugName', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 9, '101'),
+			(%s, 10, '4');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 138, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectDrugBeginDate', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 22, '101'),
+			(%s, 23, '3');
+    	''', (actionPropertyTypeId))
+
+    sql = '''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+	(0, 4218, 139, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectDrugEndDate', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+	c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+		INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+		VALUES
+			(%s, 22, '101'),
+			(%s, 23, '3');
+    	''', (actionPropertyTypeId))
+
 
     c.close()
