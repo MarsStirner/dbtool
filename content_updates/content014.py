@@ -9,7 +9,6 @@ __doc__ = '''\
 def upgrade(conn):
     global config
     c = conn.cursor()
-
     sql = '''
 UPDATE ActionPropertyType SET valueDomain = ',Профилактика,Эмпирическая,Целенаправленная' WHERE code = 'infectTherapyType';
 '''
