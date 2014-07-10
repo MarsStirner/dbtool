@@ -15,6 +15,10 @@ def all_in(who, where):
 
 
 def upgrade(conn):
+    # import pprint
+    # reasons = open('why.txt', 'wt')
+    # pp = pprint.PrettyPrinter(indent=4, stream=reasons)
+
     import datetime
 
     create_schedule = """
@@ -40,6 +44,16 @@ def upgrade(conn):
     ticket_id, appointmentType_id, infisFrom, deleted)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
+
+    def get_office_id(office_name):
+        if office_name:
+            if not office_name in Office:
+                oc = conn.cursor()
+                oc.execute('INSERT INTO Office (`code`, `name`) VALUES (%s, "")', (office_name,))
+                Office[office_name] = oc.lastrowid
+            return Office[office_name]
+
+
 
     # Предзагрузка справочников:
     c = conn.cursor()
@@ -132,7 +146,7 @@ def upgrade(conn):
                 result = list(ap_val_cursor)
                 if result:
                     props[ap_name] = result[0][0]
-            elif ap_name == 'reasonOfAbsence':  # Записи на прём
+            elif ap_name == 'reasonOfAbsence':  # Причины отсутствия
                 if ap_val_cursor.execute("""
                     SELECT ActionProperty_rbReasonOfAbsence.value
                     FROM ActionProperty_rbReasonOfAbsence
@@ -144,115 +158,72 @@ def upgrade(conn):
         # В одном расписании старого типа может быть 2 расписания нового
         scheds = []
 
-        if all_in(('begTime1', 'endTime1', 'begTime2', 'endTime2', 'times'), props):
-            times = props['times']
-            queue = props.get('queue', [])
-            times1 = [p for p in times if props['begTime1'] <= p < props['endTime1']]
-            times2 = [p for p in times if props['begTime2'] <= p < props['endTime2']]
-            queue1 = []
-            queue2 = []
-            cito = [p for p in queue if p[4] == 1]
-            extra = []
-            cito_count = len(cito)
-            for p in queue:
-                if p[7] and p[4] == 0 and 0 <= p[1] - cito_count < len(times):
-
-                    if 0 <= p[1] - cito_count < len(times1):
-                        queue1.append((p, p[1] - len(cito)))
-
-                    elif len(times1) <= p[1] - cito_count < len(times):
-                        queue2.append((p, p[1] - len(cito) - len(times1)))
-
-                elif p[4] != 1 and (not p[7] or p[1] - len(cito) >= len(times)):
-                    extra.append(p)
-            office1_name = props.get('office1')
-            if office1_name:
-                if not office1_name in Office:
-                    oc = conn.cursor()
-                    oc.execute('INSERT INTO Office (`code`, `name`) VALUES (%s, "")', (office1_name,))
-                    Office[office1_name] = oc.lastrowid
-                office1_id = Office[office1_name]
-            else:
-                office1_id = None
-
-            office2_name = props.get('office2')
-            if office2_name:
-                if not office2_name in Office:
-                    oc = conn.cursor()
-                    oc.execute('INSERT INTO Office (`code`, `name`) VALUES (%s, "")', (office2_name,))
-                    Office[office2_name] = oc.lastrowid
-                office2_id = Office[office2_name]
-            else:
-                office2_id = None
-
-            scheds.extend([
-                {
-                    'begTime': props['begTime1'],
-                    'endTime': props['endTime1'],
-                    'office': office1_id,
-                    'times': times1,
-                    'queue': queue1,
-                    'cito': cito,
-                    'extra': extra,
-                    'max_cito': max_cito,
-                    'max_extra': max_extra,
-                }, {
-                    'begTime': props['begTime2'],
-                    'endTime': props['endTime2'],
-                    'office': office2_id,
-                    'times': times2,
-                    'queue': queue2,
-                    'cito': [],
-                    'extra': [],
-                    'max_cito': 0,
-                    'max_extra': 0,
-                }
-            ])
-            sys.stdout.write('*')
-        elif all_in(('begTime', 'endTime', 'times'), props):
-            # Заполняется _одно_ расписание на день
-            office_name = props.get('office')
-            times = props['times']
-            q = props.get('queue', [])
-            cito = [p for p in q if p[4] == 1]
-            extra = []
-            queue = []
-            for p in q:
-                if p[7] and p[4] == 0 and 0 <= p[1] - len(cito) < len(times):
-                    queue.append((p, p[1] - len(cito)))
-                elif p[4] != 1 and (not p[7] or p[1] - len(cito) >= len(times)):
-                    extra.append(p)
-            if office_name:
-                if not office_name in Office:
-                    oc = conn.cursor()
-                    oc.execute('INSERT INTO Office (`code`, `name`) VALUES (%s, "")', (office_name,))
-                    Office[office_name] = oc.lastrowid
-                office_id = Office[office_name]
-            else:
-                office_id = None
-            scheds.append(
-                {
-                    'begTime': props['begTime'],
-                    'endTime': props['endTime'],
-                    'office': office_id,
-                    'times': times,
-                    'queue': queue,
-                    'cito': cito,
-                    'extra': extra,
-                    'max_cito': max_cito,
-                    'max_extra': max_extra,
-                }
-            )
-            sys.stdout.write('+')
-        elif 'reasonOfAbsence' in props:
+        if 'reasonOfAbsence' in props:
             scheds.append({
                 'reasonOfAbsence': props['reasonOfAbsence']
             })
-            sys.stdout.write('>')
+            sys.stdout.write(b'>')
+        elif 'times' in props:
+            times = props['times']
+            queue = props.get('queue', [])
+            cito = [p for p in queue if p[4] == 1]
+            len_cito = len(cito)
+            len_times = len(times)
+            extra = [p for p in queue if p[4] != 1 and (not p[7] or p[1] - len_cito >= len_times)]
+            normal = [p for p in queue if p[7] and p[4] == 0 and 0 <= p[1] - len_cito < len_times]
+            if all_in(('begTime1', 'endTime1', 'begTime2', 'endTime2'), props):
+                intervals = [
+                    (props['begTime1'], props['endTime1'], props.get('office1')),
+                    (props['begTime2'], props['endTime2'], props.get('office2'))
+                ]
+                intervals.sort(key=lambda (beg, end, office): beg)
+                if intervals[0][0] <= intervals[1][0] <= intervals[0][1]:
+                    #  Объединение интервалов, ибо пересеклись
+                    intervals = [(
+                        min(intervals[0][0], intervals[1][0]),
+                        max(intervals[0][1], intervals[1][1]),
+                        intervals[0][2]
+                    )]
+                    sys.stdout.write(b'M')
+                else:
+                    sys.stdout.write(b'*')
+            elif all_in(('begTime', 'endTime'), props):
+                intervals = [(props['begTime'], props['endTime'], props.get('office'))]
+                sys.stdout.write(b'+')
+            else:
+                # reasons.write(b'Some shit happened\n')
+                # pp.pprint(props)
+                # reasons.write(b'\n\n')
+                # reasons.flush()
+                sys.stdout.write(b'?')
+                # Какая-то хрень в расписании и хз, что делать
+                continue
+            counter = len_cito  # Это постоянное смещение за счёт цито-тикетов
+            for index, interval in enumerate(intervals):
+                l_times = [p for p in times if interval[0] <= p < interval[1]]
+                l = len(l_times)
+                scheds.append({
+                    'begTime': interval[0],
+                    'endTime': interval[1],
+                    'office': get_office_id(interval[2]),
+                    'times': l_times,
+                    'queue': [(p, p[1] - counter) for p in normal if counter <= p[1] < counter + l],
+                    'cito': cito if not index else [],
+                    'extra': extra if not index else [],
+                    'max_cito': max_cito if not index else 0,
+                    'max_extra': max_extra if not index else 0,
+                })
+                counter += l
         else:
-            sys.stdout.write('-')
+            # if props:
+            #     reasons.write(b'Strange empty Action\n')
+            #     pp.pprint(props)
+            #     reasons.write(b'\n\n')
+            #     reasons.flush()
+            sys.stdout.write(b'-')
+
         if not ((processed+1) % 80):
-            sys.stdout.write('\n')
+            sys.stdout.write(b'\n')
 
         for sched in scheds:
             ticket_ids_normal = []
