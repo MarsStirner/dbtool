@@ -174,6 +174,79 @@ VALUES
     sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
+    (0, 4218, 64, NULL, 'Этиология', '', NULL, 'String', '', '', 'infectEtiology', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '37'),
+            ({0}, 67, 'true'),
+            ({0}, 76, 'true'),
+            ({0}, 77, '4'),
+            ({0}, {1}, 'true');
+        '''.format(actionPropertyTypeId, groupAttrId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 65, NULL, 'Бактериальная', '', NULL, 'String', 'Да, Нет', '', 'infectEtiologyBacterial', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '38'),
+            ({0}, 11, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 66, NULL, 'Грибковая', '', NULL, 'String', 'Да, Нет', '', 'infectEtiologyFungal', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '39'),
+            ({0}, 11, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 67, NULL, 'Вирусная', '', NULL, 'String', 'Да, Нет', '', 'infectEtiologyVirus', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '40'),
+            ({0}, 11, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 68, NULL, 'Неясной этиологии', '', NULL, 'String', 'Да, Нет', '', 'infectEtiologyUnknown', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '41'),
+            ({0}, 11, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
     (0, 4218, 69, NULL, 'Документированная инфекция', '', NULL, 'Html', '', '', 'infectDocumental', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
 '''    
     c.execute(sql)
@@ -1152,79 +1225,6 @@ VALUES
         VALUES
             ({0}, 10, '4'),
             ({0}, 9, '100');
-        '''.format(actionPropertyTypeId))
-
-    sql = u'''
-INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
-VALUES
-    (0, 4218, 64, NULL, 'Этиология', '', NULL, 'String', '', '', 'infectEtiology', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
-'''    
-    c.execute(sql)
-    actionPropertyTypeId = c.lastrowid
-    c.execute('''
-        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
-        VALUES
-            ({0}, 9, '37'),
-            ({0}, 67, 'true'),
-            ({0}, 76, 'true'),
-            ({0}, 77, '4'),
-            ({0}, {1}, 'true');
-        '''.format(actionPropertyTypeId, groupAttrId))
-
-    sql = u'''
-INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
-VALUES
-    (0, 4218, 65, NULL, 'Бактериальная', '', NULL, 'String', 'Да, Нет', '', 'infectEtiologyBacterial', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
-'''    
-    c.execute(sql)
-    actionPropertyTypeId = c.lastrowid
-    c.execute('''
-        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
-        VALUES
-            ({0}, 9, '38'),
-            ({0}, 11, '3');
-        '''.format(actionPropertyTypeId))
-
-    sql = u'''
-INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
-VALUES
-    (0, 4218, 66, NULL, 'Грибковая', '', NULL, 'String', 'Да, Нет', '', 'infectEtiologyFungal', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
-'''    
-    c.execute(sql)
-    actionPropertyTypeId = c.lastrowid
-    c.execute('''
-        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
-        VALUES
-            ({0}, 9, '39'),
-            ({0}, 11, '3');
-        '''.format(actionPropertyTypeId))
-
-    sql = u'''
-INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
-VALUES
-    (0, 4218, 67, NULL, 'Вирусная', '', NULL, 'String', 'Да, Нет', '', 'infectEtiologyVirus', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
-'''    
-    c.execute(sql)
-    actionPropertyTypeId = c.lastrowid
-    c.execute('''
-        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
-        VALUES
-            ({0}, 9, '40'),
-            ({0}, 11, '3');
-        '''.format(actionPropertyTypeId))
-
-    sql = u'''
-INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
-VALUES
-    (0, 4218, 68, NULL, 'Неясной этиологии', '', NULL, 'String', 'Да, Нет', '', 'infectEtiologyUnknown', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-19 11:16:11', 781, '2014-03-20 15:38:54', 781);
-'''    
-    c.execute(sql)
-    actionPropertyTypeId = c.lastrowid
-    c.execute('''
-        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
-        VALUES
-            ({0}, 9, '41'),
-            ({0}, 11, '3');
         '''.format(actionPropertyTypeId))
 
     sql = u'''
