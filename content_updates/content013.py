@@ -1230,8 +1230,337 @@ VALUES
     sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
-    (0, 4218, 137, NULL, 'Назначение препаратов', '', NULL, 'DrugChart', '', '', 'infectTherapyDrugs', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+    (0, 4218, 137, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectDrugName_1', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 '''    
     c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '101'),
+            ({0}, 10, '4');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 138, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectDrugBeginDate_1', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '101'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 139, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectDrugEndDate_1', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '101'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 140, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectDrugName_2', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '102'),
+            ({0}, 10, '4');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 141, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectDrugBeginDate_2', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '102'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 142, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectDrugEndDate_2', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '102'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 143, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectDrugName_3', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '103'),
+            ({0}, 10, '4');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 144, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectDrugBeginDate_3', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '103'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 145, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectDrugEndDate_3', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '103'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 146, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectDrugName_4', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '104'),
+            ({0}, 10, '4');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 147, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectDrugBeginDate_4', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '104'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 148, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectDrugEndDate_4', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '104'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 149, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectDrugName_5', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '105'),
+            ({0}, 10, '4');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 150, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectDrugBeginDate_5', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '105'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 151, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectDrugEndDate_5', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '105'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 152, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectDrugName_6', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '106'),
+            ({0}, 10, '4');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 153, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectDrugBeginDate_6', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '106'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 154, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectDrugEndDate_6', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '106'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 155, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectDrugName_7', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '107'),
+            ({0}, 10, '4');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 156, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectDrugBeginDate_7', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '107'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 157, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectDrugEndDate_7', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '107'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 158, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectDrugName_8', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 9, '108'),
+            ({0}, 10, '4');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 159, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectDrugBeginDate_8', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '108'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
+
+    sql = u'''
+INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
+VALUES
+    (0, 4218, 160, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectDrugEndDate_8', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '0000-00-00 00:00:00', NULL, '2014-03-20 15:38:54', 781);
+'''    
+    c.execute(sql)
+    actionPropertyTypeId = c.lastrowid
+    c.execute('''
+        INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
+        VALUES
+            ({0}, 22, '108'),
+            ({0}, 23, '3');
+        '''.format(actionPropertyTypeId))
 
     c.close()
