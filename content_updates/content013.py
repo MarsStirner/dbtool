@@ -1563,4 +1563,16 @@ VALUES
             ({0}, 23, '3');
         '''.format(actionPropertyTypeId))
 
+    sql = u'''
+    CREATE TABLE `ActionProperty_DrugChart` (
+      `id` int(11) NOT NULL COMMENT '{ActionProperty}',
+      `index` int(11) NOT NULL DEFAULT '0' COMMENT 'Индекс элемента векторного значения или 0',
+      `value` int(11) DEFAULT NULL COMMENT 'собственно значение {DrugChart}',
+      PRIMARY KEY (`id`,`index`),
+      FOREIGN KEY `ActionProperty_DrugChart_value` (`value`) REFERENCES DrugChart(id) ON DELETE CASCADE ON UPDATE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Значение свойства действия типа Ссылка на назначение/исполнение';
+    '''
+
+    c.execute(sql)
+
     c.close()
