@@ -32,7 +32,7 @@ def upgrade(conn):
     '''
     c.execute(sql)
 
-    sql = u'''INSERT INTO `rbAPTableField` (`idx`, `master_id`, `name`, `fieldName`) VALUES (7, 1, 'Этикетка', 'stikerUrl')'''
+    sql = u'''INSERT INTO `rbAPTableField` (`idx`, `master_id`, `name`, `fieldName`) VALUES (7, 1, 'Этикетка', 'stickerUrl')'''
     c.execute(sql)
 
     c.close()
