@@ -656,7 +656,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectCNSComment';
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '74' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '57' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -919,7 +919,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectEyeComment';
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '92' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '75' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -1062,7 +1062,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectSkinComment';
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '102' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '93' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -1325,7 +1325,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectMucousComment';
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '120' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '103' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -1588,7 +1588,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectLORComment';
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '138' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '121' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -1851,7 +1851,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectLungsComment';
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '156' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '139' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -2054,7 +2054,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectHeartComment';
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '170' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '157' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -2677,7 +2677,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectAbdomenComment';
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '212' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '171' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -3119,7 +3119,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectUrogenitalComment';
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '242' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '213' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -3262,7 +3262,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectMusculoskeletalComment';
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '252' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '243' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -3292,7 +3292,7 @@ VALUES
     c.execute('''
         INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
         VALUES
-            ({0}, 10, '3'),
+            ({0}, 10, '2'),
             ({0}, 9, '254');
         '''.format(actionPropertyTypeId))
 
@@ -3305,6 +3305,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugName_1';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '254' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
@@ -3314,6 +3317,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_1';
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '254' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -3325,19 +3331,22 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugEndDate_1';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '254' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
-    (0, 4218, 136, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_2', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+    (0, 4218, 140, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_2', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 '''    
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
         VALUES
-            ({0}, 10, '3'),
+            ({0}, 10, '2'),
             ({0}, 9, '255');
         '''.format(actionPropertyTypeId))
 
@@ -3350,6 +3359,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugName_2';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
@@ -3359,6 +3371,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_2';
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -3370,19 +3385,22 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugEndDate_2';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
-    (0, 4218, 136, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_3', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+    (0, 4218, 143, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_3', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 '''    
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
         VALUES
-            ({0}, 10, '3'),
+            ({0}, 10, '2'),
             ({0}, 9, '255');
         '''.format(actionPropertyTypeId))
 
@@ -3395,6 +3413,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugName_3';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
@@ -3404,6 +3425,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_3';
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -3415,19 +3439,22 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugEndDate_3';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
-    (0, 4218, 136, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_4', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+    (0, 4218, 146, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_4', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 '''    
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
         VALUES
-            ({0}, 10, '3'),
+            ({0}, 10, '2'),
             ({0}, 9, '256');
         '''.format(actionPropertyTypeId))
 
@@ -3440,6 +3467,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugName_4';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '256' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
@@ -3449,6 +3479,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_4';
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '256' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -3460,19 +3493,22 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugEndDate_4';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '256' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
-    (0, 4218, 136, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_5', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+    (0, 4218, 149, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_5', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 '''    
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
         VALUES
-            ({0}, 10, '3'),
+            ({0}, 10, '2'),
             ({0}, 9, '257');
         '''.format(actionPropertyTypeId))
 
@@ -3485,6 +3521,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugName_5';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '257' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
@@ -3494,6 +3533,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_5';
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '257' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -3505,19 +3547,22 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugEndDate_5';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '257' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
-    (0, 4218, 136, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_6', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+    (0, 4218, 152, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_6', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 '''    
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
         VALUES
-            ({0}, 10, '3'),
+            ({0}, 10, '2'),
             ({0}, 9, '258');
         '''.format(actionPropertyTypeId))
 
@@ -3530,6 +3575,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugName_6';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '258' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
@@ -3539,6 +3587,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_6';
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '258' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -3550,19 +3601,22 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugEndDate_6';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '258' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
-    (0, 4218, 136, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_7', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+    (0, 4218, 155, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_7', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 '''    
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
         VALUES
-            ({0}, 10, '3'),
+            ({0}, 10, '2'),
             ({0}, 9, '259');
         '''.format(actionPropertyTypeId))
 
@@ -3575,6 +3629,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugName_7';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '259' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
@@ -3584,6 +3641,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_7';
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '259' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
 
@@ -3595,19 +3655,22 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugEndDate_7';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '259' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
-    (0, 4218, 136, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_8', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
+    (0, 4218, 158, NULL, 'Тип терапии', '', NULL, 'String', 'Профилактика, Эмпирическая, Целенаправленная', '', 'infectTherapyType_8', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 '''    
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
         VALUES
-            ({0}, 10, '3'),
+            ({0}, 10, '2'),
             ({0}, 9, '260');
         '''.format(actionPropertyTypeId))
 
@@ -3620,6 +3683,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugName_8';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '260' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
@@ -3630,6 +3696,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_8';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '260' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
 
 
     sql = u'''
@@ -3639,6 +3708,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugEndDate_8';
     actionPropertyTypeId = c.lastrowid
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '260' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        '''.format(actionPropertyTypeId))
+    c.execute('''
+        UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
     c.close()
