@@ -3713,4 +3713,9 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectDrugEndDate_8';
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId))
 
+    sql = u'''
+UPDATE ActionPropertyType SET idx = '57' WHERE name = 'Данные об инфекционных осложнениях';
+'''
+    c.execute(sql)
+
     c.close()
