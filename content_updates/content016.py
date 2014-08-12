@@ -126,15 +126,14 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectType';
 '''    
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
-    print actionPropertyTypeId
     c.execute('''
         INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
         VALUES
             ({0}, 10, '6');
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '17' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -195,7 +194,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectBacteremia';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '42' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -255,7 +254,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectSepsis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '46' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -315,7 +314,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectSepticShok';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '50' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -375,7 +374,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectLocal';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '54' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -385,7 +384,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDocumental';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '55' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -395,7 +394,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectLocalisation';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '56' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -405,10 +404,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectCNS';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '57' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '16' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -418,7 +417,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectCephalopyosis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '58' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -478,7 +477,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMeningitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '62' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -538,7 +537,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMeningoencephalitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '66' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -598,7 +597,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMeningoencephalitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '70' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -658,7 +657,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectCNSComment';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '57' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -668,10 +667,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectEye';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '75' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '16' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -681,7 +680,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectConjunctivitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '76' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -741,7 +740,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectPeriorbital';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '80' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -801,7 +800,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectBlepharitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '84' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -861,7 +860,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectChorioretinitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '88' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -921,7 +920,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectEyeComment';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '75' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -931,10 +930,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectSkin';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '93' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '8' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -944,7 +943,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectSkinLight';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '94' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1004,7 +1003,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectSkinHard';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '98' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1064,7 +1063,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectSkinComment';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '93' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1074,10 +1073,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMucous';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '103' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '16' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1087,7 +1086,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMucositis12';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '104' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1147,7 +1146,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMucositis34';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '108' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1207,7 +1206,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectEsophagitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '112' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1267,7 +1266,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectGingivitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '116' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1327,7 +1326,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMucousComment';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '103' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1337,10 +1336,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectLOR';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '121' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '16' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1350,7 +1349,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectRhinitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '122' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1410,7 +1409,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectTonsillitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '126' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1470,7 +1469,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectOtitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '130' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1530,7 +1529,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDefeatPPN';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '134' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1590,7 +1589,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectLORComment';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '121' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1600,10 +1599,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectLungs';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '139' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '16' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1613,7 +1612,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectBronchitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '140' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1673,7 +1672,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectInterstitialPneumonia';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '144' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1733,7 +1732,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectLobarPneumonia';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '148' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1793,7 +1792,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectPleurisy';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '152' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1853,7 +1852,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectLungsComment';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '139' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1863,10 +1862,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectHeart';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '157' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '12' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1876,7 +1875,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectPericarditis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '158' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1936,7 +1935,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMioardit';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '162' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -1996,7 +1995,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectEndocarditis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '166' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2056,7 +2055,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectHeartComment';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '157' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2066,10 +2065,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectAbdomen';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '171' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '40' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2079,7 +2078,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectGastritis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '172' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2139,7 +2138,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectPancreatitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '176' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2199,7 +2198,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectCholecystitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '180' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2259,7 +2258,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infecThepatitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '184' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2319,7 +2318,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectGepatolienalnyCandidiasis'
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '188' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2379,7 +2378,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectAbscess';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '192' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2439,7 +2438,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectEnterocolitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '196' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2499,7 +2498,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectCecitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '200' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2559,7 +2558,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectAppendicitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '204' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2619,7 +2618,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectPeritonitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '208' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2679,7 +2678,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectAbdomenComment';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '171' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2689,10 +2688,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectUrogenital';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '213' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '28' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
     sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectGlomerulonephritis';
@@ -2701,7 +2700,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectGlomerulonephritis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '214' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2761,7 +2760,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectPyelonephritis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '218' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2821,7 +2820,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectCystitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '222' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2881,7 +2880,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectUrethritis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '226' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -2941,7 +2940,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectEndometritis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '230' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3001,7 +3000,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectAdnexitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '234' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3061,7 +3060,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectVulvovaginitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '238' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3121,7 +3120,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectUrogenitalComment';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '213' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3131,10 +3130,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMusculoskeletal';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '243' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '8' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3144,7 +3143,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectOsteomyelitis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '244' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3204,7 +3203,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMyositis';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '248' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3264,7 +3263,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectMusculoskeletalComment';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '243' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3274,7 +3273,7 @@ SELECT id FROM ActionPropertyType WHERE name = 'Противоинфекцион
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '253' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3305,10 +3304,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugName_1';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '254' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3318,10 +3317,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_1';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '254' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3331,10 +3330,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_1';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '254' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3359,10 +3358,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugName_2';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3372,10 +3371,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_2';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3385,10 +3384,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_2';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3413,10 +3412,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugName_3';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3426,10 +3425,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_3';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3439,10 +3438,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_3';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3467,10 +3466,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugName_4';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '256' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3480,10 +3479,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_4';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '256' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3493,10 +3492,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_4';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '256' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3521,10 +3520,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugName_5';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '257' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3534,10 +3533,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_5';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '257' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3547,10 +3546,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_5';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '257' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3575,10 +3574,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugName_6';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '258' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3588,10 +3587,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_6';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '258' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3601,10 +3600,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_6';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '258' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3629,10 +3628,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugName_7';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '259' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3642,10 +3641,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_7';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '259' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3655,10 +3654,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_7';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '259' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3683,10 +3682,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugName_8';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '260' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 10 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3696,10 +3695,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_8';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '260' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -3709,10 +3708,10 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_8';
     actionPropertyTypeId = c.fetchone()
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '260' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
     sql = u'''
 UPDATE ActionPropertyType SET idx = '57' WHERE name = 'Данные об инфекционных осложнениях';
