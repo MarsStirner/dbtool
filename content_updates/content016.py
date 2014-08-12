@@ -129,7 +129,7 @@ SELECT * FROM ActionPropertyType WHERE code = 'infectType';
     c.execute('''
         INSERT INTO `LayoutAttributeValue` (`actionPropertyType_id`, `layoutAttribute_id`, `value`)
         VALUES
-            ({0}, 10, '38');
+            ({0}, 10, '6');
         '''.format(actionPropertyTypeId))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '17' WHERE layoutAttribute_id = 77 AND actionPropertyType_id = {0};
