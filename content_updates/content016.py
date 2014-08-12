@@ -383,7 +383,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDocumental';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '55' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '55' WHERE layoutAttribute_id = 68 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
 
 
@@ -3316,7 +3316,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_1';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '254' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '254' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3329,7 +3329,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_1';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '254' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '254' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3370,7 +3370,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_2';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3383,7 +3383,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_2';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3424,7 +3424,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_3';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3437,7 +3437,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_3';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '255' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3478,7 +3478,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_4';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '256' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '256' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3491,7 +3491,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_4';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '256' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '256' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3532,7 +3532,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_5';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '257' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '257' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3545,7 +3545,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_5';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '257' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '257' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3586,7 +3586,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_6';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '258' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '258' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3599,7 +3599,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_6';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '258' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '258' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3640,7 +3640,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_7';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '259' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '259' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3653,7 +3653,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_7';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '259' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '259' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3694,7 +3694,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_8';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '260' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '260' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '2' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
@@ -3707,7 +3707,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectDrugEndDate_8';
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
-        UPDATE LayoutAttributeValue SET value = '260' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
+        UPDATE LayoutAttributeValue SET value = '260' WHERE layoutAttribute_id = 22 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '3' WHERE layoutAttribute_id = 23 AND actionPropertyType_id = {0};
