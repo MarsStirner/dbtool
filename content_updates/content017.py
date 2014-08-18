@@ -13,10 +13,10 @@ def upgrade(conn):
     sql = u'''
 SELECT id FROM LayoutAttribute WHERE code = 'NONTOGGLABLE';
 '''
-	c.execute(sql)
-	nontogglable = c.fetchone()
+    c.execute(sql)
+    nontogglable = c.fetchone()
 
-	sql = u'''
+    sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectType';
 '''    
     c.execute(sql)
@@ -25,8 +25,5 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectType';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = 'false' WHERE layoutAttribute_id = {0} AND actionPropertyType_id = {1};
         '''.format(nontogglable[0], infectType[0]))
-
-
-    
 
     c.close()
