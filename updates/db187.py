@@ -49,7 +49,7 @@ def upgrade(conn):
 				    OR `ActionType`.flatCode LIKE 'del_received'
 				    OR `ActionType`.flatCode LIKE 'del_moving')
 			     ORDER BY `Action`.`createDatetime` DESC)
-			  AND `status` = 'COMPLETE'
+			  AND (`status` = 'COMPLETE' OR `status` = 'RESEND')
                         ORDER BY `Pharmacy`.actionId DESC 
 			LIMIT 1;
 		        INSERT INTO `Event_FinanceChanges` (`event_id`, `modifyDatetime`, `modifyPerson_id`, `eventTypeOld_id`, `eventTypeNew_id`, `financeOld_id`, `financeNew_id`)
