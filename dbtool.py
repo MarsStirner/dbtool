@@ -83,11 +83,12 @@ def main(argv):
                 sys.exit(1)
     except (GetoptError, DBToolException, ConfigException), e:
         logging.error(unicode(e))
+        logging.error(unicode(traceback.format_exc(), 'utf-8'))
         logging.info('Результат работы смотрите в логе ({0})'.format(log_filename))
         sys.exit(1)
     except Exception, e:
         logging.error(unicode(e))
-        logging.error(unicode(traceback.format_exc()))
+        logging.error(unicode(traceback.format_exc(), 'utf-8'))
         logging.info('Результат работы смотрите в логе ({0})'.format(log_filename))
         sys.exit(1)
     finally:

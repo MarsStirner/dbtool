@@ -348,7 +348,7 @@ class UpdateModulesList(dict):
             context['upgrade'] = _f
             context['downgrade'] = _f
         except Exception, e:
-            raise DBToolException(b'ошибка в модуле обновления "{0}": {1}'.format(filename, e))
+            raise DBToolException('ошибка в модуле обновления "{0}": {1}'.format(filename, e))
         return context
 
 
