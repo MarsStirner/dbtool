@@ -3,21 +3,21 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-Настраиваемые лейауты в ActionType
+Добавление столбца для указания порядка вывода контактов (rbContactType.idx) для Hippocrates
 '''
-
 
 def upgrade(conn):
     c = conn.cursor()
-
     sql = '''
-ALTER TABLE `ActionType`
-ADD COLUMN `layout` TEXT NULL DEFAULT NULL AFTER `mnem`;
-'''
+    ALTER TABLE `rbContactType`
+      ADD COLUMN `idx` INT(11) NOT NULL DEFAULT '0' AFTER `name`;'''
     c.execute(sql)
-
-    c.close()
 
 
 def downgrade(conn):
-    pass
+    c = conn.cursor()
+    sql = '''
+    ALTER TABLE `rbContactType`
+        DROP COLUMN `idx`;
+    '''
+    c.execute(sql)
