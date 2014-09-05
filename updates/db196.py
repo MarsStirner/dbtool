@@ -3,7 +3,7 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-добавление столбцов для хранения маски ввода серий и номеров документов и полисов
+ActionPropertyType с типом значения Diagnosis
 '''
 
 
@@ -11,16 +11,18 @@ def upgrade(conn):
     c = conn.cursor()
 
     sql = '''
-    ALTER TABLE `rbPolicyType`
-    ADD COLUMN `serial_mask` VARCHAR(256) NULL AFTER `number_regexp`,
-    ADD COLUMN `number_mask` VARCHAR(256) NULL AFTER `serial_mask`;
+    ALTER TABLE `Diagnostic`
+    ADD COLUMN `diagnosis_description` TEXT NULL DEFAULT NULL COMMENT 'Описание диагноза' AFTER `action_id`;
     '''
     c.execute(sql)
 
     sql = '''
-    ALTER TABLE `rbDocumentType`
-    ADD COLUMN `serial_mask` VARCHAR(256) NULL AFTER `number_regexp`,
-    ADD COLUMN `number_mask` VARCHAR(256) NULL AFTER `serial_mask`;
+    CREATE TABLE IF NOT EXISTS `ActionProperty_Diagnosis` (
+      `id` INT(11) NOT NULL COMMENT '{ActionProperty}',
+      `index` INT(11) NOT NULL DEFAULT '0',
+      `value` INT(11) NULL DEFAULT NULL,
+      PRIMARY KEY (`index`, `id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     '''
     c.execute(sql)
 
