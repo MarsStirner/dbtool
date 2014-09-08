@@ -3,20 +3,36 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-Данные для противоинфекционной терапии
+Данные для справочников, связанных с расписанием врача
 '''
 
+MIN_SCHEMA_VERSION = 188
+
 def upgrade(conn):
-    global config
     c = conn.cursor()
+
     sql = '''
-UPDATE ActionPropertyType SET valueDomain = ',Профилактика,Эмпирическая,Целенаправленная' WHERE code = 'infectTherapyType';
+INSERT INTO `rbReceptionType` (`id`,`code`,`name`) VALUES
+(1,'amb','Амбулаторно'),
+(2,'home','На дому');
 '''
     c.execute(sql)
 
     sql = '''
-UPDATE ActionPropertyType SET valueDomain = ',Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин' WHERE code = 'infectDrugName';
+INSERT INTO `rbAttendanceType` (`id`,`code`,`name`) VALUES
+(1,'planned','Нормальный'),
+(2,'CITO','Вне очереди'),
+(3,'extra','Сверх плана');
 '''
-    c.execute(sql)    
+    c.execute(sql)
+
+    sql = '''
+INSERT INTO `rbAppointmentType` (`id`,`code`,`name`) VALUES
+(1,'amb','Амбулаторный'),
+(2,'hospital','Приём в стационаре'),
+(3,'polyclinic','Приём в поликлинике'),
+(4,'diagnostic','Диагностика');
+'''
+    c.execute(sql)
 
     c.close()
