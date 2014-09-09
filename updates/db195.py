@@ -15,7 +15,7 @@ def upgrade(conn):
         CREATE OR REPLACE DEFINER=%s VIEW `Proced_zapis_queue` AS
             select
                 `ScheduleClientTicket`.`id` AS `EventID`,
-                STR_TO_DATE(CONCAT(`Schedule`.`date`, ' ', `ScheduleTicket`.`begTime`), '%Y-%m-%d %H:%i:%s') AS `Datazapisi`,
+                STR_TO_DATE(CONCAT(`Schedule`.`date`, ' ', `ScheduleTicket`.`begTime`), '%Y-%m-%d %H:%i:%%s') AS `Datazapisi`,
                 `Office`.`code` AS `Kabinet`,
                 `ScheduleClientTicket`.`note` AS `Procedure`,
                 `Person`.`lastName` AS `Direction`,
