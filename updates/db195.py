@@ -12,10 +12,10 @@ def upgrade(conn):
     c = conn.cursor()
 
     sql = '''
-        CREATE OR REPLACE DEFINER=%s VIEW `Proced_zapis_queue` AS
+        CREATE OR REPLACE DEFINER={0} VIEW `Proced_zapis_queue` AS
             select
                 `ScheduleClientTicket`.`id` AS `EventID`,
-                STR_TO_DATE(CONCAT(`Schedule`.`date`, ' ', `ScheduleTicket`.`begTime`), '%Y-%m-%d %H:%i:%%s') AS `Datazapisi`,
+                STR_TO_DATE(CONCAT(`Schedule`.`date`, ' ', `ScheduleTicket`.`begTime`), '%Y-%m-%d %H:%i:%s') AS `Datazapisi`,
                 `Office`.`code` AS `Kabinet`,
                 `ScheduleClientTicket`.`note` AS `Procedure`,
                 `Person`.`lastName` AS `Direction`,
@@ -45,7 +45,7 @@ def upgrade(conn):
                 ((`ScheduleClientTicket`.`deleted` = 0)
                     and (cast(`Schedule`.`date` as date) = curdate()))
             group by `ScheduleClientTicket`.`id`;
-    ''' % config['definer']
+    '''.format(config['definer'])
     c.execute(sql)
 
     c.close()
