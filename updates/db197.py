@@ -27,13 +27,12 @@ def upgrade(conn):
     c.execute(u'''
 UPDATE `rbDocumentType`
     SET `serial_mask` = '99 99'
-    WHERE `code` = 1;
-''')
+    WHERE `code` = '1';''')
 
     c.execute(u'''
 UPDATE `rbDocumentType`
     SET `number_mask` = '999999'
-    WHERE `code` = 1;
+    WHERE `code` = '1';
 ''')
     c.close()
 
