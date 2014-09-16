@@ -9,8 +9,7 @@ __doc__ = '''\
 def upgrade(conn):
     global config
     c = conn.cursor()
-
-
+    c.execute('SET SQL_SAFE_UPDATES=0;')
     sql = u'''
 INSERT INTO `LayoutAttribute` (`title`, `description`, `code`, `typeName`, `measure`, `defaultValue`)
 VALUES
@@ -3740,5 +3739,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectFever';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = '39' WHERE layoutAttribute_id = 9 AND actionPropertyType_id = {0};
         '''.format(actionPropertyTypeId[0]))
+
+    c.execute('SET SQL_SAFE_UPDATES=1;')
 
     c.close()

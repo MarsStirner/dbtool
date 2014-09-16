@@ -10,6 +10,8 @@ def upgrade(conn):
     global config
     c = conn.cursor()
 
+    c.execute('SET SQL_SAFE_UPDATES=0;')
+
     sql = u'''
 INSERT INTO `LayoutAttribute` (`title`, `description`, `code`, `typeName`, `measure`, `defaultValue`)
 VALUES
@@ -1574,5 +1576,7 @@ VALUES
     '''
 
     c.execute(sql)
+
+    c.execute('SET SQL_SAFE_UPDATES=1;')
 
     c.close()
