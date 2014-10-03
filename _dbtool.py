@@ -14,8 +14,11 @@ from utils import tools
 
 
 def get_config(filename):
-    p = ConfigParser(defaults={'port': '3306',
-                               'develop_version': False})
+    p = ConfigParser(defaults={
+        'port': '3306',
+        'develop_version': False,
+        'update_dir': '.'
+    })
     with codecs.open(filename, 'r', 'utf-8-sig') as f:
         p.readfp(f)
     return {
@@ -28,6 +31,7 @@ def get_config(filename):
         'content': p.get('content', 'content_type'),
         'log_filename': p.get('misc', 'log_filename'),
         'develop_version': p.get('misc', 'develop_version'),
+        'update_dir': p.get('misc', 'update_dir')
     }
 
 
@@ -230,8 +234,9 @@ class DBTool(object):
         # Записать номер версии базы в случае успешного апдейта
         connection = self._getConnection()
         with connection as cursor:
-            cursor.execute('update `Meta` set `value` = %s where `name` = %s ', (v, table_attr))
-            connection.commit()
+            if v != 0:
+                cursor.execute('update `Meta` set `value` = %s where `name` = %s ', (v, table_attr))
+                connection.commit()
 
     def change_definers(self):
         current_db_name = self.conf['dbname']
@@ -305,7 +310,8 @@ class DBTool(object):
                     title=upd['title'].splitlines()[0].strip())
                 list_content.append(m)
 
-        msg = 'Модули обновления схемы:\n{0}\nМодули обновления контента:\n{1}\n'.format(
+        msg = 'Модули обновления схемы{0}:\n{1}\nМодули обновления контента{0}:\n{2}\n'.format(
+            ' ({0})'.format(self.conf['update_dir']) if self.conf['update_dir'] != '.' else '',
             '\n'.join(list_schema),
             '\n'.join(list_content))
         return msg
@@ -362,7 +368,7 @@ class SchemaUpdateModulesList(UpdateModulesList):
 
     def get_filenames(self):
         result = {}
-        dirname = os.path.join(os.path.dirname(__file__), self.directory)
+        dirname = os.path.join(os.path.dirname(__file__), self._conf['update_dir'], self.directory)
         for filename in glob(os.path.join(dirname, self.file_template)):
             name = re.search(r'db([0-9]+)\.py', filename).group(1)
             try:
@@ -403,7 +409,7 @@ class ContentUpdateModulesList(UpdateModulesList):
 
     def get_filenames(self):
         result = {}
-        dirname = os.path.join(os.path.dirname(__file__), self.directory)
+        dirname = os.path.join(os.path.dirname(__file__), self._conf['update_dir'], self.directory)
         for filename in glob(os.path.join(dirname, self.file_template)):
             try:
                 info = re.search(r'content(?P<version>[0-9]+)(?P<type>[a-z]*)\.py',

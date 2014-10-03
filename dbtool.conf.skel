@@ -12,10 +12,11 @@ definer = `root`@`localhost`
 # common - обновления для всех видов бд
 # fnkc - бд ФНКЦ (сюда же подойдет референсная бд)
 # pnz - бд Пензы
-content_type = 
+content_type =
 
 [rlsConvert]
 rlsPath = 
 
 [misc]
-log_filename = 
+log_filename =
+# update_dir = .
