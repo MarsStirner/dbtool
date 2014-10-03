@@ -3,16 +3,9 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-<<<<<<< HEAD
+Обновление синхронизации редактирования документов (AppLock)
 '''
 
-
-def upgrade(conn):
-    pass
-
-=======
-fix: Обновление синхронизации редактирования документов (AppLock)
-'''
 
 def upgrade(conn):
     global config
@@ -92,7 +85,6 @@ def upgrade(conn):
     c.execute(proc%(config['definer'],name))                      
     c.execute('''CALL clearAppLock''')                      
     c.close()
->>>>>>> master
 
 def downgrade(conn):
     pass
