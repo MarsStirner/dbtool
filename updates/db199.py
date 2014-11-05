@@ -56,7 +56,7 @@ def upgrade(conn):
 	         INSERT IGNORE INTO `NotificationAction` (action_id, method) VALUES (NEW.id, 'PUT');
   	      END IF;
           END'''%(config['definer'])       
-    c.execute('''DROP TRIGGER `OnUpdateAction`''')
+    c.execute('''DROP TRIGGER `onUpdateAction`''')
     c.execute(sql)
 
     proc = u''' CREATE DEFINER=%s PROCEDURE `%s`(IN `aLockId` BIGINT)
