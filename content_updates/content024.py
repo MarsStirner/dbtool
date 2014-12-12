@@ -10,6 +10,8 @@ def upgrade(conn):
     global config
     c = conn.cursor()
 
+    c.execute('SET SQL_SAFE_UPDATES=0;')
+
     sql = u'''
 SELECT id FROM LayoutAttribute WHERE code = 'VGROUPROW' AND typeName = 'String';
 '''
@@ -2717,6 +2719,6 @@ UPDATE LayoutAttributeValue SET value = value + 1 WHERE layoutAttribute_id = 9 A
 UPDATE LayoutAttributeValue SET value = value + 1 WHERE layoutAttribute_id = 68 AND actionPropertyType_id = {0}
         '''.format(row[1]))
     
-
+    c.execute('SET SQL_SAFE_UPDATES=1;')
 
     c.close()

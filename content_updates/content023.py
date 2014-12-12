@@ -10,6 +10,8 @@ def upgrade(conn):
     global config
     c = conn.cursor()
 
+    c.execute('SET SQL_SAFE_UPDATES=0;')
+
     sql = u'''
 SELECT id FROM LayoutAttribute WHERE code = 'NONTOGGLABLE';
 '''
@@ -25,5 +27,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectType';
     c.execute('''
         UPDATE LayoutAttributeValue SET value = 'false' WHERE layoutAttribute_id = {0} AND actionPropertyType_id = {1};
         '''.format(nontogglable[0], infectType[0]))
+
+    c.execute('SET SQL_SAFE_UPDATES=1;')
 
     c.close()
