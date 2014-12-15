@@ -123,7 +123,7 @@ def addNewActionPropertyType(cursor, **kwargs):
     at_id = kwargs.get('actionType_id')
     typeName = kwargs.get('typeName')
     if at_id is None or typeName is None:
-        raise AttributeError('actionTyped and typeName cannot be empty')
+        raise AttributeError('actionType_id and typeName cannot be empty')
 
     musthave_fields = (('createDatetime', 'CURRENT_TIMESTAMP'),
                        ('modifyDatetime', 'CURRENT_TIMESTAMP'),
