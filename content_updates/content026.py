@@ -3,7 +3,7 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-Данные об инфекционных осложнениях
+Изменения в разделе Противоинфекционная терапия
 '''
 
 def upgrade(conn):
