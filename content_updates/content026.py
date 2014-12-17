@@ -28,7 +28,7 @@ def upgrade(conn):
 
     sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id = 4218;
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
@@ -38,8 +38,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id
             ({0}, 76, 'true'),
             ({0}, 77, '73'),
             ({0}, 96, 'false');
-
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
     sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id = 4219;
@@ -54,7 +53,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id
             ({0}, 77, '73'),
             ({0}, 96, 'false');
 
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
     sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id = 4220;
@@ -69,7 +68,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id
             ({0}, 77, '73'),
             ({0}, 96, 'false');
 
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
     sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id = 4221;
@@ -84,7 +83,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id
             ({0}, 77, '73'),
             ({0}, 96, 'false');
 
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
     sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id = 4222;
@@ -99,7 +98,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id
             ({0}, 77, '73'),
             ({0}, 96, 'false');
 
-        '''.format(actionPropertyTypeId))
+        '''.format(actionPropertyTypeId[0]))
 
 
     sql = u'''
@@ -250,7 +249,7 @@ VALUES
             '''.format(actionPropertyTypeId, 287+(i*3), 60+(i*1)))
 
 
-        for i in range(0, 7):
+    for i in range(0, 7):
         sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
@@ -327,7 +326,7 @@ VALUES
             '''.format(actionPropertyTypeId, 288+(i*3), 60+(i*1)))
 
 
-        for i in range(0, 7):
+    for i in range(0, 7):
         sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
@@ -552,7 +551,7 @@ VALUES
             '''.format(actionPropertyTypeId, 312+(i*3), 68+(i*1)))
 
 
-        for i in range(0, 7):
+    for i in range(0, 7):
         sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
@@ -629,7 +628,7 @@ VALUES
             '''.format(actionPropertyTypeId, 313+(i*3), 68+(i*1)))
 
 
-        for i in range(0, 7):
+    for i in range(0, 7):
         sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
@@ -854,7 +853,7 @@ VALUES
             '''.format(actionPropertyTypeId, 337+(i*3), 84+(i*1)))
 
 
-        for i in range(0, 7):
+    for i in range(0, 7):
         sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
@@ -931,7 +930,7 @@ VALUES
             '''.format(actionPropertyTypeId, 338+(i*3), 84+(i*1)))
 
 
-        for i in range(0, 7):
+    for i in range(0, 7):
         sql = u'''
 INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_id`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `isVector`, `norm`, `sex`, `age`, `age_bu`, `age_bc`, `age_eu`, `age_ec`, `penalty`, `visibleInJobTicket`, `isAssignable`, `test_id`, `defaultEvaluation`, `toEpicrisis`, `mandatory`, `readOnly`, `createDatetime`, `createPerson_id`, `modifyDatetime`, `modifyPerson_id`)
 VALUES
