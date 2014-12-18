@@ -39,6 +39,9 @@ WHERE
                 APT.name NOT LIKE '%диффер%' AND -- исключить 'Дифференциальный диагноз'
                 APT.name NOT LIKE '%конкур%' AND -- исключить 'Конкурирующие диагнозы'
                 APT.name NOT LIKE '%фонов%' -- исключить 'Фоновые диагнозы'
+            ) OR (
+                -- выборка типов действий, в которых есть свойство с названием "Дата постановки диагноза"
+                APT.typeName='Date' AND APT.name LIKE '%Дата постановки диаг%'
             )
         )
     ) OR (
@@ -66,7 +69,6 @@ WHERE
                 cur_at_valdom = vdom
             removed_apt_info.append((apt_id, apt_type_name))
             delete_apt(conn, apt_id)
-
 
         new_apt_id = create_diag_apt(conn, at_id, cur_at_valdom)
         logging.debug('\t\t=>{0}:[{1}]=>{2}'.format(
