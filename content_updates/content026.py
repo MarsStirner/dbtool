@@ -14,16 +14,16 @@ def upgrade(conn):
 
     for i in range(1, 9):
         c.execute('''
-        DELETE FROM ActionPropertyType WHERE code = 'infectTherapyType_{0}';
+        UPDATE ActionPropertyType SET deleted=1 WHERE code = 'infectTherapyType_{0}';
         '''.format(i))
         c.execute('''
-        DELETE FROM ActionPropertyType WHERE code = 'infectDrugName_{0}';
+        UPDATE ActionPropertyType SET deleted=1 WHERE code = 'infectDrugName_{0}';
         '''.format(i))
         c.execute('''
-        DELETE FROM ActionPropertyType WHERE code = 'infectDrugBeginDate_{0}';
+        UPDATE ActionPropertyType SET deleted=1 WHERE code = 'infectDrugBeginDate_{0}';
         '''.format(i))
         c.execute('''
-        DELETE FROM ActionPropertyType WHERE code = 'infectDrugEndDate_{0}';
+        UPDATE ActionPropertyType SET deleted=1 WHERE code = 'infectDrugEndDate_{0}';
         '''.format(i))
 
     sql = u'''
@@ -42,7 +42,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id
 
     sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id = 4219;
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
@@ -57,7 +57,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id
 
     sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id = 4220;
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
@@ -72,7 +72,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id
 
     sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id = 4221;
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
@@ -87,7 +87,7 @@ SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id
 
     sql = u'''
 SELECT id FROM ActionPropertyType WHERE code = 'infectTherapy' AND actionType_id = 4222;
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.fetchone()
     c.execute('''
@@ -106,7 +106,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 200, NULL, 'Профилактика', '', NULL, 'String', 'Да', '', 'infectProphylaxis', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -120,7 +120,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 200, NULL, 'Профилактика', '', NULL, 'String', 'Да', '', 'infectProphylaxis', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -134,7 +134,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 200, NULL, 'Профилактика', '', NULL, 'String', 'Да', '', 'infectProphylaxis', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -148,7 +148,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 200, NULL, 'Профилактика', '', NULL, 'String', 'Да', '', 'infectProphylaxis', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -162,7 +162,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 200, NULL, 'Профилактика', '', NULL, 'String', 'Да', '', 'infectProphylaxis', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -178,7 +178,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 201, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectProphylaxisName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -193,7 +193,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 201, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectProphylaxisName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -208,7 +208,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 201, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectProphylaxisName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -223,7 +223,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 201, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectProphylaxisName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -238,7 +238,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 201, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectProphylaxisName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -255,7 +255,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 202, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectProphylaxisBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -270,7 +270,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 202, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectProphylaxisBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -285,7 +285,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 202, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectProphylaxisBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -300,7 +300,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 202, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectProphylaxisBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -315,7 +315,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 202, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectProphylaxisBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -332,7 +332,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 203, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectProphylaxisEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -347,7 +347,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 203, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectProphylaxisEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -362,7 +362,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 203, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectProphylaxisEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -377,7 +377,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 203, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectProphylaxisEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -392,7 +392,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 203, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectProphylaxisEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -408,7 +408,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 204, NULL, 'Эмпирическая', '', NULL, 'String', 'Да', '', 'infectEmpiric', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -422,7 +422,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 204, NULL, 'Эмпирическая', '', NULL, 'String', 'Да', '', 'infectEmpiric', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -436,7 +436,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 204, NULL, 'Эмпирическая', '', NULL, 'String', 'Да', '', 'infectEmpiric', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -450,7 +450,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 204, NULL, 'Эмпирическая', '', NULL, 'String', 'Да', '', 'infectEmpiric', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -464,7 +464,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 204, NULL, 'Эмпирическая', '', NULL, 'String', 'Да', '', 'infectEmpiric', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -480,7 +480,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 205, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectEmpiricName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -495,7 +495,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 205, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectEmpiricName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -510,7 +510,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 205, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectEmpiricName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -525,7 +525,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 205, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectEmpiricName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -540,7 +540,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 205, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectEmpiricName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -557,7 +557,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 206, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectEmpiricBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -572,7 +572,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 206, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectEmpiricBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -587,7 +587,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 206, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectEmpiricBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -602,7 +602,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 206, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectEmpiricBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -617,7 +617,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 206, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectEmpiricBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -634,7 +634,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 207, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectEmpiricEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -649,7 +649,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 207, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectEmpiricEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -664,7 +664,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 207, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectEmpiricEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -679,7 +679,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 207, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectEmpiricEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -694,7 +694,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 207, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectEmpiricEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -710,7 +710,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 208, NULL, 'Целенаправленная', '', NULL, 'String', 'Да', '', 'infectTelic', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -724,7 +724,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 208, NULL, 'Целенаправленная', '', NULL, 'String', 'Да', '', 'infectTelic', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -738,7 +738,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 208, NULL, 'Целенаправленная', '', NULL, 'String', 'Да', '', 'infectTelic', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -752,7 +752,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 208, NULL, 'Целенаправленная', '', NULL, 'String', 'Да', '', 'infectTelic', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -766,7 +766,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 208, NULL, 'Целенаправленная', '', NULL, 'String', 'Да', '', 'infectTelic', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
     c.execute(sql)
     actionPropertyTypeId = c.lastrowid
     c.execute('''
@@ -782,7 +782,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 209, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectTelicName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -797,7 +797,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 209, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectTelicName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -812,7 +812,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 209, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectTelicName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -827,7 +827,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 209, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectTelicName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -842,7 +842,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 209, NULL, 'Наименование препарата', '', NULL, 'String', 'Амбизом, Амикацин, Амоксиклав, Амоксициллина клавуланат, Амфолип, Аугментин, Ацикловир, Бисептол, Ванкомицин, Вифенд, Дифлюкан, Дориппрекс, Зивокс, Зиннат, Зовиракс, Изониазид, Кансидас, Кларитро/Азитромицин, Клиндамицин, Колистин, Максипим, Метроджил, Меронем, Метронидазол, Микамин, Микосист, Ноксафил, Панцеф, Роцефин, Сульперазон, Тазоцин, Тиенам, Флюконазол, Флагил, Фортум, Фторхинолоны, Цимевен, Эраксис, Эдицин', '', 'infectTelicName_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -859,7 +859,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 210, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectTelicBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -874,7 +874,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 210, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectTelicBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -889,7 +889,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 210, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectTelicBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -904,7 +904,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 210, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectTelicBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -919,7 +919,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 210, NULL, 'Дата назначения', '', NULL, 'Date', '', '', 'infectTelicBeginDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -936,7 +936,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4218, 211, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectTelicEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -951,7 +951,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4219, 211, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectTelicEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -966,7 +966,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4220, 211, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectTelicEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -981,7 +981,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4221, 211, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectTelicEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -996,7 +996,7 @@ INSERT INTO `ActionPropertyType` (`deleted`, `actionType_id`, `idx`, `template_i
 VALUES
     (0, 4222, 211, NULL, 'Дата отмены', '', NULL, 'Date', '', '', 'infectTelicEndDate_{0}', 0, '', 0, '', NULL, NULL, NULL, NULL, 0, 0, 0, NULL, 0, 0, 0, 0, '2013-11-05 18:12:27', 781, '2014-03-20 15:38:54', 781);
 
-'''    
+'''
         c.execute(sql.format(i+1))
         actionPropertyTypeId = c.lastrowid
         c.execute('''
@@ -1006,7 +1006,7 @@ VALUES
                 ({0}, 98, '{2}');
             '''.format(actionPropertyTypeId, 339+(i*3), 84+(i*1)))
 
-    
+
     c.execute('SET SQL_SAFE_UPDATES=1;')
 
     c.close()
