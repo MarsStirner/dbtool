@@ -57,7 +57,7 @@ SET code='assistNurse', name='Медсестра (ассистент врача)
 WHERE id={0}'''.format(prof_id)
     c.execute(sql)
     # присвоение новых привилегий роли медсестра (assistNurse)
-    for code in ('evtDiagnosticPaidCreate', 'evtPoliclinicOmsCreate', 'evtPoliclinicDmsCreate',
+    for code in ('evtPoliclinicPaidCreate', 'evtPoliclinicOmsCreate', 'evtPoliclinicDmsCreate',
                  'evtPoliclinicPaidClose', 'evtPoliclinicOmsClose', 'evtPoliclinicDmsClose',
                  'evtDiagnosticPaidCreate', 'evtDiagnosticPaidClose', 'evtDiagnosticBudgetCreate',
                  'evtDiagnosticBudgetClose'):
