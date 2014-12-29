@@ -78,7 +78,7 @@ VALUES (
 
 def delete_right(conn, profile_id, right_code):
     sql = '''DELETE FROM rbUserProfile_Right
-WHERE master_id = {0} AND userRight_id = (SELECT id FROM rbUserRight WHERE code = "{1}" LIMIT 1);
+WHERE master_id = {0} AND userRight_id IN (SELECT id FROM rbUserRight WHERE code = "{1}");
 '''.format(profile_id, right_code)
     with conn as cursor:
         cursor.execute(sql)
