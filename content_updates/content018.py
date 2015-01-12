@@ -83,14 +83,14 @@ def upgrade(conn):
 </html>
     '''
     sql = '''
-            INSERT INTO `rbPrintTemplate` (`code`,`name`, `context`, `templateText`) VALUES
-            ('routeListsDate','Маршрутные листы на дату','token', '{0}');
+            INSERT INTO `rbPrintTemplate` (`code`,`name`, `context`, `templateText`, `fileName`, `default`) VALUES
+            ('routeListsDate','Маршрутные листы на дату','token', '{0}', '', '');
             '''.format(template_text)
     c.execute(sql)
     template_id = c.lastrowid
     sql = '''
-            INSERT INTO `rbPrintTemplateMeta` (`template_id`, `type`, `name`, `title`) VALUES
-            ({0}, 'Date', 'routeDate', 'Укажите дату');
+            INSERT INTO `rbPrintTemplateMeta` (`template_id`, `type`, `name`, `title`, `description`) VALUES
+            ({0}, 'Date', 'routeDate', 'Укажите дату', '');
             '''.format(template_id)
     c.execute(sql)
     c.close()
