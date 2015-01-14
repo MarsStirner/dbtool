@@ -10,14 +10,14 @@ MIN_SCHEMA_VERSION = 205
 
 
 def upgrade(conn):
-    from .content033 import upgrade as c_upgrade, __doc__ as c_doc
+    from .content_updates.content033 import upgrade as c_upgrade, __doc__ as c_doc
     import json
     import gzip
     print(c_doc)
     c_upgrade(conn)
 
     print(u'Загонка обновленных текстов шаблонов и метаданных')
-    with gzip.open('content033.json.gz', 'rb') as fin:
+    with gzip.open('content_updates/content033.json.gz', 'rb') as fin:
         result = json.load(fin)
     with conn as cursor:
         for _id, [text, meta] in result.iteritems():
