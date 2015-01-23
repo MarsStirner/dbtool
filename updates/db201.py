@@ -31,6 +31,23 @@ def upgrade(conn):
 
     c.execute(sql)
 
+    proc = u'''CREATE DEFINER=%s PROCEDURE `%s`(IN end_date VARCHAR(128), IN org_str VARCHAR(128) , IN profiles VARCHAR(128))
+             BEGIN
+                SELECT rbSpecialVariablesPreferences.`query` INTO @tpl FROM rbSpecialVariablesPreferences WHERE rbSpecialVariablesPreferences.name = 'SpecialVar_%s';
+		SET @sqlPrepare = REPLACE(REPLACE(REPLACE(@tpl, ":end_date", end_date),":org_str",org_str),":%s",profiles);
+		PREPARE sqlQuery FROM  @sqlPrepare;
+		EXECUTE sqlQuery;
+             END'''
+
+    names =    ( u'''form007front''', u'''FIOinput007''', u'''FIOinpuFrom12''', u'''FIOoutTotal''', u'''FIOoutToOtherUnit''', u'''FIOoutToOtherHospital''' , u'''FIOtotalDeath''')
+    profiles = (     u'''profiles''',     u'''profile''',       u'''profile''',     u'''profile''',           u'''profile''',               u'''profile''', u'''profile''')
+
+    for name in names:	
+        c.execute(u'''DROP PROCEDURE IF EXISTS %s'''%name) 
+        index = names.index(name)
+        c.execute(proc%(config['definer'],name,name,profiles[index])) 
+
+
 def downgrade(conn):
     sql = u'''
         DROP TABLE IF EXISTS `DrugIntervalCompParam`;
