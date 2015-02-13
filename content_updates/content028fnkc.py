@@ -14,7 +14,7 @@ def upgrade(conn):
     import gzip
 
     print(u'Загонка обновленных текстов шаблонов и метаданных')
-    with gzip.open('content028.json.gz', 'rb') as fin:
+    with gzip.open('content_updates/content028.json.gz', 'rb') as fin:
         result = json.load(fin)
     with conn as cursor:
         for _id, [text, meta] in result.iteritems():
