@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
+import os
 
 __doc__ = '''\
 Обновлённые тексты шаблонов печати для ФНКЦ
@@ -14,7 +15,7 @@ def upgrade(conn):
     import gzip
 
     print(u'Загонка обновленных текстов шаблонов и метаданных')
-    with gzip.open('content028.json.gz', 'rb') as fin:
+    with gzip.open(os.path.join(os.path.dirname(__file__), 'content028.json.gz', 'rb')) as fin:
         result = json.load(fin)
     with conn as cursor:
         for _id, [text, meta] in result.iteritems():
