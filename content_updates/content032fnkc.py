@@ -57,7 +57,7 @@ SET code='assistNurse', name='Медсестра (ассистент врача)
 WHERE id={0}'''.format(prof_id)
     c.execute(sql)
     # присвоение новых привилегий роли медсестра (assistNurse)
-    for code in ('evtDiagnosticPaidCreate', 'evtPoliclinicOmsCreate', 'evtPoliclinicDmsCreate',
+    for code in ('evtPoliclinicPaidCreate', 'evtPoliclinicOmsCreate', 'evtPoliclinicDmsCreate',
                  'evtPoliclinicPaidClose', 'evtPoliclinicOmsClose', 'evtPoliclinicDmsClose',
                  'evtDiagnosticPaidCreate', 'evtDiagnosticPaidClose', 'evtDiagnosticBudgetCreate',
                  'evtDiagnosticBudgetClose'):
@@ -78,7 +78,7 @@ VALUES (
 
 def delete_right(conn, profile_id, right_code):
     sql = '''DELETE FROM rbUserProfile_Right
-WHERE master_id = {0} AND userRight_id = (SELECT id FROM rbUserRight WHERE code = "{1}" LIMIT 1);
+WHERE master_id = {0} AND userRight_id IN (SELECT id FROM rbUserRight WHERE code = "{1}");
 '''.format(profile_id, right_code)
     with conn as cursor:
         cursor.execute(sql)
