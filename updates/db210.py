@@ -57,8 +57,8 @@ COLLATE = utf8_general_ci;
 ALTER TABLE `QuotaType` 
 CHANGE COLUMN `group_code` `group_code` VARCHAR(16) NULL DEFAULT NULL COMMENT 'Код группы{QuotaType}\nДля профиля будет пустое' ,
 ADD COLUMN `catalog_id` INT(11) NULL DEFAULT NULL COMMENT 'ссылка на справочник квот' AFTER `id`,
-ADD COLUMN `profile_code` VARCHAR(45) NULL DEFAULT NULL COMMENT 'код профиля. Для профиля будет пустое' AFTER `class`,
-ADD COLUMN `type_code` VARCHAR(45) NULL COMMENT 'код вида ВМП. Для профиля будет являться его кодом и = коду профиля для его видов ВМП' AFTER `group_code`,
+ADD COLUMN `profile_code` VARCHAR(16) NULL DEFAULT NULL COMMENT 'код профиля. Для профиля будет пустое' AFTER `class`,
+ADD COLUMN `type_code` VARCHAR(16) NULL COMMENT 'код вида ВМП. Для профиля будет являться его кодом и = коду профиля для его видов ВМП' AFTER `group_code`,
 ADD COLUMN `price` DOUBLE NOT NULL DEFAULT '0' COMMENT 'норматив фин.затрат' AFTER `teenOlder`,
 ADD INDEX `fk_catalog_id_idx` (`catalog_id` ASC);
 ALTER TABLE `QuotaType`
