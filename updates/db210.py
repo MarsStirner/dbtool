@@ -258,7 +258,11 @@ ALTER TABLE `rbPacientModel`
 DROP COLUMN `quotaType_id`,
 DROP INDEX `quotaType_id` ;
 '''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except Exception as e:
+        print(e)
+
     c.close()
 
     c = conn.cursor()
@@ -270,7 +274,10 @@ DROP COLUMN `treatment_id`,
 DROP COLUMN `pacientModel_id`,
 DROP COLUMN `quotaType_id`;
 '''
-    c.execute(sql)
+    try:
+        c.execute(sql)
+    except Exception as e:
+        print(e)
 
     c.close()
 
