@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `VMPQuotaDetails` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `pacientModel_id` INT(11) NULL DEFAULT NULL,
   `treatment_id` INT(11) NULL DEFAULT NULL COMMENT 'Ссылка на данные по методу и виду лечения (rbTreatment)',
-  `quotaType_id` INT(11) NULL DEFAULT NULL,
+  `quotaType_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pacientModel_id_idx` (`pacientModel_id` ASC),
   INDEX `fk_treatment_id_idx` (`treatment_id` ASC),
@@ -215,22 +215,17 @@ ADD CONSTRAINT `fk_details_id`
     sql = '''
 ALTER TABLE `VMPQuotaDetails` 
 DROP FOREIGN KEY `fk_pacientModel_id`,
-DROP FOREIGN KEY `fk_treatment_id`,
-DROP FOREIGN KEY `fk_quotaType_id`;
+DROP FOREIGN KEY `fk_treatment_id`;
 ALTER TABLE `VMPQuotaDetails` 
 CHANGE COLUMN `pacientModel_id` `pacientModel_id` INT(11) NOT NULL ,
 CHANGE COLUMN `treatment_id` `treatment_id` INT(11) NOT NULL COMMENT 'Ссылка на данные по методу и виду лечения (rbTreatment)' ,
-CHANGE COLUMN `quotaType_id` `quotaType_id` INT(11) NOT NULL ;
-ALTER TABLE `VMPQuotaDetails` 
+ALTER TABLE `VMPQuotaDetails`
 ADD CONSTRAINT `fk_pacientModel_id`
   FOREIGN KEY (`pacientModel_id`)
   REFERENCES `rbPacientModel` (`id`),
 ADD CONSTRAINT `fk_treatment_id`
   FOREIGN KEY (`treatment_id`)
-  REFERENCES `rbTreatment` (`id`),
-ADD CONSTRAINT `fk_quotaType_id`
-  FOREIGN KEY (`quotaType_id`)
-  REFERENCES `QuotaType` (`id`);'''
+  REFERENCES `rbTreatment` (`id`);'''
     # c.execute(sql)
     # c.close()
 
