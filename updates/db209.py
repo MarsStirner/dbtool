@@ -16,6 +16,8 @@ def upgrade(conn):
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`event_id` INT(11) NOT NULL COMMENT 'Event {Event}',
 	`clientRelation_id` INT(11) NOT NULL COMMENT 'ClientRelation {ClientRelation}',
+        `deleted` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Отметка удаления записи',
+        `note` TEXT NULL DEFAULT NULL COMMENT 'Примечания',
 	PRIMARY KEY (`id`),
 	INDEX `event_id` (`event_id`),
 	INDEX `person_id` (`clientRelation_id`),
@@ -24,7 +26,7 @@ def upgrade(conn):
     )
     COMMENT='Event client relation List'
     COLLATE='utf8_general_ci'
-    ENGINE=InnoDB;    '''
+    ENGINE=InnoDB    '''
     c.execute(sql)
     
 def downgrade(conn):
