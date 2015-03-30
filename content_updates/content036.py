@@ -6,7 +6,7 @@ __doc__ = '''\
 Обновление MKB CоглаCно TMIS-636
 '''
 
-MIN_SCHEMA_VERSION = 209
+MIN_SCHEMA_VERSION = 208
 
 
 def upgrade(conn):
