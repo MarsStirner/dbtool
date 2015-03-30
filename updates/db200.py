@@ -22,6 +22,12 @@ def upgrade(conn):
     c.execute(sql)
 
     sql = u'''
+        ALTER TABLE `TempInvalid`
+	CHANGE COLUMN `caseBegDate` `caseBegDate` DATE NULL DEFAULT NULL COMMENT 'Дата начала нетрудоспособности' AFTER `insuranceOfficeMark`;
+    '''
+    c.execute(sql)
+
+    sql = u'''
         ALTER TABLE TempInvalid_Period MODIFY begDate date COMMENT 'Дата открытия периода';
     '''
     c.execute(sql)

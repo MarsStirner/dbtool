@@ -6,7 +6,7 @@ __doc__ = '''\
 Заполнение createOnlyActionsWithinPriceList в EventType
 '''
 
-MIN_SCHEMA_VERSION = 206
+MIN_SCHEMA_VERSION = 207
 
 
 def upgrade(conn):

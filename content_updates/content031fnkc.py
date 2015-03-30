@@ -9,6 +9,8 @@ __doc__ = '''\
 Замена типов свойств диагнозов (МКБ+текст) на новый тип Diagnosis для AT поликлиники.
 '''
 
+MIN_SCHEMA_VERSION = 203
+
 
 def upgrade(conn):
     convert_diag_apts(conn)

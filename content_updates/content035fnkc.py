@@ -6,7 +6,7 @@ __doc__ = '''\
 Миграция данных услуг типов действий в ActionType_Service
 '''
 
-MIN_SCHEMA_VERSION = 207
+MIN_SCHEMA_VERSION = 208
 
 
 def upgrade(conn):
