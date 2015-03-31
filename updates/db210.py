@@ -27,7 +27,7 @@ COMMENT = 'Группа файлов, образующих один докуме
 CREATE TABLE IF NOT EXISTS `FileMeta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL COMMENT 'отображаемое имя',
-  `mimetype` `mimetype` VARCHAR(128) NOT NULL DEFAULT '' COMMENT 'Internet media type',
+  `mimetype` VARCHAR(128) NOT NULL DEFAULT '' COMMENT 'Internet media type',
   `path` varchar(256) DEFAULT NULL COMMENT 'путь до места нахождения, если храннение осуществляется средствами МИС',
   `external_id` int(11) DEFAULT NULL COMMENT 'идентификатор файла во внешней системе, если храннение осуществляется средствами другой системы, например, ЗХПД',
   `filegroup_id` int(11) NOT NULL COMMENT '{FileGroupDocument}',
