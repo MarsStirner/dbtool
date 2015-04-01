@@ -73,7 +73,8 @@ ADD CONSTRAINT `fk_catalog_id`
 
     c.execute(sql)
     c.close()
-
+    
+    c = conn.cursor()
     print(u'Переносим значения из QuotaType.group_code в QuotaType.profile_code')
     sql = '''UPDATE `QuotaType` SET profile_code=group_code, group_code=NULL WHERE group_code IS NOT NULL;'''
     c.execute(sql)
