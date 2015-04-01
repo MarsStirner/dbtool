@@ -288,6 +288,11 @@ DROP COLUMN `quotaType_id`;
 
     c.close()
 
+    c = conn.cursor()
+    print(u'Мигрируем вьюхи')
+    __migrate_views(c)
+    c.close()
+
 
 def __migrate_client_quoting(cursor):
     cursor.execute('''SELECT `id`, `quotaType_id`, `pacientModel_id`, `treatment_id` FROM `Client_Quoting`''')
@@ -313,6 +318,153 @@ def __migrate_client_quoting(cursor):
 
         sql = '''UPDATE `Client_Quoting` SET `quotaDetails_id`=%s WHERE id=%s''' % (last_id, id)
         cursor.execute(sql)
+
+
+def __migrate_views(cursor):
+    print(u'Изменяем vClient_Quoting_sub')
+
+    sql = '''
+    CREATE
+     OR REPLACE ALGORITHM = UNDEFINED
+    DEFINER = `root`@`localhost`
+    SQL SECURITY DEFINER
+VIEW `vClient_Quoting_sub` AS
+    select distinct
+        `c1`.`id` AS `id`,
+        `c1`.`createDatetime` AS `createDatetime`,
+        `c1`.`createPerson_id` AS `createPerson_id`,
+        `c1`.`modifyDatetime` AS `modifyDatetime`,
+        `c1`.`modifyPerson_id` AS `modifyPerson_id`,
+        `c1`.`deleted` AS `deleted`,
+        `c1`.`master_id` AS `master_id`,
+        `c1`.`identifier` AS `identifier`,
+        `c1`.`quotaTicket` AS `quotaTicket`,
+        `qd`.`quotaType_id` AS `quotaType_id`,
+        `c1`.`stage` AS `stage`,
+        `c1`.`directionDate` AS `directionDate`,
+        `c1`.`freeInput` AS `freeInput`,
+        `c1`.`org_id` AS `org_id`,
+        `c1`.`amount` AS `amount`,
+        `c1`.`MKB` AS `MKB`,
+        `c1`.`status` AS `status`,
+        `c1`.`request` AS `request`,
+        `c1`.`statment` AS `statment`,
+        `c1`.`dateRegistration` AS `dateRegistration`,
+        `c1`.`dateEnd` AS `dateEnd`,
+        `c1`.`orgStructure_id` AS `orgStructure_id`,
+        `c1`.`regionCode` AS `regionCode`,
+        `qd`.`pacientModel_id` AS `pacientModel_id`,
+        `qd`.`treatment_id` AS `treatment_id`,
+        `c1`.`event_id` AS `event_id`,
+        `c1`.`prevTalon_event_id` AS `prevTalon_event_id`
+    from
+        (`Client_Quoting` `c1`
+		join `VMPQuotaDetails` `qd` ON `c1`.`quotaDetails_id`=`qd`.`id`
+        join `Client_Quoting` `c2` ON (((`c1`.`master_id` = `c2`.`master_id`)
+            and (`c1`.`event_id` = `c2`.`event_id`)
+            and (`c1`.`createDatetime` < `c2`.`createDatetime`))));
+    '''
+    cursor.execute(sql)
+
+    print(u'Изменяем vClient_Quoting')
+
+    sql = '''
+    CREATE
+     OR REPLACE ALGORITHM = UNDEFINED
+    DEFINER = `root`@`localhost`
+    SQL SECURITY DEFINER
+VIEW `vClient_Quoting` AS
+    select
+        `c0`.`id` AS `id`,
+        `c0`.`createDatetime` AS `createDatetime`,
+        `c0`.`createPerson_id` AS `createPerson_id`,
+        `c0`.`modifyDatetime` AS `modifyDatetime`,
+        `c0`.`modifyPerson_id` AS `modifyPerson_id`,
+        `c0`.`deleted` AS `deleted`,
+        `c0`.`master_id` AS `master_id`,
+        `c0`.`identifier` AS `identifier`,
+        `c0`.`quotaTicket` AS `quotaTicket`,
+        `qd`.`quotaType_id` AS `quotaType_id`,
+        `c0`.`stage` AS `stage`,
+        `c0`.`directionDate` AS `directionDate`,
+        `c0`.`freeInput` AS `freeInput`,
+        `c0`.`org_id` AS `org_id`,
+        `c0`.`amount` AS `amount`,
+        `c0`.`MKB` AS `MKB`,
+        `c0`.`status` AS `status`,
+        `c0`.`request` AS `request`,
+        `c0`.`statment` AS `statment`,
+        `c0`.`dateRegistration` AS `dateRegistration`,
+        `c0`.`dateEnd` AS `dateEnd`,
+        `c0`.`orgStructure_id` AS `orgStructure_id`,
+        `c0`.`regionCode` AS `regionCode`,
+        `qd`.`pacientModel_id` AS `pacientModel_id`,
+        `qd`.`treatment_id` AS `treatment_id`,
+        `c0`.`event_id` AS `event_id`,
+        `c0`.`prevTalon_event_id` AS `prevTalon_event_id`
+    from
+        (`Client_Quoting` `c0`
+		left join `VMPQuotaDetails` `qd` ON `c0`.`quotaDetails_id`=`qd`.`id`
+        left join `vClient_Quoting_sub` `c00` ON ((`c0`.`id` = `c00`.`id`)))
+    where
+        (isnull(`c00`.`id`)
+            and ((not (`c0`.`event_id` in (select
+                `c3`.`prevTalon_event_id`
+            from
+                `Client_Quoting` `c3`
+            where
+                ((`c3`.`prevTalon_event_id` is not null)
+                    and (`c3`.`deleted` = 0)))))
+            or isnull(`c0`.`event_id`)));
+    '''
+    cursor.execute(sql)
+
+    print(u'Изменяем vClient_Quoting_History')
+
+    sql = '''
+    CREATE
+     OR REPLACE ALGORITHM = UNDEFINED
+    DEFINER = `root`@`localhost`
+    SQL SECURITY DEFINER
+VIEW `vClient_Quoting_History` AS
+    select
+        `cq`.`id` AS `id`,
+        `p`.`login` AS `modifyPerson`,
+        `cq`.`createDatetime` AS `createDatetime`,
+        `cq`.`master_id` AS `client_id`,
+        `cq`.`identifier` AS `identifier`,
+        `cq`.`quotaTicket` AS `quotaTicket`,
+        `qt`.`code` AS `quotaCode`,
+        `cq`.`stage` AS `stage`,
+        `cq`.`directionDate` AS `directionDate`,
+        `cq`.`freeInput` AS `freeInput`,
+        `o`.`shortName` AS `organ`,
+        `cq`.`amount` AS `amount`,
+        `cq`.`MKB` AS `MKB`,
+        `qs`.`name` AS `status`,
+        `cq`.`request` AS `request`,
+        `cq`.`statment` AS `statment`,
+        `cq`.`dateRegistration` AS `dateRegistration`,
+        `cq`.`dateEnd` AS `dateEnd`,
+        `os`.`name` AS `orgStruct`,
+        `cq`.`regionCode` AS `regionCode`,
+        `pm`.`code` AS `patientModelCode`,
+        `t`.`code` AS `treatmentCode`,
+        `cq`.`event_id` AS `event_id`,
+        `cq`.`prevTalon_event_id` AS `prevTalon_event_id`
+    from
+        (((((((`Client_Quoting` `cq`
+		left join `VMPQuotaDetails` `qd` ON `cq`.`quotaDetails_id`=`qd`.`id`
+        left join `Person` `p` ON ((`cq`.`createPerson_id` = `p`.`id`)))
+        left join `QuotaType` `qt` ON ((`qd`.`quotaType_id` = `qt`.`id`)))
+        left join `Organisation` `o` ON ((`cq`.`org_id` = `o`.`id`)))
+        left join `rbQuotaStatus` `qs` ON ((`cq`.`status` = `qs`.`id`)))
+        left join `OrgStructure` `os` ON ((`cq`.`orgStructure_id` = `os`.`id`)))
+        left join `rbPacientModel` `pm` ON ((`qd`.`pacientModel_id` = `pm`.`id`)))
+        left join `rbTreatment` `t` ON ((`qd`.`treatment_id` = `t`.`id`)))
+    order by `cq`.`master_id` , `cq`.`createDatetime` desc;
+    '''
+    cursor.execute(sql)
 
 
 def downgrade(conn):
