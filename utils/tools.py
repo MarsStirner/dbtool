@@ -174,6 +174,24 @@ def _countAPT(cursor, at_id):
 addNewActionProperty = addNewActionPropertyType # FIXME: заменить в проекте, где раньше использовалось название addNewActionProperty
 
 
+def add_right(conn, profile_id, right_code):
+    sql = '''INSERT INTO rbUserProfile_Right (master_id, userRight_id)
+VALUES (
+  {0},
+  (SELECT id FROM rbUserRight WHERE code = "{1}" LIMIT 1)
+);'''.format(profile_id, right_code)
+    with conn as cursor:
+        cursor.execute(sql)
+
+
+def delete_right(conn, profile_id, right_code):
+    sql = '''DELETE FROM rbUserProfile_Right
+WHERE master_id = {0} AND userRight_id IN (SELECT id FROM rbUserRight WHERE code = "{1}");
+'''.format(profile_id, right_code)
+    with conn as cursor:
+        cursor.execute(sql)
+
+
 
 
 
