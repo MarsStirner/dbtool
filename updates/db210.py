@@ -54,10 +54,10 @@ CREATE TABLE IF NOT EXISTS `ClientFileAttach` (
   `deleted` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Признак удаления',
   `attachDate` DATETIME NOT NULL COMMENT 'Дата прикрепления',
   `documentType_id` INT(11) NULL DEFAULT NULL COMMENT '{rbDocumentType} тип документа',
-  `relationType_id` INT(11) NULL DEFAULT NULL COMMENT '{rbRelationType} документ относится к родственнику пациента'
+  `relationType_id` INT(11) NULL DEFAULT NULL COMMENT '{rbRelationType} документ относится к родственнику пациента',
   PRIMARY KEY (`id`),
   KEY `fk_clientfileattach_rbdocumenttype_idx` (`documentType_id`),
-  KEY `fk_clientfileattach_rbrelationtype_idx` (`relationType_id`);
+  KEY `fk_clientfileattach_rbrelationtype_idx` (`relationType_id`),
   KEY `fk_clientfileattach_client` (`client_id`),
   KEY `fk_clientfileattach_filegroupdocument_idx` (`filegroup_id`),
   CONSTRAINT `fk_clientfileattach_filegroupdocument` FOREIGN KEY (`filegroup_id`)
