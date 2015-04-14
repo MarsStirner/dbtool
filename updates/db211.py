@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `VMPQuotaDetails` (
   `pacientModel_id` INT(11) NULL DEFAULT NULL,
   `treatment_id` INT(11) NULL DEFAULT NULL COMMENT 'Ссылка на данные по методу и виду лечения (rbTreatment)',
   `quotaType_id` INT(11) NOT NULL,
-  `price` DECIMAL(11,2) NOT NULL DEFAULT '0',
+  `price` DECIMAL(11,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pacientModel_id_idx` (`pacientModel_id` ASC),
   INDEX `fk_treatment_id_idx` (`treatment_id` ASC),
