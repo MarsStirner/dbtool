@@ -195,9 +195,13 @@ ADD CONSTRAINT `fk_treatmentType_id`
     c.close()
 
     c = conn.cursor()
-
     print(u'Мигрируем Client_Quoting в VMPQuotaDetails')
     __migrate_client_quoting(c)
+    c.close()
+
+    c = conn.cursor()
+    print(u'Мигрируем связь квот с МКБ в MKB_VMPQuotaFilter')
+    __migrate_mkb_vmp_quota_filter(c)
     c.close()
 
     c = conn.cursor()
@@ -319,6 +323,12 @@ def __migrate_client_quoting(cursor):
 
         sql = '''UPDATE `Client_Quoting` SET `quotaDetails_id`=%s WHERE id=%s''' % (last_id, id)
         cursor.execute(sql)
+
+
+def __migrate_mkb_vmp_quota_filter(cursor):
+    cursor.execute('''INSERT INTO MKB_VMPQuotaFilter (quotaDetails_id, MKB_id)
+SELECT DISTINCT cq.quotaDetails_id, MKB.id FROM Client_Quoting cq
+INNER JOIN MKB ON cq.MKB=MKB.DiagID;''')
 
 
 def __migrate_views(cursor):
