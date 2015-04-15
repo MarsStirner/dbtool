@@ -61,14 +61,14 @@ CHANGE COLUMN `teenOlder` `teenOlder` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '�
 ADD COLUMN `catalog_id` INT(11) NULL DEFAULT NULL COMMENT 'ссылка на справочник квот' AFTER `id`,
 ADD COLUMN `profile_code` VARCHAR(16) NULL DEFAULT NULL COMMENT 'код профиля. Для профиля будет пустое' AFTER `class`,
 ADD COLUMN `type_code` VARCHAR(16) NULL COMMENT 'код вида ВМП. Для профиля будет являться его кодом и = коду профиля для его видов ВМП' AFTER `group_code`,
-ADD COLUMN `price` DOUBLE NOT NULL DEFAULT '0' COMMENT 'норматив фин.затрат' AFTER `teenOlder`,
+ADD COLUMN `price` DECIMAL(11,2) NOT NULL DEFAULT '0' COMMENT 'норматив фин.затрат' AFTER `teenOlder`,
 ADD INDEX `fk_catalog_id_idx` (`catalog_id` ASC);
 ALTER TABLE `QuotaType`
 ADD CONSTRAINT `fk_catalog_id`
   FOREIGN KEY (`catalog_id`)
   REFERENCES `QuotaCatalog` (`id`)
-  ON DELETE RESTRICT
-  ON UPDATE RESTRICT;
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
     '''
 
     c.execute(sql)
@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `VMPQuotaDetails` (
   `pacientModel_id` INT(11) NULL DEFAULT NULL,
   `treatment_id` INT(11) NULL DEFAULT NULL COMMENT 'Ссылка на данные по методу и виду лечения (rbTreatment)',
   `quotaType_id` INT(11) NOT NULL,
+  `price` DECIMAL(11,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pacientModel_id_idx` (`pacientModel_id` ASC),
   INDEX `fk_treatment_id_idx` (`treatment_id` ASC),
@@ -106,8 +107,8 @@ CREATE TABLE IF NOT EXISTS `VMPQuotaDetails` (
   CONSTRAINT `fk_quotaType_id`
     FOREIGN KEY (`quotaType_id`)
     REFERENCES `QuotaType` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
@@ -134,8 +135,8 @@ CREATE TABLE IF NOT EXISTS `MKB_VMPQuotaFilter` (
   CONSTRAINT `fk_quotaDetails_id`
     FOREIGN KEY (`quotaDetails_id`)
     REFERENCES `VMPQuotaDetails` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_general_ci;
