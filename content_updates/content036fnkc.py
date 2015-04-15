@@ -19,9 +19,16 @@ def upgrade(conn):
 
     # присвоение новых привилегий роли регистратор поликлиники (clinicRegistrator) и кассир (kassir)
     prof_id = tools.checkRecordExists(c, 'rbUserProfile', 'code = "{0}"'.format('clinicRegistrator'))
-    tools.add_right(conn, prof_id, 'evtPaymentInfoUpdate')
+    tools.add_right(c, prof_id, 'evtPaymentInfoUpdate')
     prof_id = tools.checkRecordExists(c, 'rbUserProfile', 'code = "{0}"'.format('kassir'))
-    tools.add_right(conn, prof_id, 'evtPaymentInfoUpdate')
+    tools.add_right(c, prof_id, 'evtPaymentInfoUpdate')
+    right_exists = tools.checkRecordExists(c,
+        'rbUserProfile_Right up_r JOIN rbUserRight ur ON ur.id = up_r.userRight_id',
+        'up_r.master_id = {0} AND ur.code = "{1}"'.format(prof_id, 'clientEventUpdate'),
+        'up_r.id'
+    )
+    if not right_exists:
+        tools.add_right(c, prof_id, 'clientEventUpdate')
 
     # правки по шаблонам печати
     sql = '''UPDATE rbPrintTemplate SET templateText = '{0}', render = {1} WHERE context = '{2}' AND code = '{3}';'''

@@ -30,24 +30,24 @@ def upgrade(conn):
     prof_id = tools.checkRecordExists(c, 'rbUserProfile', 'code = "{0}"'.format('clinicDoctor'))
     for code in ('evtPoliclinicOmsCreate', 'evtPoliclinicDmsCreate', 'evtPoliclinicPaidClose',
                  'evtPoliclinicOmsClose', 'evtPoliclinicDmsClose'):
-        tools.add_right(conn, prof_id, code)
+        tools.add_right(c, prof_id, code)
     # убрать возможность редактировать чужие действия (editOtherpeopleAction)
-    tools.delete_right(conn, prof_id, 'editOtherpeopleAction')
+    tools.delete_right(c, prof_id, 'editOtherpeopleAction')
 
     # присвоение новых привилегий роли врач диагностики (diagDoctor)
     prof_id = tools.checkRecordExists(c, 'rbUserProfile', 'code = "{0}"'.format('diagDoctor'))
     for code in ('evtDiagnosticPaidCreate', 'evtDiagnosticPaidClose', 'evtDiagnosticBudgetCreate',
                  'evtDiagnosticBudgetClose'):
-        tools.add_right(conn, prof_id, code)
+        tools.add_right(c, prof_id, code)
     # убрать работу с документами-действиями (clientAssessmentCreate, clientAssessmentUpdate, clientAssessmentDelete)
     for code in ('clientAssessmentCreate', 'clientAssessmentUpdate', 'clientAssessmentDelete'):
-        tools.delete_right(conn, prof_id, code)
+        tools.delete_right(c, prof_id, code)
 
     # присвоение новых привилегий роли регистратор поликлиники (clinicRegistrator)
     prof_id = tools.checkRecordExists(c, 'rbUserProfile', 'code = "{0}"'.format('clinicRegistrator'))
     for code in ('evtDiagnosticPaidCreate', 'evtPoliclinicDmsCreate', 'evtPoliclinicPaidCreate',
                  'evtPoliclinicDmsClose', 'evtDiagnosticPaidClose'):
-        tools.add_right(conn, prof_id, code)
+        tools.add_right(c, prof_id, code)
 
     # обновление профиля медсестры
     prof_id = 38
@@ -61,6 +61,6 @@ WHERE id={0}'''.format(prof_id)
                  'evtPoliclinicPaidClose', 'evtPoliclinicOmsClose', 'evtPoliclinicDmsClose',
                  'evtDiagnosticPaidCreate', 'evtDiagnosticPaidClose', 'evtDiagnosticBudgetCreate',
                  'evtDiagnosticBudgetClose'):
-        tools.add_right(conn, prof_id, code)
+        tools.add_right(c, prof_id, code)
 
     c.close()
