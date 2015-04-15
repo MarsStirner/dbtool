@@ -306,10 +306,10 @@ def __migrate_client_quoting(cursor):
 
     for row in data:
         id, quotaType_id, pacientModel_id, treatment_id = row
-        sql = ('''SELECT id FROM `VMPQuotaDetails` WHERE `quotaType_id`=%s AND `pacientModel_id`=%s AND `treatment_id`= %s'''
-               % (quotaType_id if quotaType_id else 'NULL',
-                  pacientModel_id if pacientModel_id else 'NULL',
-                  treatment_id if treatment_id else 'NULL'))
+        sql = ('''SELECT id FROM `VMPQuotaDetails` WHERE `quotaType_id`%s AND `pacientModel_id`%s AND `treatment_id`%s'''
+               % ('=%s' % quotaType_id if quotaType_id else ' IS NULL',
+                  '=%s' % pacientModel_id if pacientModel_id else ' IS NULL',
+                  '=%s' % treatment_id if treatment_id else ' IS NULL'))
         cursor.execute(sql)
         row = cursor.fetchone()
         if row:
