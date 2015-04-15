@@ -10,6 +10,8 @@ __doc__ = '''\
 def upgrade(conn):
     global tools
     c = conn.cursor()
+    c.execute('SET SQL_SAFE_UPDATES=0;')
+
     # добавление новых привилегий
     sql = '''INSERT INTO rbUserRight (code, name) VALUES (%s, %s);'''
     data = [
@@ -141,4 +143,5 @@ VALUES
 </html>
 '''))
 
+    c.execute('SET SQL_SAFE_UPDATES=1;')
     c.close()
