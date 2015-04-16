@@ -244,23 +244,11 @@ ADD CONSTRAINT `fk_treatment_id`
 
     c = conn.cursor()
 
-    print(u'Удаляем колонки в rbTreatment')
+    print(u'Удаляем колонки в rbPacientModel')
     sql = '''
 ALTER TABLE `rbPacientModel` 
 DROP FOREIGN KEY `rbPacientModel_ibfk_1`;
-ALTER TABLE `rbPacientModel` 
-DROP COLUMN `quotaType_id`,
-DROP INDEX `quotaType_id` ;
 '''
-    c.execute(sql)
-    c.close()
-
-    c = conn.cursor()
-
-    print(u'Удаляем колонки в rbPacientModel')
-    sql = '''
-ALTER TABLE `rbPacientModel`
-DROP FOREIGN KEY `rbPacientModel_ibfk_1`;'''
     try:
         c.execute(sql)
     except Exception as e:
@@ -270,6 +258,29 @@ DROP FOREIGN KEY `rbPacientModel_ibfk_1`;'''
 ALTER TABLE `rbPacientModel`
 DROP COLUMN `quotaType_id`,
 DROP INDEX `quotaType_id` ;
+'''
+    try:
+        c.execute(sql)
+    except Exception as e:
+        print(e)
+
+    c.close()
+
+    c = conn.cursor()
+
+    print(u'Удаляем колонки в rbTreatment')
+    sql = '''
+ALTER TABLE `rbTreatment`
+DROP FOREIGN KEY `rbTreatment_ibfk_1`;'''
+    try:
+        c.execute(sql)
+    except Exception as e:
+        print(e)
+
+    sql = '''
+ALTER TABLE `rbTreatment`
+DROP COLUMN `pacientModel_id`,
+DROP INDEX `pacientModel_id`;
 '''
     try:
         c.execute(sql)
@@ -297,6 +308,18 @@ DROP COLUMN `quotaType_id`;
     c = conn.cursor()
     print(u'Мигрируем вьюхи')
     __migrate_views(c)
+    c.close()
+
+    c = conn.cursor()
+    print(u'Добавление deleted в rbPacientModel и rbTreatment')
+    sql = '''ALTER TABLE `rbPacientModel`
+ADD COLUMN `deleted` TINYINT(1) NOT NULL DEFAULT 0;
+'''
+    c.execute(sql)
+    sql = '''ALTER TABLE `rbTreatment`
+ADD COLUMN `deleted` TINYINT(1) NOT NULL DEFAULT 0;
+'''
+    c.execute(sql)
     c.close()
 
 
