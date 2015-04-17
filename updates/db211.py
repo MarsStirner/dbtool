@@ -7,7 +7,7 @@ __doc__ = '''Квоты ВМП'''
 
 def upgrade(conn):
     c = conn.cursor()
-
+    
     print(u'Создаём таблицу QuotaCatalog')
     sql = '''
 CREATE TABLE IF NOT EXISTS `QuotaCatalog` (
@@ -75,6 +75,7 @@ ADD CONSTRAINT `fk_catalog_id`
     c.close()
     
     c = conn.cursor()
+    c.execute('SET SQL_SAFE_UPDATES=0;')
     print(u'Переносим значения из QuotaType.group_code в QuotaType.profile_code')
     sql = '''UPDATE `QuotaType` SET profile_code=group_code, group_code=NULL WHERE group_code IS NOT NULL;'''
     c.execute(sql)
