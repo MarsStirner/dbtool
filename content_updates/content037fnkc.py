@@ -65,7 +65,7 @@ VALUES
     sql = '''INSERT INTO rbPrintTemplateMeta
 (`template_id`, `type`, `name`, `title`)
 VALUES
-(%s, %s, %s, %s, %s);'''
+(%s, %s, %s, %s);'''
     c.execute(sql, (
         template_id,
         'Date',
