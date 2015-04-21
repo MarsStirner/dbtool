@@ -31,7 +31,7 @@ VALUES
 <h3>{{ person.speciality.name }}</h3>
 <h3>c {{ start_date }} по {{ end_date }}; к. {{ person.office }}</h3>
 {% set tickets = schedule.getQueuedPatientsTickets(person.id, start_date, end_date) %}
-<table border="1" width="100%">
+<table border="1" width="100%" style="border-collapse:collapse;" cellpadding="10">
     <thead>
     <tr>
         <th width="1%">№</th>
