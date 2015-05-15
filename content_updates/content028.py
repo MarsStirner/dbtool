@@ -12,6 +12,7 @@ MIN_SCHEMA_VERSION = 202
 
 def upgrade(conn):
     with conn as cursor:
+        cursor.execute('SET SQL_SAFE_UPDATES=0')
         # Убираем из выборки те шаблоны печати, что не связаны со свободными отчётами
         print(u'Шаблоны печати, имеющие контекст free, но не участвующие в аналитических отчётах получают контекст free_')
         cursor.execute('''
@@ -41,3 +42,4 @@ WHERE rbPrintTemplate.id = rbAnalyticalReports.PrintTemplate_id''')
         for i, q in updated:
             # print i, 'str_to_date' in q, q
             cursor.execute('''UPDATE `rbSpecialVariablesPreferences` SET `query` = %s WHERE id = %s''', (q, i))
+        cursor.execute('SET SQL_SAFE_UPDATES=1')
