@@ -58,8 +58,8 @@ def executeEx(*args, **kwargs):
 
     func(*args)
 
-def checkRecordExists(cursor, table, cond):
-    cursor.execute(u'''SELECT id FROM %s WHERE %s ''' % (table, cond))
+def checkRecordExists(cursor, table, cond, field='id'):
+    cursor.execute('''SELECT %s FROM %s WHERE %s ''' % (field, table, cond))
     result = cursor.fetchone()
     if result:
         id_ = int(result[0])
@@ -123,7 +123,7 @@ def addNewActionPropertyType(cursor, **kwargs):
     at_id = kwargs.get('actionType_id')
     typeName = kwargs.get('typeName')
     if at_id is None or typeName is None:
-        raise AttributeError('actionTyped and typeName cannot be empty')
+        raise AttributeError('actionType_id and typeName cannot be empty')
 
     musthave_fields = (('createDatetime', 'CURRENT_TIMESTAMP'),
                        ('modifyDatetime', 'CURRENT_TIMESTAMP'),
@@ -166,12 +166,29 @@ INSERT INTO `ActionPropertyType` (%s) VALUES (%s)
     cursor.execute(sql)
     return cursor.lastrowid
 
+
 def _countAPT(cursor, at_id):
     cursor.execute('SELECT count(*) FROM ActionPropertyType WHERE actionType_id=%d AND deleted=0' % at_id)
     count = int(cursor.fetchone()[0])
     return count
 
 addNewActionProperty = addNewActionPropertyType # FIXME: заменить в проекте, где раньше использовалось название addNewActionProperty
+
+
+def add_right(cursor, profile_id, right_code):
+    sql = '''INSERT INTO rbUserProfile_Right (master_id, userRight_id)
+VALUES (
+  {0},
+  (SELECT id FROM rbUserRight WHERE code = "{1}" LIMIT 1)
+);'''.format(profile_id, right_code)
+    cursor.execute(sql)
+
+
+def delete_right(cursor, profile_id, right_code):
+    sql = '''DELETE FROM rbUserProfile_Right
+WHERE master_id = {0} AND userRight_id IN (SELECT id FROM rbUserRight WHERE code = "{1}");
+'''.format(profile_id, right_code)
+    cursor.execute(sql)
 
 
 

@@ -3,9 +3,6 @@
 
 from __future__ import unicode_literals, print_function
 
-__doc__ = '''\
-- Лист назначений:инфузионная терапия. Добавление более одного интервала назначения
-'''
 
 def upgrade(conn):
     global config
@@ -49,9 +46,8 @@ def upgrade(conn):
 
 
 def downgrade(conn):
+    c = conn.cursor()
     sql = u'''
         DROP TABLE IF EXISTS `DrugIntervalCompParam`;
     '''
     c.execute(sql)
-
-    pass

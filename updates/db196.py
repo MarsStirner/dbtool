@@ -3,8 +3,9 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-fix: Обновление синхронизации редактирования документов (AppLock)
+Обновление синхронизации редактирования документов (AppLock)
 '''
+
 
 def upgrade(conn):
     global config

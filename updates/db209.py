@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
@@ -28,6 +27,7 @@ def upgrade(conn):
     COLLATE='utf8_general_ci'
     ENGINE=InnoDB    '''
     c.execute(sql)
-    
+
+
 def downgrade(conn):
     pass

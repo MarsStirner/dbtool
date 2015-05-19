@@ -9,7 +9,6 @@ __doc__ = '''\
 
 
 def upgrade(conn):
-
     with conn as cursor:
         # Добавляем столбец с аргументами в таблицу специальных запросов
         print(u'В таблицу rbSpecialVariablesPreferences добавляется столбец arguments, в котором хранится сигнатура специального запроса')
@@ -46,6 +45,7 @@ WHERE sql_arguments.id = rbSpecialVariablesPreferences.id;''')
         print(u'Поздравляем! Таблица VariablesforSQL больше не нужна')
         print(u'Удаляется временная таблица')
         cursor.execute('DROP TABLE sql_arguments;')
+
 
 def downgrade(conn):
     pass
