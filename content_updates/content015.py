@@ -234,14 +234,14 @@ def upgrade(conn):
             c = conn.cursor()
             if 'reasonOfAbsence' in sched:
                 c.execute(create_schedule_empty, (
-                    cdt, cpid, mdt, mpid, person_id, setDate,
+                    cdt or 'CURRENT_TIMESTAMP', cpid, mdt or 'CURRENT_TIMESTAMP', mpid, person_id, setDate,
                     sched['reasonOfAbsence'])
                 )
                 c.close()
                 continue
             else:
                 c.execute(create_schedule, (
-                    cdt, cpid, mdt, mpid, person_id, setDate,
+                    cdt or 'CURRENT_TIMESTAMP', cpid, mdt or 'CURRENT_TIMESTAMP', mpid, person_id, setDate,
                     rbReceptionType.get(type_code, 'NULL'),
                     sched['begTime'], sched['endTime'], len(sched['times']), sched['office']
                 ))
@@ -255,7 +255,7 @@ def upgrade(conn):
                 begDateTime = dt + t
                 endDateTime = dt + (sched['times'][i + 1] if i < len(sched['times']) - 1 else sched['endTime'])
                 c.execute(create_ticket, (
-                    cdt, cpid, mdt, mpid, schedule_id, begDateTime.time(), endDateTime.time(),
+                    cdt or 'CURRENT_TIMESTAMP', cpid, mdt or 'CURRENT_TIMESTAMP', mpid, schedule_id, begDateTime.time(), endDateTime.time(),
                     rbAttendanceType.get('planned')
                 ))
                 ticket_ids_normal.append(c.lastrowid)
@@ -263,14 +263,14 @@ def upgrade(conn):
             # Создаём цито тикеты
             for i in xrange(max(sched['max_cito'], len(sched['cito']))):
                 c.execute(create_ticket, (
-                    cdt, cpid, mdt, mpid, schedule_id, "NULL", "NULL", rbAttendanceType.get('CITO')
+                    cdt or 'CURRENT_TIMESTAMP', cpid, mdt or 'CURRENT_TIMESTAMP', mpid, schedule_id, "NULL", "NULL", rbAttendanceType.get('CITO')
                 ))
                 ticket_ids_cito.append(c.lastrowid)
 
             # Создаём сверх-плановые тикеты
             for i in xrange(max(sched['max_extra'], len(sched['extra']))):
                 c.execute(create_ticket, (
-                    cdt, cpid, mdt, mpid, schedule_id, "NULL", "NULL", rbAttendanceType.get('extra')
+                    cdt or 'CURRENT_TIMESTAMP', cpid, mdt or 'CURRENT_TIMESTAMP', mpid, schedule_id, "NULL", "NULL", rbAttendanceType.get('extra')
                 ))
                 ticket_ids_extra.append(c.lastrowid)
 
@@ -285,7 +285,7 @@ def upgrade(conn):
                     else:
                         ticket_id = ticket_ids_normal[index]
                         c.execute(create_client_ticket, (
-                            action[9], action[10], action[11], action[12],
+                            action[9] or 'CURRENT_TIMESTAMP', action[10], action[11] or 'CURRENT_TIMESTAMP', action[12],
                             action[6], ticket_id, rbAppointmentType.get(action[3], None),
                             action[13] if action[13] != '0' else None, action[8]
                         ))
@@ -295,7 +295,7 @@ def upgrade(conn):
                 else:
                     ticket_id = ticket_ids_extra[index]
                     c.execute(create_client_ticket, (
-                        action[9], action[10], action[11], action[12],
+                        action[9] or 'CURRENT_TIMESTAMP', action[10], action[11] or 'CURRENT_TIMESTAMP', action[12],
                         action[6], ticket_id, rbAppointmentType.get(action[3], None),
                         action[13] if action[13] != '0' else None, action[8]
                     ))
@@ -305,7 +305,7 @@ def upgrade(conn):
                 else:
                     ticket_id = ticket_ids_cito[index]
                     c.execute(create_client_ticket, (
-                        action[9], action[10], action[11], action[12],
+                        action[9] or 'CURRENT_TIMESTAMP', action[10], action[11] or 'CURRENT_TIMESTAMP', action[12],
                         action[6], ticket_id, rbAppointmentType.get(action[3], None),
                         action[13] if action[13] != '0' else None, action[8]
                     ))
