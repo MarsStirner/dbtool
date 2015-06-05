@@ -6,8 +6,6 @@ __doc__ = '''\
 Добавление роли врача анестезиолога
 '''
 
-MIN_SCHEMA_VERSION = 206
-
 
 def upgrade(conn):
     c = conn.cursor()
