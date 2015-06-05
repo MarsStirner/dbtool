@@ -42,7 +42,7 @@ INSERT INTO rbUserProfile (code, name, withDep) VALUES("anestezDoctor", "Вра�
     c.execute(sql)
 
     sql = '''
-INSERT INTO rbUserProfile_Right (master_id, userRight_id) SELECT 41, ur.id FROM rbUserRight ur JOIN rbUserProfile_Right upr ON ur.id = upr.userRight_id AND upr.master_id = 24
+INSERT INTO rbUserProfile_Right (master_id, userRight_id) SELECT 42, ur.id FROM rbUserRight ur JOIN rbUserProfile_Right upr ON ur.id = upr.userRight_id AND upr.master_id = 24
 '''
     c.execute(sql)
 
