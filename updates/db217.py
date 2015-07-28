@@ -18,8 +18,8 @@ def upgrade(conn):
         INDEX `object_id` (`object_id`),
         CONSTRAINT `FK_UserSubscriptions_Person` FOREIGN KEY (`person_id`) REFERENCES `Person` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
         )
-        DEFAULT CHARACTER SET = utf8
-        COLLATE = utf8_general_ci
+        DEFAULT CHARACTER SET = latin1
+        COLLATE = latin1_general_ci
         ENGINE = InnoDB;
         '''
         c.execute(sql)
