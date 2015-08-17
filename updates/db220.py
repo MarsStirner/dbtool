@@ -10,7 +10,10 @@ __doc__ = '''\
 def upgrade(conn):
     c = conn.cursor()
 
-    sql = '''ALTER TABLE `Event_Payment` CHANGE COLUMN `master_id` `master_id` INT(11) NULL COMMENT 'Событие {Event}' '''
+    sql = '''ALTER TABLE `Event_Payment`
+CHANGE COLUMN `master_id` `master_id` INT(11) NULL COMMENT 'Событие {Event}',
+CHANGE COLUMN `sumDiscount` DOUBLE NOT NULL DEFAULT '0' COMMENT 'Сумма скидки'
+'''
     c.execute(sql)
 
     sql = '''ALTER TABLE `Event_LocalContract` CHANGE COLUMN `master_id` `master_id` INT(11) NULL COMMENT 'Событие {Event}' '''
