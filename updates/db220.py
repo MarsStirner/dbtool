@@ -12,7 +12,7 @@ def upgrade(conn):
 
     sql = '''ALTER TABLE `Event_Payment`
 CHANGE COLUMN `master_id` `master_id` INT(11) NULL COMMENT 'Событие {Event}',
-CHANGE COLUMN `sumDiscount` DOUBLE NOT NULL DEFAULT '0' COMMENT 'Сумма скидки'
+CHANGE COLUMN `sumDiscount` `sumDiscount` DOUBLE NOT NULL DEFAULT '0' COMMENT 'Сумма скидки'
 '''
     c.execute(sql)
 
