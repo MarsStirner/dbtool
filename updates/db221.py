@@ -114,7 +114,7 @@ def upgrade(conn):
         inserts = filter(None, data.splitlines())
         for insert in inserts:
             print(insert)
-            c.execute(inserts)
+            c.execute(insert)
 
 
 def downgrade(conn):
