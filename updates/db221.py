@@ -9,9 +9,9 @@ __doc__ = '''\
 rbUnitsGroup = '''
 CREATE TABLE `rbUnitsGroup` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `code` VARCHAR(256) NOT NULL,
-    `name` VARCHAR(256) NOT NULL,
-    `shortname` VARCHAR(256) NOT NULL,
+    `code` VARCHAR(16) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `shortname` VARCHAR(32) NOT NULL,
     PRIMARY KEY (`id`)
 )
 COLLATE='utf8_general_ci'
@@ -22,9 +22,9 @@ ENGINE=InnoDB
 rbUnits = u'''
 CREATE TABLE `rbUnits` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `code` VARCHAR(256) NOT NULL,
-    `name` VARCHAR(256) NOT NULL,
-    `shortname` VARCHAR(256) NOT NULL,
+    `code` VARCHAR(16) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `shortname` VARCHAR(32) NOT NULL,
     `group_id` INT(11) NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `FK_rbUnits_rbUnitsGroup` (`group_id`),
@@ -53,8 +53,8 @@ CREATE TABLE `MedicalPrescription` (
     `duration_unit_id` INT(11) NOT NULL,
     `begDate` DATE NULL DEFAULT NULL,
     `methodOfAdministration_id` INT(11) NOT NULL,
-    `note` VARCHAR(256) NULL DEFAULT NULL,
-    `reasonOfCancel` VARCHAR(256) NULL DEFAULT NULL,
+    `note` VARCHAR(255) NULL DEFAULT NULL,
+    `reasonOfCancel` VARCHAR(255) NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     INDEX `FK_MedicalPrescription_rlsNomen` (`rls_id`),
     INDEX `FK_MedicalPrescription_rbMethodOfAdministration` (`methodOfAdministration_id`),
