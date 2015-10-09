@@ -17,6 +17,7 @@ def upgrade(conn):
   `modifyDatetime` DATETIME NULL COMMENT 'Дата изменения записи',
   `modifyPerson_id` INT(11) NULL DEFAULT NULL COMMENT 'Автор изменения записи {Person}',
   `finance_id` INT(11) NOT NULL COMMENT 'Тип финансирование прайса.',
+  `name` VARCHAR(100) NOT NULL COMMENT 'Наименование',
   PRIMARY KEY (`id`),
   INDEX `fk_PriceList_rbFinance1_idx` (`finance_id` ASC),
   CONSTRAINT `fk_PriceList_rbFinance1`
