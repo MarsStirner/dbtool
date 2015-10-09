@@ -10,7 +10,7 @@ __doc__ = '''\
 def upgrade(conn):
     with conn as c:
         sql = '''CREATE TABLE IF NOT EXISTS `PriceList` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `deleted` TINYINT(1) NOT NULL DEFAULT '0',
   `createDatetime` DATETIME NOT NULL COMMENT 'Дата создания записи',
   `createPerson_id` INT(11) NULL DEFAULT NULL COMMENT 'Автор записи {Person}',
