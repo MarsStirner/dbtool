@@ -6,7 +6,8 @@ __doc__ = '''\
 Добавление флага deleted в перечисленные справочники
 '''
 
-rb_list = ['rbSpeciality', 'rbPost', 'rbFinance', 'rbResult', 'rbEventTypePurpose', 'rbRequestType', 'rbTreatmentType']
+rb_list = ['rbSpeciality', 'rbPost', 'rbFinance', 'rbResult', 'rbEventTypePurpose', 'rbRequestType', 'rbTreatmentType',
+           'rbPrintTemplate']
 
 
 def upgrade(conn):
