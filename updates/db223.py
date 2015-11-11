@@ -3,23 +3,33 @@
 from __future__ import unicode_literals, print_function
 
 __doc__ = '''\
-Добавление флага deleted в перечисленные справочники
+Привязка источника финансирования к расписанию (Schedule)
 '''
-
-rb_list = ['rbSpeciality', 'rbPost', 'rbFinance', 'rbResult', 'rbEventTypePurpose', 'rbRequestType', 'rbTreatmentType',
-           'rbPrintTemplate']
 
 
 def upgrade(conn):
-    with conn as c:
-        for rb_name in rb_list:
-            sql = '''ALTER TABLE `{table_name}`
-ADD COLUMN `deleted` TINYINT(1) NOT NULL DEFAULT '0';'''.format(table_name=rb_name)
-            c.execute(sql)
+    c = conn.cursor()
+
+    sql = '''ALTER TABLE `Schedule`
+ADD COLUMN `finance_id` INT(11) NULL DEFAULT NULL AFTER `receptionType_id`,
+ADD INDEX `fk_finance_ibfk_3_idx` (`finance_id` ASC);
+ALTER TABLE `Schedule`
+ADD CONSTRAINT `fk_finance_ibfk_3`
+  FOREIGN KEY (`finance_id`)
+  REFERENCES `rbFinance` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;'''
+
+    c.execute(sql)
+    c.close()
 
 
 def downgrade(conn):
-    with conn as c:
-        for rb_name in rb_list:
-            sql = '''ALTER TABLE `{table_name}` DROP COLUMN `deleted`;'''.format(table_name=rb_name)
-            c.execute(sql)
+    c = conn.cursor()
+    sql = '''ALTER TABLE `Schedule`
+DROP FOREIGN KEY `fk_finance_ibfk_3`;
+ALTER TABLE `Schedule`
+DROP COLUMN `finance_id`,
+DROP INDEX `fk_finance_ibfk_3_idx` ;'''
+    c.execute(sql)
+    c.close()
