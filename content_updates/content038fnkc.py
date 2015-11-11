@@ -9,6 +9,7 @@ MIN_SCHEMA_VERSION = 212
 
 
 def upgrade(conn):
+    global tools
     c = conn.cursor()
 
     print(u'Добавляем QuotaCatalog за прошлый год')
@@ -22,7 +23,7 @@ VALUES (7, NOW(), NOW(), '2014-01-01', '2014-12-31')
 
     print(u'Привязываем существующие строки QuotaType к QuotaCatalog за прошлый год')
     sql = u'''UPDATE `QuotaType` SET `catalog_id`=%s''' % last_id
-    c.execute(sql)
+    tools.executeEx(c, sql, mode=['safe_updates_off',])
 
     sql = u'''
 ALTER TABLE `QuotaType` 
