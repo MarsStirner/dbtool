@@ -7,7 +7,7 @@ __doc__ = '''\
 '''
 
 rbUnitsGroup = '''
-CREATE TABLE `rbUnitsGroup` (
+CREATE TABLE IF NOT EXISTS `rbUnitsGroup` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `code` VARCHAR(16) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ ENGINE=InnoDB
 '''
 
 rbUnits = u'''
-CREATE TABLE `rbUnits` (
+CREATE TABLE IF NOT EXISTS `rbUnits` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `code` VARCHAR(16) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
@@ -36,10 +36,10 @@ ENGINE=InnoDB
 '''
 
 MedicalPrescription = u'''
-CREATE TABLE `MedicalPrescription` (
+CREATE TABLE IF NOT EXISTS `MedicalPrescription` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `createDatetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `modifyDatetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `createDatetime` DATETIME NOT NULL,
+    `modifyDatetime` DATETIME NOT NULL,
     `createPerson_id` INT(11) NOT NULL,
     `modifyPerson_id` INT(11) NOT NULL,
     `action_id` INT(11) NOT NULL,
