@@ -12,7 +12,7 @@ def upgrade(conn):
     global config    
     c = conn.cursor()
 
-    sql = [
+    sqls = [
             u"""DROP TRIGGER `TTJ_INSERT`;""",
             u"""
 CREATE DEFINER = %s TRIGGER `TTJ_INSERT` BEFORE INSERT ON `TakenTissueJournal` FOR EACH ROW BEGIN
