@@ -15,6 +15,7 @@ def upgrade(conn):
     sql = '''ALTER TABLE `ClientWork`
 CHANGE COLUMN `rank_id` `rank_id` INT(10) UNSIGNED NULL COMMENT 'Звание военнослужащего. FlatDirectory№7' ,
 CHANGE COLUMN `arm_id` `arm_id` INT(10) UNSIGNED NULL COMMENT 'Род войск. FlatDirectory №6',
+CHANGE COLUMN `stage` `stage` TINYINT(3) NULL DEFAULT NULL COMMENT 'Стаж',
 ADD COLUMN `soc_status_id` INT(11) NOT NULL AFTER `arm_id`;
 '''
     c.execute(sql)
