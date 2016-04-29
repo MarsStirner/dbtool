@@ -50,7 +50,7 @@ action_properties_query = (
 u'''INSERT INTO `ActionPropertyType` (`actionType_id`, `idx`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `norm`, `sex`, `age`, `mandatory`, `readonly`) 
 VALUES ( %s, 0, 'Результат', '', NULL, 'String', '', '', 'result', '', 0, '', 0, 1) ''',
 u'''INSERT INTO `ActionPropertyType` (`actionType_id`, `idx`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `norm`, `sex`, `age`, `mandatory`, `readonly`) 
-VALUES ( %s, 1, 'Статус рассмотрения заявки', '', NULL, 'String', '', '', 'result', '', 0, '', 0, 1) ''',
+VALUES ( %s, 1, 'Статус рассмотрения заявки', '', NULL, 'String', '', '', 'is_completed', '', 0, '', 0, 1) ''',
 u'''INSERT INTO `ActionPropertyType` (`actionType_id`, `idx`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `norm`, `sex`, `age`, `mandatory`, `readonly`) 
 VALUES ( %s, 2, 'Статус болезни', '', NULL, 'String', '', '', 'disease_status', '', 0, '', 1, 0) ''',
 u'''INSERT INTO `ActionPropertyType` (`actionType_id`, `idx`, `name`, `descr`, `unit_id`, `typeName`, `valueDomain`, `defaultValue`, `code`, `norm`, `sex`, `age`, `mandatory`, `readonly`) 
